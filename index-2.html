@@ -6,7 +6,7 @@
 <title>Nhi / Nessa / 鈴兒 — A Shelf of Memories</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Gloria+Hallelujah&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   /* ============ CRAYON THEME TOKENS ============ */
   :root {
@@ -34,7 +34,7 @@
   html, body {
     background: var(--paper);
     color: var(--ink);
-    font-family: 'Gloria Hallelujah', 'Comic Sans MS', cursive;
+    font-family: 'JetBrains Mono', monospace;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -216,7 +216,7 @@
   }
 
   .nav-menu-header {
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     color: var(--ink-soft);
     padding: 0.3rem 0.6rem 0.5rem;
@@ -264,7 +264,7 @@
     border-color: var(--ink);
   }
   .nav-tab .num {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1rem;
     color: var(--nav-color, var(--crayon-red));
     min-width: 20px;
@@ -320,8 +320,10 @@
   }
 
   .greeting-row .hi {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: -0.05em;
     transform: rotate(-4deg);
     display: inline-block;
     transition: transform 0.3s ease;
@@ -355,11 +357,13 @@
   }
 
   .name-piece {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
     line-height: 1;
     display: inline-block;
-    padding: 0.05em 0.3em;
+    padding: 0.1em 0.35em;
     position: relative;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: default;
@@ -390,7 +394,7 @@
     transform-origin: bottom center;
     background: #fffbe7;
     color: var(--ink);
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.95rem;
     padding: 0.55rem 0.9rem;
     border-radius: 8px 14px 8px 12px;
@@ -465,8 +469,13 @@
   }
 
   .subtitle .highlight {
-    background: linear-gradient(transparent 60%, var(--crayon-yellow) 60%);
-    padding: 0 0.2em;
+    background-image: linear-gradient(180deg, transparent 18%, var(--crayon-yellow) 18%, var(--crayon-yellow) 95%, transparent 95%);
+    background-repeat: repeat-x;
+    background-size: 100% 100%;
+    padding: 0 0.22em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    display: inline;
   }
 
   /* ============ BOOKSHELF ============ */
@@ -478,8 +487,11 @@
   }
 
   .shelf-label {
-    font-family: 'Shadows Into Light', cursive;
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--ink-soft);
     text-align: center;
     margin-bottom: 1rem;
@@ -847,12 +859,13 @@
   }
 
   .folder-title {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 2.1vw, 1.8rem);
+    font-weight: 700;
     color: #fff;
-    line-height: 1.05;
+    line-height: 1.1;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.08);
-    letter-spacing: 0.01em;
+    letter-spacing: -0.04em;
   }
 
   .folder-emoji {
@@ -989,7 +1002,7 @@
     border-radius: 50%;
     font-size: 1.3rem;
     cursor: pointer;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     box-shadow: 0 4px 0 #c43c33, 0 6px 12px rgba(0,0,0,0.2);
     transition: transform 0.2s, box-shadow 0.2s;
     z-index: 5;
@@ -1013,28 +1026,31 @@
   }
 
   .modal-title {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 1;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
     color: var(--ink);
     position: relative;
   }
   .modal-title::after {
     content: "";
     position: absolute;
-    bottom: -8px; left: 0;
-    width: 80%;
-    height: 8px;
+    bottom: 4px; left: -4px;
+    width: calc(100% + 8px);
+    height: 55%;
     background: var(--accent, var(--crayon-yellow));
-    border-radius: 50%;
-    opacity: 0.6;
+    border-radius: 4px;
+    opacity: 0.55;
     z-index: -1;
+    transform: skewX(-6deg);
   }
 
   .modal-body {
     padding-left: 0;
     padding-right: 10px;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 1.05rem;
     line-height: 1.9;
     color: var(--ink);
@@ -1046,19 +1062,25 @@
     border: 2px dashed var(--ink-soft);
     border-radius: 12px;
     margin-top: 1rem;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.1rem;
   }
 
   .modal-body h3 {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.6rem;
     margin: 1.5rem 0 0.5rem;
     color: var(--accent, var(--crayon-orange));
   }
 
   .modal-body p { margin-bottom: 0.9rem; }
-  .modal-body strong { background: linear-gradient(transparent 60%, var(--crayon-yellow) 60%); padding: 0 0.15em; }
+  .modal-body strong {
+    background-image: linear-gradient(180deg, transparent 18%, var(--crayon-yellow) 18%, var(--crayon-yellow) 95%, transparent 95%);
+    padding: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    display: inline;
+  }
 
   /* --------- ABOUT: photo placeholder --------- */
   .photo-spot {
@@ -1074,7 +1096,7 @@
   .photo-frame {
     width: 100%; height: 100%;
     background: #fff;
-    padding: 10px 10px 36px;
+    padding: 10px 10px 14px;
     box-shadow:
       0 4px 10px rgba(0,0,0,0.18),
       0 12px 24px rgba(0,0,0,0.1),
@@ -1108,7 +1130,7 @@
     flex-direction: column;
     gap: 0.3rem;
     color: var(--ink-soft);
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     padding: 0.5rem;
     text-align: center;
@@ -1124,7 +1146,7 @@
     position: absolute;
     bottom: 10px; left: 0; right: 0;
     text-align: center;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     color: var(--ink-soft);
   }
@@ -1179,13 +1201,13 @@
     border-radius: 50%;
     font-size: 1.1rem;
     color: #fff;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
   }
   .contact-card .ico.mail { background: var(--crayon-red); }
   .contact-card .ico.linkedin { background: var(--crayon-blue); }
   .contact-card .lbl {
     display: block;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     color: var(--ink-soft);
     font-size: 0.85rem;
     margin-bottom: 2px;
@@ -1197,7 +1219,7 @@
     background: linear-gradient(135deg, rgba(185, 131, 255, 0.15), rgba(255, 138, 184, 0.15));
     border-left: 5px solid var(--crayon-purple);
     border-radius: 4px 18px 18px 4px;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.15rem;
     line-height: 1.6;
     position: relative;
@@ -1208,7 +1230,7 @@
     top: -0.5rem; left: 0.6rem;
     font-size: 2.5rem;
     color: var(--crayon-purple);
-    font-family: 'Fraunces', serif;
+    font-family: 'JetBrains Mono', monospace;
     line-height: 1;
   }
 
@@ -1268,13 +1290,13 @@
     margin-bottom: 0.4rem;
   }
   .tl-school {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.65rem;
     line-height: 1.1;
     margin: 0.2rem 0 0.2rem;
   }
   .tl-degree {
-    font-family: 'Fraunces', serif;
+    font-family: 'JetBrains Mono', monospace;
     font-style: italic;
     color: var(--ink-soft);
     font-size: 1rem;
@@ -1306,7 +1328,7 @@
   }
 
   .awards-title {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.2rem;
     color: var(--tl-color, var(--crayon-orange));
     margin: 0.6rem 0 0.4rem;
@@ -1322,7 +1344,7 @@
   .awards-list li {
     position: relative;
     padding: 0.35rem 0 0.35rem 1.8rem;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.95rem;
     line-height: 1.4;
   }
@@ -1362,7 +1384,7 @@
 
   .pin-board-label {
     position: relative;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: clamp(1.2rem, 2.2vw, 1.6rem);
     color: var(--ink);
     letter-spacing: 0.02em;
@@ -1409,23 +1431,31 @@
   .pin-items {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 1.6rem 1.1rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.8rem 1.2rem;
     z-index: 1;
     padding: 0.8rem 0.5rem;
+    align-items: start;
   }
 
   .pin-slot {
     position: relative;
-    aspect-ratio: 3 / 4;
     background: #fff;
-    padding: 8px 8px 32px;
+    padding: 8px 8px 10px;
     box-shadow:
       0 3px 6px rgba(0,0,0,0.15),
       0 8px 16px rgba(0,0,0,0.08),
       inset 0 0 0 1px rgba(0,0,0,0.04);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
     cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* placeholder slots (no image) get a consistent aspect ratio.
+     Slots with an image hug the image's natural size. */
+  .pin-slot:not(:has(img)) {
+    aspect-ratio: 3 / 4;
   }
   .pin-slot:nth-child(4n+1) { transform: rotate(-3deg); }
   .pin-slot:nth-child(4n+2) { transform: rotate(2deg); }
@@ -1438,7 +1468,7 @@
   }
 
   .pin-slot .inner {
-    width: 100%; height: 100%;
+    width: 100%;
     background:
       linear-gradient(135deg, rgba(255,154,60,0.15), rgba(77,150,255,0.15)),
       repeating-linear-gradient(45deg, rgba(42,31,26,0.05) 0 8px, transparent 8px 16px);
@@ -1449,26 +1479,29 @@
     flex-direction: column;
     gap: 0.2rem;
     color: var(--ink-soft);
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.72rem;
     padding: 0.4rem;
     text-align: center;
     overflow: hidden;
     position: relative;
+    flex: 1 0 auto;
+    min-height: 140px;
   }
+  /* image hugs its own natural aspect ratio */
   .pin-slot .inner img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    object-position: center;
+    width: 100%;
+    height: auto;
     display: block;
     border: none;
     background: #fff;
-    padding: 6px;
   }
   .pin-slot .inner.has-image {
     border: none;
     background: #fff;
     padding: 0;
+    min-height: 0;
+    display: block;
   }
   .pin-slot.cert .inner.has-image,
   .pin-slot.cert .inner img {
@@ -1478,14 +1511,18 @@
     font-size: 1.5rem;
     opacity: 0.6;
   }
+  .pin-slot .inner .icon {
+    font-size: 1.5rem;
+    opacity: 0.6;
+  }
   .pin-slot .caption {
-    position: absolute;
-    bottom: 6px; left: 6px; right: 6px;
     text-align: center;
-    font-family: 'Shadows Into Light', cursive;
-    font-size: 0.7rem;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
     color: var(--ink-soft);
-    line-height: 1.1;
+    line-height: 1.2;
+    padding: 8px 4px 0;
+    flex-shrink: 0;
   }
 
   /* pushpin on each slot */
@@ -1522,7 +1559,7 @@
       repeating-linear-gradient(0deg, transparent 0 6px, rgba(42,31,26,0.06) 6px 7px),
       linear-gradient(to bottom, #fdf6e3, #f1dfb4);
     border: 1.5px solid rgba(42,31,26,0.2);
-    font-family: 'Fraunces', serif;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -1608,7 +1645,7 @@
   }
   .pin-slot.vlog .vlog-fallback .ig-title {
     display: block;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.6rem;
     line-height: 1;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
@@ -1675,12 +1712,12 @@
   .footer-row .name-mark::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -2px -1px;
     background: var(--crayon-yellow);
     z-index: -1;
-    opacity: 0.5;
-    transform: skewX(-8deg);
-    border-radius: 3px;
+    opacity: 0.65;
+    transform: skewX(-6deg);
+    border-radius: 4px;
   }
   .footer-row .sep {
     color: var(--ink-soft);
@@ -1710,7 +1747,7 @@
     display: block;
     text-align: center;
     margin-top: 0.8rem;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     color: var(--ink-soft);
     opacity: 0.7;
@@ -1941,13 +1978,13 @@
                 <span>photo unavailable</span>
               </div>
             </div>
-            <div class="photo-caption">— me, probably smiling —</div>
           </div>
         </div>
 
         <p>My name is <strong>Nhi</strong>, <strong>Nessa</strong>, or <strong>鈴兒</strong>.</p>
         <p>Currently a <strong>freshman</strong> from the <strong>International College of Innovation</strong> at <strong>National Chengchi University</strong>.</p>
         <p>Born and raised in <strong>Hanoi — Vietnam</strong> 🇻🇳; currently <em>grow & throw</em> in <strong>Taipei, Taiwan</strong> 🇹🇼.</p>
+        <p>📍 <strong>Currently studying in Taipei, Taiwan</strong></p>
 
         <div class="quote-box">
           I craft simple things when things get harder than I expected.<br/>
@@ -1985,7 +2022,7 @@
           <div class="tl-item" style="--tl-color: var(--crayon-teal);">
             <span class="tl-years">2025 — 2029 &nbsp;•&nbsp; now</span>
             <div class="tl-school">國立政治大學 · National Chengchi University</div>
-            <div class="tl-degree">Bachelor of Arts (B.A.) in Global Studies</div>
+            <div class="tl-degree">Bachelor of Arts (B.A.) in Global Studies · Taipei, Taiwan</div>
 
             <div class="stat-row">
               <span class="stat-chip" style="--chip-color: var(--crayon-teal);"><span class="dot"></span>GPA · 3.64 / 4.05 <em style="opacity:.7;font-size:.7rem;margin-left:4px;">(1st sem)</em></span>

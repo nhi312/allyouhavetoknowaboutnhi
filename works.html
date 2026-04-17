@@ -6,7 +6,7 @@
 <title>Works & Projects · Nhi / Nessa / 鈴兒</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Gloria+Hallelujah&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #fdf6e3;
@@ -29,7 +29,7 @@
   html, body {
     background: var(--paper);
     color: var(--ink);
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'JetBrains Mono', monospace;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -149,7 +149,7 @@
   }
 
   .nav-menu-header {
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     color: var(--ink-soft);
     padding: 0.3rem 0.6rem 0.5rem;
@@ -193,7 +193,7 @@
     background: rgba(255, 255, 255, 0.7);
     border-color: var(--ink);
   }
-  .nav-tab .num { font-family: 'Caveat Brush', cursive; font-size: 1rem; color: var(--nav-color, var(--crayon-red)); min-width: 20px; }
+  .nav-tab .num { font-family: 'Space Mono', 'JetBrains Mono', monospace; font-size: 1rem; color: var(--nav-color, var(--crayon-red)); min-width: 20px; }
   .nav-tab .arrow { margin-left: auto; opacity: 0; transform: translateX(-6px); transition: opacity 0.25s, transform 0.25s; color: var(--nav-color, var(--crayon-red)); font-weight: 900; }
   .nav-tab:hover .arrow { opacity: 1; transform: translateX(0); }
   .nav-tab .swatch {
@@ -239,9 +239,11 @@
     margin-bottom: 0.6rem;
   }
   .page-title {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    line-height: 1;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
     color: var(--ink);
     position: relative;
     display: inline-block;
@@ -250,16 +252,15 @@
   .page-title::after {
     content: "";
     position: absolute;
-    left: 5%; right: 5%; bottom: 10px;
-    height: 14px;
+    left: 4%; right: 4%; top: 22%; bottom: 18%;
     background: var(--crayon-yellow);
     z-index: -1;
     opacity: 0.55;
-    transform: skewX(-8deg) rotate(-1deg);
+    transform: skewX(-6deg);
     border-radius: 4px;
   }
   .page-subtitle {
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: clamp(1.05rem, 2vw, 1.3rem);
     color: var(--ink-soft);
     margin-top: 0.8rem;
@@ -269,8 +270,11 @@
 
   /* ========= PROJECTS SHELF ========= */
   .shelf-label {
-    font-family: 'Shadows Into Light', cursive;
-    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--ink-soft);
     text-align: center;
     margin-bottom: 1rem;
@@ -279,18 +283,80 @@
   .shelf-label::before, .shelf-label::after { content: " ✦ "; color: var(--crayon-orange); }
 
   .bookshelf-wrap { margin-bottom: 3.5rem; }
+
+  /* The outer container holds multiple shelf rows */
   .bookshelf {
     position: relative;
-    padding: 4.5rem 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Category group — holds a title + one or more shelf rows */
+  .shelf-category {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Category title bar */
+  .shelf-category-title {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0 0.5rem;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .shelf-category-title .dash {
+    color: var(--crayon-teal);
+    font-weight: 700;
+    opacity: 0.85;
+  }
+  .shelf-category-title .label {
+    position: relative;
+    padding: 0.1em 0.45em;
+    white-space: nowrap;
+  }
+  .shelf-category-title .label::before {
+    content: "";
+    position: absolute;
+    inset: -2px -1px;
+    background: var(--crayon-yellow);
+    opacity: 0.65;
+    transform: skewX(-6deg);
+    border-radius: 4px;
+    z-index: -1;
+  }
+  .shelf-category-title .line {
+    flex: 1;
+    height: 2px;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 6px,
+      transparent 6px 12px);
+    opacity: 0.3;
+    border-radius: 2px;
+  }
+
+  /* Each shelf row = 3 folders + their own wooden plank */
+  .shelf-row {
+    position: relative;
+    padding: 4.5rem 1.5rem 3rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     align-items: end;
     min-height: 380px;
   }
+
   .shelf-plank {
     position: absolute;
-    left: 0; right: 0; bottom: -20px;
+    left: 0; right: 0; bottom: 0;
     height: 38px;
     background: linear-gradient(180deg, var(--shelf-wood) 0%, var(--shelf-wood) 40%, var(--shelf-wood-dark) 100%);
     border-radius: 4px;
@@ -311,6 +377,13 @@
     height: 22px;
     background: radial-gradient(ellipse at center, rgba(42,31,26,0.35) 0%, transparent 70%);
     filter: blur(5px);
+  }
+
+  /* invisible placeholder that keeps grid column space when a shelf isn't full */
+  .folder-ghost {
+    width: 100%;
+    aspect-ratio: 4 / 3.2;
+    visibility: hidden;
   }
 
   /* ========= FOLDER ========= */
@@ -552,11 +625,30 @@
     text-transform: uppercase;
   }
   .folder-title {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 2.1vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
     color: #fff;
-    line-height: 1.05;
+    line-height: 1.1;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.2), 4px 4px 0 rgba(0,0,0,0.08);
+  }
+  .folder-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.02em;
+    margin-top: 0.55rem;
+    padding: 0.2rem 0.65rem;
+    background: rgba(0,0,0,0.22);
+    border-radius: 20px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+  }
+  .folder.c3 .folder-time {
+    color: rgba(42,31,26,0.85);
+    background: rgba(255,255,255,0.45);
   }
   .folder-emoji {
     font-size: clamp(1.8rem, 4vw, 3rem);
@@ -673,7 +765,7 @@
     border-radius: 50%;
     font-size: 1.3rem;
     cursor: pointer;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     box-shadow: 0 4px 0 #c43c33, 0 6px 10px rgba(0,0,0,0.3);
     transition: transform 0.2s, box-shadow 0.2s;
     z-index: 10;
@@ -705,9 +797,11 @@
     z-index: 3;
   }
   .cork-title-card .t {
-    font-family: 'Caveat Brush', cursive;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 1.05;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: clamp(1.5rem, 3.6vw, 2.3rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
     color: var(--ink);
     margin-bottom: 0.5rem;
     position: relative;
@@ -717,13 +811,12 @@
   .cork-title-card .t::after {
     content: "";
     position: absolute;
-    left: 5%; right: 5%; bottom: 6px;
-    height: 10px;
+    left: 4%; right: 4%; top: 22%; bottom: 18%;
     background: var(--crayon-yellow);
     z-index: -1;
     opacity: 0.55;
-    transform: skewX(-8deg);
-    border-radius: 3px;
+    transform: skewX(-6deg);
+    border-radius: 4px;
   }
   .cork-title-card .meta {
     display: flex;
@@ -807,7 +900,6 @@
   .polaroid.p-pin-purple::before { background: radial-gradient(circle at 35% 35%, #d9c2ff 0%, var(--crayon-purple) 50%, #7850bb 100%); }
 
   .polaroid .photo {
-    aspect-ratio: 1;
     background: #f7ecd0;
     border: 1.5px solid rgba(42,31,26,0.08);
     display: flex;
@@ -816,26 +908,27 @@
     flex-direction: column;
     gap: 0.3rem;
     color: var(--ink-soft);
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.78rem;
     text-align: center;
     padding: 0;
     overflow: hidden;
     position: relative;
   }
+  /* placeholder photos keep a fixed square aspect ratio */
   .polaroid .photo.placeholder {
+    aspect-ratio: 1;
     background:
       linear-gradient(135deg, rgba(255,154,60,0.2), rgba(77,150,255,0.2)),
       repeating-linear-gradient(45deg, rgba(42,31,26,0.05) 0 10px, transparent 10px 20px);
     border: 1.5px dashed rgba(42,31,26,0.25);
     padding: 0.5rem;
   }
+  /* real image/video hugs its natural aspect ratio */
   .polaroid .photo img,
   .polaroid .photo video {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
+    height: auto;
     display: block;
     background: #fff;
   }
@@ -848,7 +941,7 @@
     position: absolute;
     bottom: 8px; left: 10px; right: 10px;
     text-align: center;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 0.82rem;
     color: var(--ink);
   }
@@ -856,7 +949,7 @@
   /* sticky note */
   .note {
     padding: 0.9rem 0.9rem 1.1rem;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     line-height: 1.35;
     color: var(--ink);
@@ -881,7 +974,7 @@
     z-index: 3;
   }
   .note .lbl {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.1rem;
     display: block;
     margin-bottom: 0.3rem;
@@ -896,7 +989,7 @@
     margin: 0 auto;
     background: #fffbe7;
     padding: 1.5rem 1.6rem 1.6rem;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
     line-height: 1.75;
     color: var(--ink);
@@ -927,21 +1020,24 @@
   }
   .project-story .story-label {
     display: inline-block;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.4rem;
     color: var(--crayon-red);
     margin-bottom: 0.6rem;
     letter-spacing: 0.02em;
   }
   .project-story h3 {
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.3rem;
     color: var(--crayon-orange);
     margin: 1rem 0 0.3rem;
   }
   .project-story strong {
-    background: linear-gradient(transparent 60%, var(--crayon-yellow) 60%);
-    padding: 0 0.15em;
+    background-image: linear-gradient(180deg, transparent 18%, var(--crayon-yellow) 18%, var(--crayon-yellow) 95%, transparent 95%);
+    padding: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    display: inline;
   }
   .project-story p { margin-bottom: 0.8rem; }
 
@@ -978,13 +1074,13 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.08);
     transform: rotate(-1deg);
     position: relative;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 1.1rem;
     color: var(--ink-soft);
   }
   .coming-soon-msg .big {
     display: block;
-    font-family: 'Caveat Brush', cursive;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
     font-size: 2rem;
     color: var(--crayon-purple);
     margin-bottom: 0.5rem;
@@ -1036,11 +1132,13 @@
   }
   .footer-row .name-mark::before {
     content: "";
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: -2px -1px;
     background: var(--crayon-yellow);
-    z-index: -1; opacity: 0.5;
-    transform: skewX(-8deg);
-    border-radius: 3px;
+    z-index: -1;
+    opacity: 0.65;
+    transform: skewX(-6deg);
+    border-radius: 4px;
   }
   .footer-row .sep { color: var(--ink-soft); opacity: 0.5; }
   .footer-row a {
@@ -1061,10 +1159,10 @@
   .footer-row a.email-link:hover { background: rgba(255,90,79,0.12); }
 
   @media (max-width: 780px) {
-    .bookshelf {
+    .shelf-row {
       grid-template-columns: 1fr;
       gap: 2.5rem;
-      padding-bottom: 1rem;
+      padding: 3.5rem 1rem 1.5rem;
     }
     .folder { max-width: 320px; margin: 0 auto; width: 100%; }
     .shelf-plank { display: none; }
@@ -1150,62 +1248,7 @@
   <section class="bookshelf-wrap">
     <div class="shelf-label">pick a folder & peek inside</div>
     <div class="bookshelf" id="bookshelf">
-
-      <article class="folder c5" data-project="portfolio" tabindex="0" role="button" aria-label="Open This Website project">
-        <div class="clip"></div>
-        <div class="folder-tab"></div>
-        <div class="folder-body"></div>
-        <div class="paper-peek">
-          <span class="margin-line"></span>
-          <span class="peek-label">notes</span>
-          <div class="folder-doodle">🎨</div>
-          <div class="folder-lines"><span></span><span></span><span></span><span></span></div>
-        </div>
-        <div class="folder-front">
-          <div class="folder-emoji">✦</div>
-          <div class="folder-number">project · 01</div>
-          <div class="folder-title">This Website</div>
-        </div>
-        <span class="read-more">read more <span class="arr">→</span></span>
-      </article>
-
-      <article class="folder c1" data-project="p2" tabindex="0" role="button" aria-label="Open project 2">
-        <div class="clip"></div>
-        <div class="folder-tab"></div>
-        <div class="folder-body"></div>
-        <div class="paper-peek">
-          <span class="margin-line"></span>
-          <span class="peek-label">notes</span>
-          <div class="folder-doodle">✨</div>
-          <div class="folder-lines"><span></span><span></span><span></span><span></span></div>
-        </div>
-        <div class="folder-front">
-          <div class="folder-emoji">✦</div>
-          <div class="folder-number">project · 02</div>
-          <div class="folder-title">Coming Soon</div>
-        </div>
-        <span class="read-more">read more <span class="arr">→</span></span>
-      </article>
-
-      <article class="folder c7" data-project="p3" tabindex="0" role="button" aria-label="Open project 3">
-        <div class="clip"></div>
-        <div class="folder-tab"></div>
-        <div class="folder-body"></div>
-        <div class="paper-peek">
-          <span class="margin-line"></span>
-          <span class="peek-label">notes</span>
-          <div class="folder-doodle">💫</div>
-          <div class="folder-lines"><span></span><span></span><span></span><span></span></div>
-        </div>
-        <div class="folder-front">
-          <div class="folder-emoji">✦</div>
-          <div class="folder-number">project · 03</div>
-          <div class="folder-title">Coming Soon</div>
-        </div>
-        <span class="read-more">read more <span class="arr">→</span></span>
-      </article>
-
-      <div class="shelf-plank"></div>
+      <!-- shelves are auto-generated by JS from the `projects` data -->
     </div>
   </section>
 
@@ -1233,68 +1276,364 @@
 <script>
   /*
   ========================================================
-   PROJECT TEMPLATE
+    ✏️  HOW TO ADD A NEW PROJECT
   ========================================================
-   Each project has this shape:
-  
-   "unique-id": {
-     title:     "Project Name",          ← the big title
-     position:  "My role",                ← e.g. "Lead Designer", "Volunteer", "Writer"
-     timeframe: "Mar 2024 — Jun 2024",    ← dates / duration
-     tags:      ["Figma", "Research"],    ← optional, small pill labels
-     media: [
-       { type: "image", src: "images/xxx.jpg", caption: "behind the scenes", pin: "red" },
-       { type: "image", src: "images/yyy.jpg", caption: "final output",      pin: "blue" },
-       { type: "video", src: "images/zzz.mp4", caption: "demo reel",          pin: "yellow" }
-     ],
-     description: `
-       <p>Any HTML. Paragraphs, <strong>bold</strong>, links, etc.</p>
-       <h3>What I did</h3>
-       <p>...</p>
-     `
-   }
-  
-   Pin colors: red, blue, green, yellow, pink, purple
-   Media types: "image" or "video"
-   The unique-id MUST match the data-project="..." on the folder above.
-  */
-  const projects = {
-    portfolio: {
-      title: "This Website",
-      position: "Designer & Developer",
-      timeframe: "2026",
-      tags: ["HTML", "CSS", "JavaScript"],
+    Just add ONE new entry to the `projects` array below.
+    Folders auto-arrange themselves into shelves of 3.
+    Each new project = one new shelf row added automatically.
+
+    Every project has this shape:
+    {
+      id: "unique-id",                ← no spaces, lowercase, unique
+      color: "c4",                    ← folder color (c1-c8)
+      doodle: "🚀",                   ← emoji shown when folder opens
+      coverEmoji: "✦",                ← emoji on folder cover
+      coverLabel: "project · 04",     ← small label on cover
+
+      title: "Project Name",          ← big title
+      position: "My role",            ← e.g. "Lead Designer"
+      timeframe: "Mar — Jun 2024",    ← when
+      tags: ["Figma", "Research"],    ← optional skill pills
       media: [
-        { type: "placeholder", caption: "landing page", pin: "red", icon: "🎨" },
-        { type: "placeholder", caption: "folders opened", pin: "blue", icon: "📁" },
-        { type: "placeholder", caption: "education view", pin: "green", icon: "🎓" }
+        { type: "image", src: "images/xxx.jpg", caption: "photo 1", pin: "red" },
+        { type: "video", src: "images/yyy.mp4", caption: "reel",    pin: "blue" }
       ],
       description: `
         <span class="story-label">✦ the story</span>
-        <p>A crayon-themed personal portfolio built as a little bookshelf of memories. Three folders on a wooden shelf plank — click one and it opens into a scrollable notebook page.</p>
-        <h3>origin</h3>
-        <p>Started when my Statistics homework got way out of hand and I needed to make something simple with my hands again.</p>
-        <h3>what I learned</h3>
-        <p>CSS animations, accessibility, and how much fun it is when <strong>constraints become the design</strong>.</p>
+        <p>what it was, what I did, the result.</p>
+      `
+    }
+
+    FOLDER COLORS: c1 red, c2 orange, c3 yellow, c4 green,
+                   c5 teal, c6 blue, c7 purple, c8 pink
+    PIN COLORS:    red, blue, green, yellow, pink, purple
+    MEDIA TYPES:   "image", "video", or "placeholder"
+  */
+  const projects = [
+    // ═══════════════════════════
+    //  PERSONAL PROJECTS
+    // ═══════════════════════════
+    {
+      id: "hanei-ai",
+      category: "Personal Projects",
+      color: "c5",
+      doodle: "🤖",
+      coverEmoji: "✦",
+      coverLabel: "project · 01",
+      title: "HaneiAI",
+      position: "Co-Founder / CMO",
+      timeframe: "Jun 2025 — Present",
+      tags: ["Startup", "AI", "Marketing Strategy", "Co-Founder"],
+      media: [
+        { type: "placeholder", caption: "brand identity", pin: "red", icon: "🎨" },
+        { type: "placeholder", caption: "product launch", pin: "blue", icon: "🚀" },
+        { type: "placeholder", caption: "team moments", pin: "green", icon: "👥" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>Co-founded <strong>HaneiAI</strong> — stepping into the startup world as Co-Founder and Chief Marketing Officer.</p>
+        <h3>my role</h3>
+        <p>Shaping the brand from day one: positioning, voice, launch strategy, and building the marketing function from scratch.</p>
+        <h3>the journey</h3>
+        <p>More to come as we grow — this one's still being written. 🌱</p>
       `
     },
-    p2: {
-      title: "Coming Soon",
-      position: "",
-      timeframe: "",
-      tags: [],
-      media: [],
-      description: ""
+    {
+      id: "upyouth",
+      category: "Personal Projects",
+      color: "c6",
+      doodle: "📈",
+      coverEmoji: "✦",
+      coverLabel: "project · 02",
+      title: "UpYouth",
+      position: "Growth Team Member",
+      timeframe: "Nov 2025 — Present",
+      tags: ["Growth", "Youth Org", "Community Building"],
+      media: [
+        { type: "placeholder", caption: "team meetings", pin: "blue", icon: "💻" },
+        { type: "placeholder", caption: "campaign launch", pin: "green", icon: "🚀" },
+        { type: "placeholder", caption: "outreach", pin: "yellow", icon: "📣" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>Joined <strong>UpYouth</strong> as part of the <strong>Growth team</strong> — helping a youth-focused organization scale its reach, programs, and impact.</p>
+        <h3>my role</h3>
+        <p>Working on growth experiments, community engagement strategies, and cross-team initiatives that bring more young people into the fold.</p>
+        <h3>the journey</h3>
+        <p>Ongoing — learning, shipping, iterating.</p>
+      `
     },
-    p3: {
-      title: "Coming Soon",
-      position: "",
-      timeframe: "",
-      tags: [],
-      media: [],
-      description: ""
+    {
+      id: "framing-stories",
+      category: "Personal Projects",
+      color: "c3",
+      doodle: "🎬",
+      coverEmoji: "✦",
+      coverLabel: "project · 03",
+      title: "Framing Stories",
+      position: "Director & Editor",
+      timeframe: "ongoing",
+      tags: ["Video", "Storytelling", "Direction", "Editing"],
+      media: [
+        { type: "placeholder", caption: "film 1 — title TBD", pin: "red", icon: "🎥" },
+        { type: "placeholder", caption: "film 2 — title TBD", pin: "blue", icon: "🎞️" },
+        { type: "placeholder", caption: "film 3 — title TBD", pin: "purple", icon: "📽️" },
+        { type: "placeholder", caption: "behind the lens", pin: "pink", icon: "🎬" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p><strong>Framing Stories</strong> — my umbrella for every video I've directed. A collection, not a single project. Each piece frames a story in its own way.</p>
+        <h3>what lives here</h3>
+        <p>Short films, behind-the-scenes reels, documentary-style pieces, experimental edits. Whenever I pick up a camera or cut a sequence, it ends up in this folder.</p>
+        <h3>why the name</h3>
+        <p>Because every video is just a question of <strong>what to include in the frame</strong> — and what to leave out. That's the whole job.</p>
+      `
+    },
+
+    // ═══════════════════════════
+    //  MARKETING & EVENTS
+    // ═══════════════════════════
+    {
+      id: "glorious-25-luminara",
+      category: "Marketing & Events",
+      color: "c8",
+      doodle: "🌙",
+      coverEmoji: "✦",
+      coverLabel: "project · 04",
+      title: "GLORIOUS 25' — Luminara",
+      position: "Director of Marketing",
+      timeframe: "2025",
+      tags: ["Senior Prom", "Campaign Strategy", "Creative Direction"],
+      media: [
+        { type: "image", src: "images/senior-prom-2025-luminara.jpg", caption: "behind the campaign", pin: "pink" },
+        { type: "placeholder", caption: "launch teaser", pin: "purple", icon: "🌟" },
+        { type: "placeholder", caption: "night of", pin: "blue", icon: "🌃" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p><strong>Luminara</strong> — 2025's senior prom. A celebration of light, growth, and everything we carry forward.</p>
+        <h3>my role</h3>
+        <p>Led the full marketing campaign: brand identity, rollout calendar, content strategy across every school channel, and the run-up hype that turned a prom into a shared ritual.</p>
+        <h3>the result</h3>
+        <p>High attendance, high spirits, and a visual language that felt unmistakably <em>Luminara</em>.</p>
+      `
+    },
+    {
+      id: "glorious-24-epiphany",
+      category: "Marketing & Events",
+      color: "c7",
+      doodle: "🎭",
+      coverEmoji: "✦",
+      coverLabel: "project · 05",
+      title: "GLORIOUS 24' — Epiphany",
+      position: "Director of Marketing & Performance",
+      timeframe: "2024",
+      tags: ["Senior Prom", "Event Direction", "Marketing", "Performance"],
+      media: [
+        { type: "image", src: "images/senior-prom-2024-epiphany.jpg", caption: "behind the stage", pin: "purple" },
+        { type: "placeholder", caption: "campaign posters", pin: "yellow", icon: "📣" },
+        { type: "placeholder", caption: "the big night", pin: "pink", icon: "✨" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p><strong>Epiphany</strong> — the theme of our 2024 senior prom. A night of revelation, transformation, and everything that comes with realizing who you've become.</p>
+        <h3>my role</h3>
+        <p>Directed both the <strong>marketing campaign</strong> and the <strong>performance program</strong> — from visual identity and hype-building to choreography and show flow on the night.</p>
+        <h3>the result</h3>
+        <p>A prom that felt less like a dance and more like a collective exhale for a whole graduating class.</p>
+      `
+    },
+    {
+      id: "virtue-spring-2024",
+      category: "Marketing & Events",
+      color: "c1",
+      doodle: "🌸",
+      coverEmoji: "✦",
+      coverLabel: "project · 06",
+      title: "Virtue Spring 2024",
+      position: "Director of Marketing & Relations",
+      timeframe: "2024 — 2025",
+      tags: ["Charity", "Event Marketing", "Concert", "Leadership"],
+      media: [
+        { type: "image", src: "images/virtue-spring-2025-k-hospital.jpg", caption: "the trip to K Hospital", pin: "red" },
+        { type: "placeholder", caption: "concert night", pin: "pink", icon: "🎤" },
+        { type: "placeholder", caption: "behind the scenes", pin: "yellow", icon: "🎬" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>A student-run <strong>charity concert</strong> with heart. Raised funds and awareness for children in need — including a trip to K Hospital to deliver the support in person.</p>
+        <h3>my role</h3>
+        <p>Led all marketing and external relations: sponsorship outreach, media coordination, campaign messaging, and audience engagement before and during the concert.</p>
+        <h3>the result</h3>
+        <p>Raised <strong>50.000.000 VNĐ</strong> for patients at Hospital K — Tân Triều branch, delivered in person by our team. Proof that student-led projects can create real impact. 💛</p>
+      `
+    },
+
+    // ═══════════════════════════
+    //  OTHER
+    // ═══════════════════════════
+    {
+      id: "vrupc",
+      category: "Other",
+      color: "c4",
+      doodle: "🤝",
+      coverEmoji: "✦",
+      coverLabel: "project · 07",
+      title: "VRUPC — Vinschool Really Useful People's Community",
+      position: "Co-Founder / President",
+      timeframe: "2022 — 2025",
+      tags: ["Community", "Student Leadership", "Social Impact"],
+      media: [
+        { type: "placeholder", caption: "founding day", pin: "green", icon: "🌱" },
+        { type: "placeholder", caption: "community event", pin: "yellow", icon: "🎉" },
+        { type: "placeholder", caption: "team portrait", pin: "red", icon: "👥" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>Co-founded and led <strong>VRUPC</strong> (Vinschool Really Useful People's Community) — a student-run club built around the idea that "useful" is a life skill worth practicing, together.</p>
+        <h3>my role</h3>
+        <p>Served as <strong>President for three years</strong>. Shaped the club's mission, built the team, designed programming, and handed the torch to the next generation.</p>
+        <h3>the legacy</h3>
+        <p>Three full years of activities, friendships, and a community that outlived my time at Vinschool. That's the part I'm proudest of. 💚</p>
+      `
+    },
+    {
+      id: "yearbook-2025",
+      category: "Other",
+      color: "c2",
+      doodle: "📖",
+      coverEmoji: "✦",
+      coverLabel: "project · 08",
+      title: "Class of 2025 Yearbook",
+      position: "Director",
+      timeframe: "2024 — 2025",
+      tags: ["Editorial", "Creative Direction", "Publishing"],
+      media: [
+        { type: "placeholder", caption: "cover design", pin: "red", icon: "📔" },
+        { type: "placeholder", caption: "spread sample", pin: "yellow", icon: "📄" },
+        { type: "placeholder", caption: "team shoot", pin: "blue", icon: "📸" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>Directed the <strong>Class of 2025 Yearbook</strong> — the one physical thing our whole graduating class gets to keep forever.</p>
+        <h3>my role</h3>
+        <p>Led the creative vision: editorial voice, visual identity, page structure, photography direction, and the team that made it all happen. From blank pages to bound book.</p>
+        <h3>the result</h3>
+        <p>A yearbook that actually feels like <em>us</em> — not a template, but a memory.</p>
+      `
+    },
+    {
+      id: "freelance",
+      category: "Other",
+      color: "c1",
+      doodle: "🎨",
+      coverEmoji: "✦",
+      coverLabel: "project · 09",
+      title: "Freelance & Side Projects",
+      position: "Independent",
+      timeframe: "ongoing",
+      tags: ["Freelance", "Side Projects", "Misc"],
+      media: [
+        { type: "placeholder", caption: "client work 1", pin: "yellow", icon: "💼" },
+        { type: "placeholder", caption: "personal project", pin: "pink", icon: "🌸" },
+        { type: "placeholder", caption: "experiment", pin: "green", icon: "🧪" }
+      ],
+      description: `
+        <span class="story-label">✦ the story</span>
+        <p>A home for all the <strong>freelance work, side projects, and random things</strong> that don't fit neatly into another folder — but still matter.</p>
+        <h3>what lives here</h3>
+        <p>Client commissions, personal explorations, late-night experiments, and the occasional "I made this because I felt like it."</p>
+        <h3>on the side</h3>
+        <p>This folder grows slowly and honestly. Not everything needs a category.</p>
+      `
     }
-  };
+  ];
+
+  // Build lookup map for fast access when opening a project
+  const projectsById = Object.fromEntries(projects.map(p => [p.id, p]));
+
+  // --- auto-generate folders into shelves of 3 ---
+  function renderFolderCover(p) {
+    const timeframeHTML = p.timeframe
+      ? `<div class="folder-time">${p.timeframe}</div>`
+      : '';
+    return `
+      <article class="folder ${p.color}" data-project="${p.id}" tabindex="0" role="button" aria-label="Open ${p.title}">
+        <div class="clip"></div>
+        <div class="folder-tab"></div>
+        <div class="folder-body"></div>
+        <div class="paper-peek">
+          <span class="margin-line"></span>
+          <span class="peek-label">notes</span>
+          <div class="folder-doodle">${p.doodle || '✦'}</div>
+          <div class="folder-lines"><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="folder-front">
+          <div class="folder-emoji">${p.coverEmoji || '✦'}</div>
+          <div class="folder-number">${p.coverLabel || ''}</div>
+          <div class="folder-title">${p.title}</div>
+          ${timeframeHTML}
+        </div>
+        <span class="read-more">read more <span class="arr">→</span></span>
+      </article>
+    `;
+  }
+
+  function renderBookshelf() {
+    const shelfEl = document.getElementById("bookshelf");
+    const html = [];
+
+    // Group projects by their `category` field. Projects without a category
+    // end up in "Other" automatically. Category order is preserved from
+    // the first project encountered in each category.
+    const categoryOrder = [];
+    const byCategory = {};
+    projects.forEach(p => {
+      const cat = p.category || "Other";
+      if (!byCategory[cat]) {
+        byCategory[cat] = [];
+        categoryOrder.push(cat);
+      }
+      byCategory[cat].push(p);
+    });
+
+    // Build shelves, 3 folders per row, under each category title
+    categoryOrder.forEach(cat => {
+      html.push(`<div class="shelf-category">
+        <div class="shelf-category-title">
+          <span class="dash">//</span>
+          <span class="label">${cat}</span>
+          <span class="line"></span>
+        </div>
+      `);
+
+      const group = byCategory[cat];
+      for (let i = 0; i < group.length; i += 3) {
+        const row = group.slice(i, i + 3);
+        html.push('<div class="shelf-row">');
+        row.forEach(p => html.push(renderFolderCover(p)));
+        for (let j = row.length; j < 3; j++) {
+          html.push('<div class="folder-ghost" aria-hidden="true"></div>');
+        }
+        html.push('<div class="shelf-plank"></div>');
+        html.push('</div>');
+      }
+      html.push('</div>');
+    });
+
+    shelfEl.innerHTML = html.join("");
+
+    // wire up click + keyboard on each newly-built folder
+    shelfEl.querySelectorAll(".folder").forEach(f => {
+      f.addEventListener("click", () => openProject(f.dataset.project));
+      f.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openProject(f.dataset.project);
+        }
+      });
+    });
+  }
 
   function renderMediaItem(m, i) {
     const pin = m.pin || ["red","blue","green","yellow","pink","purple"][i % 6];
@@ -1358,7 +1697,7 @@
     }
 
     const empty = !p.media.length && !p.description
-      ? `<div style="text-align:center;padding:3rem 1rem;color:#fff;font-family:'Shadows Into Light',cursive;font-size:1.15rem;position:relative;z-index:2;">
+      ? `<div style="text-align:center;padding:3rem 1rem;color:#fff;font-family:'Space Mono', monospace;font-size:1.15rem;position:relative;z-index:2;">
           ✏️ <em>coming soon</em> · fill in this project in <code style="background:rgba(255,255,255,0.9);color:#2a1f1a;padding:0.15em 0.4em;border-radius:4px;font-family:monospace;font-size:0.85rem;">works.html</code>
         </div>`
       : '';
@@ -1372,7 +1711,7 @@
   const modalClose = document.getElementById("modalClose");
 
   function openProject(key) {
-    const p = projects[key];
+    const p = projectsById[key];
     if (!p) return;
     corkContent.innerHTML = renderProject(p);
     corkboard.scrollTop = 0;
@@ -1385,15 +1724,8 @@
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll(".folder").forEach(f => {
-    f.addEventListener("click", () => openProject(f.dataset.project));
-    f.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openProject(f.dataset.project);
-      }
-    });
-  });
+  // Build the shelves from the projects array (3 folders per shelf, repeats automatically)
+  renderBookshelf();
 
   modalClose.addEventListener("click", closeProject);
   modal.addEventListener("click", e => { if (e.target === modal) closeProject(); });
