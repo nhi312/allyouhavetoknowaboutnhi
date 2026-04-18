@@ -1452,9 +1452,9 @@
     flex-direction: column;
   }
 
-  /* placeholder slots (no image) get a consistent aspect ratio.
-     Slots with an image hug the image's natural size. */
-  .pin-slot:not(:has(img)) {
+  /* placeholder slots (no image OR video) get a consistent aspect ratio.
+     Slots with real media hug the media's natural size. */
+  .pin-slot:not(:has(img)):not(:has(video)) {
     aspect-ratio: 3 / 4;
   }
   .pin-slot:nth-child(4n+1) { transform: rotate(-3deg); }
@@ -1496,12 +1496,20 @@
     border: none;
     background: #fff;
   }
+  .pin-slot .inner video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: none;
+    background: #000;
+  }
   .pin-slot .inner.has-image {
     border: none;
     background: #fff;
     padding: 0;
     min-height: 0;
     display: block;
+    line-height: 0;
   }
   .pin-slot.cert .inner.has-image,
   .pin-slot.cert .inner img {
@@ -1576,7 +1584,7 @@
     .pin-slot.vlog { grid-column: span 1; }
   }
   .pin-slot.vlog .inner {
-    background: #000;
+    background: transparent;
     border: none;
     padding: 0;
     position: relative;
@@ -1584,6 +1592,7 @@
     min-height: 0;
     display: block;
     overflow: hidden;
+    line-height: 0;
   }
   /* video defines the frame height — no cropping, no black bars */
   .pin-slot.vlog video {
@@ -2155,9 +2164,16 @@
 
                 <div class="pin-slot green">
                   <div class="inner has-image">
-                    <img src="images/senior-prom-2024-epiphany.jpg" alt="Senior Prom 2024 — Epiphany (behind the stage)" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
+                    <video src="images/grad-vid.mov" autoplay loop muted playsinline preload="metadata"></video>
                   </div>
-                  <div class="caption">Senior Prom 2024 · Epiphany — behind the stage</div>
+                  <div class="caption">We cried a lot</div>
+                </div>
+
+                <div class="pin-slot yellow">
+                  <div class="inner has-image">
+                    <img src="images/grad-pic-2.jpg" alt="Made it through teenage pregnancy" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
+                  </div>
+                  <div class="caption">Made it through teenage pregnancy!</div>
                 </div>
 
                 <div class="pin-slot green">
