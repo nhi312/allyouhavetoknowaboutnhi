@@ -1567,26 +1567,38 @@
   }
   .pin-slot.cert .inner .icon { font-size: 1.3rem; }
 
-  /* vlog / video pin-slot — wider, plays a looping video */
+  /* vlog / video pin-slot — spans wider, hugs the video's native shape */
   .pin-slot.vlog {
-    aspect-ratio: auto;
     grid-column: span 2;
-    min-height: 360px;
+    /* no fixed aspect-ratio or min-height — video defines it */
   }
   @media (max-width: 480px) {
-    .pin-slot.vlog { grid-column: span 1; min-height: 280px; }
+    .pin-slot.vlog { grid-column: span 1; }
   }
   .pin-slot.vlog .inner {
     background: #000;
     border: none;
     padding: 0;
     position: relative;
+    width: 100%;
+    min-height: 0;
+    display: block;
+    overflow: hidden;
   }
+  /* video defines the frame height — no cropping, no black bars */
   .pin-slot.vlog video {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
+    background: #000;
+  }
+  /* fallback card still needs a sensible aspect when video is missing */
+  .pin-slot.vlog.video-failed .inner {
+    aspect-ratio: 9 / 16;
+    min-height: 340px;
+  }
+  @media (max-width: 480px) {
+    .pin-slot.vlog.video-failed .inner { min-height: 260px; }
   }
   /* click-through overlay that opens Instagram */
   .pin-slot.vlog .vlog-link {
@@ -2113,6 +2125,13 @@
                   <div class="caption">6th Josenian SHS Research Summit — Panelist's Choice Award</div>
                 </div>
 
+                <div class="pin-slot cert yellow">
+                  <div class="inner has-image">
+                    <img src="images/vice-president.jpg" alt="Vice President of Marketing — Student Council 2025" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>🏅</span>VP Marketing';" />
+                  </div>
+                  <div class="caption">I came, I saw, looked fun, I stayed</div>
+                </div>
+
                 <div class="pin-slot cert pink">
                   <div class="inner has-image">
                     <img src="images/josenian-participation.jpg" alt="6th Josenian SHS Research Summit — Certificate of Participation" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>🎓</span>Participation';" />
@@ -2129,9 +2148,9 @@
 
                 <div class="pin-slot purple">
                   <div class="inner has-image">
-                    <img src="images/teacher-day-2024-mr-thuy.jpg" alt="Teacher Day 2024 — 20 things Mr. Thuy can't live without (Behind the Scene)" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
+                    <img src="images/vinuniversity-post.jpg" alt="VinUniversity 2024 Campus Tour" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
                   </div>
-                  <div class="caption">Teacher Day 2024 · 20 things Mr. Thuy can't live without — Behind the Scene</div>
+                  <div class="caption">VinUniversity campus tour for seniors (I felt guilty I didn't accept their offer)</div>
                 </div>
 
                 <div class="pin-slot green">
@@ -2141,11 +2160,18 @@
                   <div class="caption">Senior Prom 2024 · Epiphany — behind the stage</div>
                 </div>
 
+                <div class="pin-slot green">
+                  <div class="inner has-image">
+                    <img src="images/grad-image.jpeg" alt="#Class of 2025" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
+                  </div>
+                  <div class="caption">Graduated with tons of experiences</div>
+                </div>
+
                 <div class="pin-slot pink">
                   <div class="inner has-image">
-                    <img src="images/senior-prom-2025-luminara.jpg" alt="Senior Prom 2025 — Luminara (Behind the Campaign)" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
+                    <img src="images/vrupc.jpg" alt="VRUPC Lullaby 2025 — The Trip" onerror="this.style.display='none';this.parentElement.classList.remove('has-image');this.parentElement.innerHTML='<span class=\\'icon\\'>📷</span>photo';" />
                   </div>
-                  <div class="caption">Senior Prom 2025 · Luminara — Behind the Campaign</div>
+                  <div class="caption">VRUPC × HopeCenter Kim Mã</div>
                 </div>
               </div>
             </div>
