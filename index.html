@@ -1444,7 +1444,7 @@
   /* --------- PIN BOARD (education + projects) --------- */
   .pin-board {
     margin-top: 1.2rem;
-    padding: 1.2rem 1rem 1.5rem;
+    padding: 1.5rem 1rem 2rem;
     background:
       linear-gradient(135deg, rgba(201, 138, 90, 0.18), rgba(201, 138, 90, 0.1)),
       repeating-linear-gradient(45deg, rgba(201, 138, 90, 0.08) 0 3px, transparent 3px 6px),
@@ -1518,7 +1518,7 @@
     column-count: 3;
     column-gap: 1.2rem;
     z-index: 1;
-    padding: 0.8rem 0.5rem;
+    padding: 0.8rem 0.8rem 1.2rem;
   }
   @media (max-width: 900px) {
     .pin-items { column-count: 2; }
@@ -1538,15 +1538,21 @@
     margin-left: auto;
     margin-right: auto;
   }
-  /* boards with 2 or fewer items: use 2 columns max so items aren't squished */
+  /* boards with 2 items: use grid with video/wide item taking more space */
   .pin-items.cols-2 {
-    column-count: 2;
-    max-width: 720px;
+    column-count: initial;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 2rem;
+    max-width: 780px;
     margin: 0 auto;
-    column-gap: 2rem;
+    align-items: start;
   }
   @media (max-width: 720px) {
-    .pin-items.cols-2 { column-count: 1; max-width: 360px; }
+    .pin-items.cols-2 {
+      grid-template-columns: 1fr;
+      max-width: 380px;
+    }
   }
 
   .pin-slot {
