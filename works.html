@@ -1050,6 +1050,51 @@
   }
   .project-story p { margin-bottom: 0.8rem; }
 
+  /* social media chips inside project stories */
+  .project-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.5rem 0 1rem;
+    align-items: center;
+  }
+  .project-socials .label {
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-right: 0.2rem;
+  }
+  .social-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    box-shadow: 2px 2px 0 var(--ink);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .social-chip:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .social-chip:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .social-chip.ig { background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7); color: #fff; }
+  .social-chip.fb { background: #1877f2; color: #fff; }
+  .social-chip.web { background: var(--crayon-teal); color: #fff; }
+  .social-chip .ico { font-size: 0.95rem; line-height: 1; }
+
   .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 1rem; }
   .tag {
     display: inline-block;
@@ -1370,6 +1415,13 @@
         <p>Working on growth experiments, community engagement strategies, and cross-team initiatives that bring more young people into the fold.</p>
         <h3>the journey</h3>
         <p>Ongoing — learning, shipping, iterating.</p>
+
+        <div class="project-socials">
+          <span class="label">follow →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/_upyouth" target="_blank" rel="noopener"><span class="ico">📷</span>@_upyouth</a>
+          <a class="social-chip fb" href="https://www.facebook.com/upyouth.org" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+          <a class="social-chip web" href="https://upyouth.org" target="_blank" rel="noopener"><span class="ico">🌐</span>upyouth.org</a>
+        </div>
       `
     },
     {
@@ -1425,6 +1477,12 @@
         <p>Led the full marketing campaign: brand identity, rollout calendar, content strategy across every school channel, and the run-up hype that turned a prom into a shared ritual.</p>
         <h3>the result</h3>
         <p>High attendance, high spirits, and a visual language that felt unmistakably <em>Luminara</em>.</p>
+
+        <div class="project-socials">
+          <span class="label">organized by student council →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+        </div>
       `
     },
     {
@@ -1450,6 +1508,12 @@
         <p>Directed both the <strong>marketing campaign</strong> and the <strong>performance program</strong> — from visual identity and hype-building to choreography and show flow on the night.</p>
         <h3>the result</h3>
         <p>A prom that felt less like a dance and more like a collective exhale for a whole graduating class.</p>
+
+        <div class="project-socials">
+          <span class="label">organized by student council →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+        </div>
       `
     },
     {
@@ -1475,6 +1539,12 @@
         <p>Led all marketing and external relations: sponsorship outreach, media coordination, campaign messaging, and audience engagement before and during the concert.</p>
         <h3>the result</h3>
         <p>Raised <strong>50.000.000 VNĐ</strong> for patients at Hospital K — Tân Triều branch, delivered in person by our team. Proof that student-led projects can create real impact. 💛</p>
+
+        <div class="project-socials">
+          <span class="label">organized by student council →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+        </div>
       `
     },
 
@@ -1515,6 +1585,12 @@
 
         <h3>the legacy</h3>
         <p>Years of activities, friendships, and a community that keeps going long after I handed the torch. That's the part I'm proudest of. 💚</p>
+
+        <div class="project-socials">
+          <span class="label">follow →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/vrupc.vsc" target="_blank" rel="noopener"><span class="ico">📷</span>@vrupc.vsc</a>
+          <a class="social-chip fb" href="https://www.facebook.com/profile.php?id=100086487875853" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+        </div>
       `
     },
     {
