@@ -850,15 +850,20 @@
   .cork-title-card .meta .time::before { content: "⏱ "; font-style: normal; }
 
   /* photo grid + description layout */
+  /* masonry-style layout — items pack tightly, no vertical gaps */
   .cork-grid {
     position: relative;
     z-index: 2;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.8rem 1.2rem;
+    column-count: 3;
+    column-gap: 1.2rem;
     padding: 1rem 0.5rem 0.5rem;
     margin-bottom: 1.5rem;
-    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .cork-grid { column-count: 2; }
+  }
+  @media (max-width: 520px) {
+    .cork-grid { column-count: 1; }
   }
 
   /* polaroid hugs its own content — no fixed height, no stretch */
@@ -866,9 +871,9 @@
     background: #fff;
     padding: 10px 10px 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.12);
-    align-self: start;
-    display: flex;
-    flex-direction: column;
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    display: block;
   }
 
   .polaroid, .note, .project-desc, .project-section {
@@ -1214,10 +1219,144 @@
     margin-top: 0.35rem;
   }
   .sub-media {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.4rem 1.1rem;
-    align-items: start;
+    column-count: 3;
+    column-gap: 1.1rem;
+    padding: 0;
+  }
+  @media (max-width: 900px) {
+    .sub-media { column-count: 2; }
+  }
+  @media (max-width: 520px) {
+    .sub-media { column-count: 1; }
+  }
+
+  /* sub-folder description with bullets */
+  .sub-description {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0.2rem 0 1.2rem;
+  }
+  .sub-description p { margin: 0 0 0.6rem; }
+  .sub-description strong {
+    background-image: linear-gradient(180deg, transparent 18%, var(--crayon-yellow) 18%, var(--crayon-yellow) 95%, transparent 95%);
+    padding: 0 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    display: inline;
+  }
+  .sub-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0.4rem 0 0;
+  }
+  .sub-bullets li {
+    position: relative;
+    padding-left: 1.4rem;
+    margin-bottom: 0.45rem;
+    line-height: 1.55;
+  }
+  .sub-bullets li::before {
+    content: "✦";
+    position: absolute;
+    left: 0.15rem;
+    top: 0;
+    color: var(--crayon-orange);
+    font-weight: 700;
+  }
+
+  /* Featured-video layout: single big centered video with audio toggle */
+  .sub-video-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0.4rem auto 0.4rem;
+    max-width: 720px;
+  }
+  .sub-video-frame {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    background: #fff;
+    padding: 12px 12px 14px;
+    box-shadow:
+      0 6px 14px rgba(0,0,0,0.22),
+      0 16px 30px rgba(0,0,0,0.14);
+    border-radius: 3px;
+    transform: rotate(-0.6deg);
+    transition: transform 0.3s ease;
+  }
+  .sub-video-frame:hover {
+    transform: rotate(0) scale(1.01);
+  }
+  .sub-video-frame video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+    border-radius: 2px;
+    line-height: 0;
+  }
+  .sub-video-caption {
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--ink);
+    text-align: center;
+    line-height: 1.4;
+    padding: 0 1rem;
+  }
+
+  /* Sound toggle button (bottom-right corner of video) */
+  .sound-toggle {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.9rem;
+    background: rgba(0,0,0,0.72);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: background 0.2s, transform 0.15s;
+    z-index: 5;
+  }
+  .sound-toggle:hover {
+    background: rgba(0,0,0,0.88);
+    transform: translateY(-1px);
+  }
+  .sound-toggle:active {
+    transform: translateY(0);
+  }
+  .sound-toggle .ico-sound { display: none; }
+  .sound-toggle.unmuted .ico-muted { display: none; }
+  .sound-toggle.unmuted .ico-sound { display: inline; }
+  .sound-toggle.unmuted {
+    background: var(--crayon-red);
+    border-color: #fff;
+  }
+  .sound-toggle .lbl {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  @media (max-width: 520px) {
+    .sound-toggle {
+      bottom: 16px;
+      right: 16px;
+      padding: 0.4rem 0.6rem;
+    }
+    .sound-toggle .lbl { display: none; }
   }
 
   /* social media chips inside project stories */
@@ -1390,11 +1529,7 @@
     }
     .folder { max-width: 320px; margin: 0 auto; width: 100%; }
     .shelf-plank { display: none; }
-    .cork-grid { grid-template-columns: repeat(2, 1fr); }
     .modal-corkboard { border-width: 6px; padding: 1.5rem 1rem; }
-  }
-  @media (max-width: 480px) {
-    .cork-grid { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.1ms !important; }
@@ -1704,7 +1839,7 @@
       timeframe: "Jan 2024 — May 2024",
       tags: ["Senior Prom", "Viral Campaign", "Stage Direction", "Event"],
       media: [
-        { type: "image", src: "images/the-anh-28.jpg", caption: "I think lots of people will shock that its stages", pin: "red" },
+        { type: "image", src: "images/the-anh-28.jpg", caption: "I think lots of people will shock that it's staged", pin: "red" },
         { type: "video", src: "images/recap-vid.mp4", caption: "recap", pin: "yellow" },
         { type: "image", src: "images/24event-post.jpg", caption: "campaign post", pin: "blue" },
         { type: "image", src: "images/senior-prom-2024-epiphany.jpg", caption: "Behind the campaigns", pin: "purple" },
@@ -1861,8 +1996,15 @@
           role: "English Buddy",
           context: "Language exchange",
           timeframe: "Nov 2025 — Apr 2026",
+          description: `
+            <p>Led and facilitated an <strong>English-speaking environment for 15 Japanese high school students (ages 13–17)</strong> during a study and cultural immersion program in Taipei.</p>
+            <ul class="sub-bullets">
+              <li>Planned and organized a structured, week-long experiential learning program in Taipei</li>
+              <li>Mentored and supported students in developing and delivering final presentations, providing constructive feedback</li>
+            </ul>
+          `,
           media: [
-            { type: "image", src: "images/ktrc.jpg", caption: "Guiding Japanese kids and speak English with them", pin: "blue" }
+            { type: "image", src: "images/ktrc.jpg", caption: "Guiding Japanese kids and speaking English with them", pin: "blue" }
           ]
         },
         {
@@ -2010,12 +2152,32 @@
   function renderSubfolders(subfolders) {
     if (!subfolders || !subfolders.length) return '';
     const cards = subfolders.map((sub, i) => {
-      const mediaHTML = sub.media && sub.media.length
-        ? `<div class="sub-media">${sub.media.map(renderMediaItem).join('')}</div>`
-        : '';
+      // Single-video sub-folders get a special centered "featured video" layout with audio toggle
+      const isFeaturedVideo = sub.media && sub.media.length === 1 && sub.media[0].type === "video";
+      let mediaHTML = '';
+      if (isFeaturedVideo) {
+        const v = sub.media[0];
+        const vid = `sub-vid-${sub.id}`;
+        mediaHTML = `
+          <div class="sub-video-stage">
+            <div class="sub-video-frame">
+              <video id="${vid}" src="${v.src}" autoplay loop muted playsinline preload="metadata"></video>
+              <button class="sound-toggle" type="button" data-video="${vid}" aria-label="Toggle sound">
+                <span class="ico-muted">🔇</span>
+                <span class="ico-sound">🔊</span>
+                <span class="lbl">tap for sound</span>
+              </button>
+            </div>
+            ${v.caption ? `<div class="sub-video-caption">${v.caption}</div>` : ''}
+          </div>
+        `;
+      } else if (sub.media && sub.media.length) {
+        mediaHTML = `<div class="sub-media">${sub.media.map(renderMediaItem).join('')}</div>`;
+      }
       const roleHTML = sub.role ? `<span class="sub-role">${sub.role}</span>` : '';
       const contextHTML = sub.context ? `<span class="sub-context">${sub.context}</span>` : '';
       const timeHTML = sub.timeframe ? `<span class="sub-time">⏱ ${sub.timeframe}</span>` : '';
+      const descriptionHTML = sub.description ? `<div class="sub-description">${sub.description}</div>` : '';
       const comingSoonHTML = sub.comingSoon ? `
         <div class="sub-coming-soon">
           <span class="cs-badge">🚧 under development</span>
@@ -2023,7 +2185,7 @@
         </div>
       ` : '';
       return `
-        <details class="subfolder${sub.comingSoon ? ' coming-soon' : ''}" ${i === 0 ? 'open' : ''}>
+        <details class="subfolder${sub.comingSoon ? ' coming-soon' : ''}${isFeaturedVideo ? ' featured-video' : ''}" ${i === 0 ? 'open' : ''}>
           <summary class="subfolder-head">
             <span class="sub-index">folder ${String(i + 1).padStart(2, '0')}</span>
             <span class="sub-title">${sub.title}</span>
@@ -2037,6 +2199,7 @@
               ${contextHTML}
               ${timeHTML ? '<br/>' + timeHTML : ''}
             </div>
+            ${descriptionHTML}
             ${comingSoonHTML}
             ${mediaHTML}
           </div>
@@ -2044,6 +2207,25 @@
       `;
     }).join('');
     return `<div class="subfolders-wrap">${cards}</div>`;
+  }
+
+  // wire up sound toggles (after modal renders)
+  function wireSoundToggles() {
+    document.querySelectorAll('.sound-toggle').forEach(btn => {
+      if (btn.dataset.wired) return;
+      btn.dataset.wired = "1";
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const vid = document.getElementById(btn.dataset.video);
+        if (!vid) return;
+        vid.muted = !vid.muted;
+        btn.classList.toggle('unmuted', !vid.muted);
+        const lbl = btn.querySelector('.lbl');
+        if (lbl) lbl.textContent = vid.muted ? 'tap for sound' : 'sound on';
+        if (!vid.muted) vid.play().catch(() => {});
+      });
+    });
   }
 
   function renderProject(p) {
@@ -2104,6 +2286,7 @@
     corkboard.scrollTop = 0;
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
+    wireSoundToggles();
     setTimeout(() => modalClose.focus(), 100);
   }
   function closeProject() {
