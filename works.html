@@ -1050,6 +1050,176 @@
   }
   .project-story p { margin-bottom: 0.8rem; }
 
+  /* ============ SUB-FOLDERS (inside projects like Framing / Freelance) ============ */
+  .subfolders-wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 1.5rem auto 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .subfolder {
+    background: #fffbe7;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--ink), 0 6px 16px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .subfolder[open] {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink), 0 8px 20px rgba(0,0,0,0.18);
+  }
+  .subfolder-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1.1rem;
+    cursor: pointer;
+    list-style: none;
+    background: linear-gradient(90deg, var(--crayon-yellow) 0%, #ffe680 50%, var(--crayon-yellow) 100%);
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .subfolder-head::-webkit-details-marker { display: none; }
+  .subfolder-head:hover { background: linear-gradient(90deg, #ffd93d 0%, #ffe680 50%, #ffd93d 100%); }
+  .sub-index {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .sub-title {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  .sub-caret {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .subfolder[open] .sub-caret { transform: rotate(180deg); }
+
+  /* coming-soon subfolder: orange stripe + tag + friendly body card */
+  .subfolder.coming-soon .subfolder-head {
+    background: repeating-linear-gradient(45deg, #ffd93d 0 10px, #ffc640 10px 20px);
+    opacity: 0.92;
+  }
+  .subfolder.coming-soon .subfolder-head:hover {
+    background: repeating-linear-gradient(45deg, #ffe680 0 10px, #ffd93d 10px 20px);
+    opacity: 1;
+  }
+  .sub-tag-cs {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    background: var(--ink);
+    color: var(--crayon-yellow);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    white-space: nowrap;
+  }
+  .sub-coming-soon {
+    background:
+      repeating-linear-gradient(45deg, rgba(255, 154, 60, 0.08) 0 8px, transparent 8px 16px),
+      #fff8e1;
+    border: 2.5px dashed var(--crayon-orange);
+    border-radius: 8px;
+    padding: 1.2rem 1.1rem;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  .cs-badge {
+    display: inline-block;
+    font-family: 'Space Mono', 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    padding: 0.35rem 0.9rem;
+    background: var(--crayon-yellow);
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 2px 2px 0 var(--ink);
+    margin-bottom: 0.8rem;
+  }
+  .cs-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .cs-text em {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .subfolder-body {
+    padding: 1.2rem 1.1rem 1.4rem;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 26px, rgba(77, 150, 255, 0.08) 26px 27px),
+      #fffbe7;
+  }
+  .sub-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  .sub-role {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    background: var(--crayon-teal);
+    color: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 2px 2px 0 var(--ink);
+    margin-right: 0.3rem;
+  }
+  .sub-context {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .sub-sep { color: var(--ink-soft); opacity: 0.5; margin: 0 0.25rem; }
+  .sub-time {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 0.35rem;
+  }
+  .sub-media {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.4rem 1.1rem;
+    align-items: start;
+  }
+
   /* social media chips inside project stories */
   .project-socials {
     display: flex;
@@ -1371,25 +1541,33 @@
       id: "hanei-ai",
       category: "Personal Projects",
       color: "c5",
-      doodle: "🤖",
+      doodle: "🏠",
       coverEmoji: "✦",
       coverLabel: "project · 01",
       title: "HaneiAI",
       position: "Co-Founder / CMO",
       timeframe: "Jun 2025 — Present",
-      tags: ["Startup", "AI", "Marketing Strategy", "Co-Founder"],
+      tags: ["Startup", "AI", "Product", "User Research", "Co-Founder"],
       media: [
-        { type: "placeholder", caption: "brand identity", pin: "red", icon: "🎨" },
-        { type: "placeholder", caption: "product launch", pin: "blue", icon: "🚀" },
-        { type: "placeholder", caption: "team moments", pin: "green", icon: "👥" }
+        { type: "image", src: "images/hanei-on-appstore.jpg", caption: "Launched!", pin: "red" },
+        { type: "video", src: "images/hanei-ai-demo.mp4", caption: "Another path we took: From App to Web", pin: "yellow" },
+        { type: "image", src: "images/the-hanei-team.jpg", caption: "We spent the whole summer ngl", pin: "blue" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>Co-founded <strong>HaneiAI</strong> — stepping into the startup world as Co-Founder and Chief Marketing Officer.</p>
-        <h3>my role</h3>
-        <p>Shaping the brand from day one: positioning, voice, launch strategy, and building the marketing function from scratch.</p>
-        <h3>the journey</h3>
-        <p>More to come as we grow — this one's still being written. 🌱</p>
+        <span class="story-label">✦ my story</span>
+        <p>Addicted to building houses on Bloxburg so I just do something for people to do that in real life, then get the actual stuffs.</p>
+        <p>First time building from scratch, I realize I also love to talk to people. For what? Get more insight and sell them the solutions lol.</p>
+
+        <h3>what I did</h3>
+        <p>Conducted <strong>user testing, behavioral research, and user-flow analysis</strong> to guide product decisions — successfully launched on the App Store.</p>
+        <p>Planned and executed a soft launch with <strong>Drexel University (US)</strong> and <strong>National Chengchi University (Taiwan)</strong>, reaching <strong>+5,000 views</strong> for our landing page on the first launch.</p>
+        <p>Collected and analyzed user feedback that <strong>redirected the product's development</strong> and improved overall user experience.</p>
+
+        <div class="project-socials">
+          <span class="label">find us →</span>
+          <a class="social-chip web" href="https://www.haneiroom.com" target="_blank" rel="noopener"><span class="ico">🌐</span>haneiroom.com</a>
+          <a class="social-chip web" href="https://apps.apple.com/tw/app/haneiroom/id6752036173?l=en-GB" target="_blank" rel="noopener"><span class="ico">📱</span>App Store</a>
+        </div>
       `
     },
     {
@@ -1402,19 +1580,21 @@
       title: "UpYouth",
       position: "Growth Team Member",
       timeframe: "Nov 2025 — Present",
-      tags: ["Growth", "Youth Org", "Community Building"],
+      tags: ["Growth", "Community", "Outreach", "Content"],
       media: [
-        { type: "placeholder", caption: "team meetings", pin: "blue", icon: "💻" },
-        { type: "placeholder", caption: "campaign launch", pin: "green", icon: "🚀" },
-        { type: "placeholder", caption: "outreach", pin: "yellow", icon: "📣" }
+        { type: "image", src: "images/build-stuffs-with-us.jpg", caption: "Prepare a bit for my Youtuber era (will come soon)", pin: "blue" },
+        { type: "image", src: "images/junior-start-up-school.jpg", caption: "This is how I actually know UY", pin: "green" },
+        { type: "image", src: "images/uy-internship-sprint.jpg", caption: "Yapping about vibe code stuffs", pin: "yellow" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>Joined <strong>UpYouth</strong> as part of the <strong>Growth team</strong> — helping a youth-focused organization scale its reach, programs, and impact.</p>
-        <h3>my role</h3>
-        <p>Working on growth experiments, community engagement strategies, and cross-team initiatives that bring more young people into the fold.</p>
-        <h3>the journey</h3>
-        <p>Ongoing — learning, shipping, iterating.</p>
+        <span class="story-label">✦ my story</span>
+        <p>I joined their Junior StartUp School program during the summer — from one of their builders to who come to find their builders.</p>
+        <p>Suddenly building in tech doesn't sound that bad, or at least that's what I thought? lol.</p>
+
+        <h3>what I did</h3>
+        <p>Conducted <strong>outreach and conversations with potential users</strong> to understand interests and support early product growth within the US and Vietnam markets.</p>
+        <p>Responsible for <strong>Build Stuffs With Us on YouTube</strong>, a collaboration with Build Stuffs — contributing to content promotion and community engagement with total views <strong>around +10,000 views</strong>.</p>
+        <p>Assisted in growing the community by identifying new audiences and encouraging participation across platforms.</p>
 
         <div class="project-socials">
           <span class="label">follow →</span>
@@ -1425,29 +1605,51 @@
       `
     },
     {
-      id: "framing-stories",
+      id: "framing-projects",
       category: "Personal Projects",
       color: "c3",
       doodle: "🎬",
       coverEmoji: "✦",
       coverLabel: "project · 03",
-      title: "Framing Stories",
-      position: "Director & Editor",
-      timeframe: "ongoing",
-      tags: ["Video", "Storytelling", "Direction", "Editing"],
-      media: [
-        { type: "placeholder", caption: "film 1 — title TBD", pin: "red", icon: "🎥" },
-        { type: "placeholder", caption: "film 2 — title TBD", pin: "blue", icon: "🎞️" },
-        { type: "placeholder", caption: "film 3 — title TBD", pin: "purple", icon: "📽️" },
-        { type: "placeholder", caption: "behind the lens", pin: "pink", icon: "🎬" }
+      title: "Framing Projects",
+      position: "Director & Creator",
+      timeframe: "2024 — Present",
+      tags: ["Video", "Direction", "Content", "Storytelling"],
+      subfolders: [
+        {
+          id: "fp-teacher-day",
+          title: "Teacher's Day 2024 — 10 things Mr. Thuy can't live without",
+          role: "Director",
+          context: "Student Council",
+          timeframe: "2024",
+          media: [
+            { type: "video", src: "images/teacher-day.mp4", caption: "I assume we were trying to make teachers look less scary? no?", pin: "yellow" }
+          ]
+        },
+        {
+          id: "fp-bookweek",
+          title: "Bookweek 2024: Podcast Competition — The Spoiled Kid",
+          role: "Host / Director",
+          context: "Competition entry",
+          timeframe: "2024",
+          media: [
+            { type: "video", src: "images/podcast.mp4", caption: "Doing thing I love the most (talk) and thing I'm good at (creating contents digitally) at the same time", pin: "blue" }
+          ]
+        },
+        {
+          id: "fp-taiwan",
+          title: "Snapshots from Taiwan",
+          role: "Freelance Creator",
+          context: "Personal vlogs",
+          timeframe: "Feb 2026 — Present",
+          media: [
+            { type: "video", src: "images/vlog.mp4", caption: "I think my life look fun, may be others will agree", pin: "pink" }
+          ]
+        }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p><strong>Framing Stories</strong> — my umbrella for every video I've directed. A collection, not a single project. Each piece frames a story in its own way.</p>
-        <h3>what lives here</h3>
-        <p>Short films, behind-the-scenes reels, documentary-style pieces, experimental edits. Whenever I pick up a camera or cut a sequence, it ends up in this folder.</p>
-        <h3>why the name</h3>
-        <p>Because every video is just a question of <strong>what to include in the frame</strong> — and what to leave out. That's the whole job.</p>
+        <span class="story-label">✦ about this folder</span>
+        <p>An umbrella for every video I've directed, hosted, or cut. Each sub-folder below is its own project — click one to peek inside.</p>
       `
     },
 
@@ -1461,26 +1663,31 @@
       doodle: "🌙",
       coverEmoji: "✦",
       coverLabel: "project · 04",
-      title: "GLORIOUS 25' — Luminara",
+      title: "Glorious 25' — Luminara",
       position: "Director of Marketing",
-      timeframe: "2025",
-      tags: ["Senior Prom", "Campaign Strategy", "Creative Direction"],
+      timeframe: "Jan 2025 — May 2025",
+      tags: ["Senior Prom", "Event Marketing", "Sponsorship", "PR"],
       media: [
-        { type: "image", src: "images/senior-prom-2025-luminara.jpg", caption: "behind the campaign", pin: "pink" },
-        { type: "placeholder", caption: "launch teaser", pin: "purple", icon: "🌟" },
-        { type: "placeholder", caption: "night of", pin: "blue", icon: "🌃" }
+        { type: "image", src: "images/25event-recap3.jpg", caption: "Went a bit too crazy", pin: "pink" },
+        { type: "video", src: "images/artist.mp4", caption: "Artist interview", pin: "red" },
+        { type: "image", src: "images/25event-post-2.jpg", caption: "Sneak peak post", pin: "yellow" },
+        { type: "image", src: "images/noo-phuoc-thinh.jpg", caption: "Guess who is in our lineup", pin: "purple" },
+        { type: "image", src: "images/25event-post-3.jpg", caption: "Event announcement", pin: "blue" },
+        { type: "image", src: "images/senior-prom-2025-luminara.jpg", caption: "Behind the posts", pin: "green" },
+        { type: "image", src: "images/25event-recap2.jpg", caption: "Security check", pin: "pink" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p><strong>Luminara</strong> — 2025's senior prom. A celebration of light, growth, and everything we carry forward.</p>
-        <h3>my role</h3>
-        <p>Led the full marketing campaign: brand identity, rollout calendar, content strategy across every school channel, and the run-up hype that turned a prom into a shared ritual.</p>
-        <h3>the result</h3>
-        <p>High attendance, high spirits, and a visual language that felt unmistakably <em>Luminara</em>.</p>
+        <span class="story-label">✦ my story</span>
+        <p>Been obsessed with <strong>Noo Phuoc Thinh</strong> since 5th grade, so I tried my best to bring him to my senior prom. Also, it's my last year — I had to leave a massive bomb so they would never forget.</p>
+
+        <h3>what I did</h3>
+        <p>Managed <strong>600+ attendees</strong>, full event timelines, coordinated cross-department teams, and worked directly with partners.</p>
+        <p>Developed the full <strong>marketing and brand profile</strong> for Glorious'25: Luminara — creating visual identity, messaging, and campaign strategy. Secured <strong>150M+ VND in sponsorships</strong>.</p>
+        <p>Managed and worked with multiple key partners (Muoi Studio), artists: <strong>Noo Phuoc Thinh, Hoang Dung, Binh Gold, Bac Si Hai</strong>. Conducted PR campaigns before, during, and after the event.</p>
 
         <div class="project-socials">
           <span class="label">organized by student council →</span>
-          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip ig" href="https://www.instagram.com/vsc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vsc.ocp</a>
           <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
         </div>
       `
@@ -1492,26 +1699,31 @@
       doodle: "🎭",
       coverEmoji: "✦",
       coverLabel: "project · 05",
-      title: "GLORIOUS 24' — Epiphany",
+      title: "Glorious 24' — Epiphany",
       position: "Director of Marketing & Performance",
-      timeframe: "2024",
-      tags: ["Senior Prom", "Event Direction", "Marketing", "Performance"],
+      timeframe: "Jan 2024 — May 2024",
+      tags: ["Senior Prom", "Viral Campaign", "Stage Direction", "Event"],
       media: [
-        { type: "image", src: "images/senior-prom-2024-epiphany.jpg", caption: "behind the stage", pin: "purple" },
-        { type: "placeholder", caption: "campaign posters", pin: "yellow", icon: "📣" },
-        { type: "placeholder", caption: "the big night", pin: "pink", icon: "✨" }
+        { type: "image", src: "images/the-anh-28.jpg", caption: "I think lots of people will shock that its stages", pin: "red" },
+        { type: "video", src: "images/recap-vid.mp4", caption: "recap", pin: "yellow" },
+        { type: "image", src: "images/24event-post.jpg", caption: "campaign post", pin: "blue" },
+        { type: "image", src: "images/senior-prom-2024-epiphany.jpg", caption: "Behind the campaigns", pin: "purple" },
+        { type: "image", src: "images/24event-recap.jpg", caption: "recap", pin: "green" },
+        { type: "image", src: "images/24event-post-2.jpg", caption: "campaign post", pin: "pink" },
+        { type: "image", src: "images/24event-post-3.jpg", caption: "campaign post", pin: "red" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p><strong>Epiphany</strong> — the theme of our 2024 senior prom. A night of revelation, transformation, and everything that comes with realizing who you've become.</p>
-        <h3>my role</h3>
-        <p>Directed both the <strong>marketing campaign</strong> and the <strong>performance program</strong> — from visual identity and hype-building to choreography and show flow on the night.</p>
-        <h3>the result</h3>
-        <p>A prom that felt less like a dance and more like a collective exhale for a whole graduating class.</p>
+        <span class="story-label">✦ my story</span>
+        <p>Not yet my senior prom but still a huge opportunity. First time actually built a campaign and managed an event from scratch. I liked these kind of things too much — I stayed, until my last mins.</p>
+
+        <h3>what I did</h3>
+        <p>Developed and executed marketing strategies for Vinschool Ocean Park's prom event: <strong>EPIPHANY 2024</strong>, which garnered <strong>over 10 million views on TikTok</strong> — including a <strong>9M-view campaign</strong> reposted by major media outlet <em>The Anh 28</em>.</p>
+        <p>Generated total sales of <strong>+200,000,000 VND</strong>.</p>
+        <p>Managed and directed the stage plan for prom night with <strong>+300 participants</strong> (high school students aged 15–20 all over Hanoi). Assisted artists <strong>Wxrdie</strong> and <strong>24K Right</strong>.</p>
 
         <div class="project-socials">
           <span class="label">organized by student council →</span>
-          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip ig" href="https://www.instagram.com/vsc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vsc.ocp</a>
           <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
         </div>
       `
@@ -1524,25 +1736,29 @@
       coverEmoji: "✦",
       coverLabel: "project · 06",
       title: "Virtue Spring 2024",
-      position: "Director of Marketing & Relations",
-      timeframe: "2024 — 2025",
-      tags: ["Charity", "Event Marketing", "Concert", "Leadership"],
+      position: "Director of Marketing",
+      timeframe: "Nov 2024 — Jan 2025",
+      tags: ["Charity", "Concert", "PR", "Community"],
       media: [
-        { type: "image", src: "images/virtue-spring-2025-k-hospital.jpg", caption: "the trip to K Hospital", pin: "red" },
-        { type: "placeholder", caption: "concert night", pin: "pink", icon: "🎤" },
-        { type: "placeholder", caption: "behind the scenes", pin: "yellow", icon: "🎬" }
+        { type: "image", src: "images/virtue-spring-2025-k-hospital.jpg", caption: "The trip to K Hospital, Thanh Tri, Ha Noi", pin: "red" },
+        { type: "video", src: "images/spring-event.mp4", caption: "Spring event", pin: "yellow" },
+        { type: "image", src: "images/spring-event-recap.jpg", caption: "event recap", pin: "green" },
+        { type: "video", src: "images/cheap-moment.mp4", caption: "a cheap moment", pin: "pink" },
+        { type: "image", src: "images/spring-event-post-2.jpg", caption: "campaign post", pin: "blue" },
+        { type: "image", src: "images/spring-event-post-3.jpg", caption: "campaign post", pin: "purple" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>A student-run <strong>charity concert</strong> with heart. Raised funds and awareness for children in need — including a trip to K Hospital to deliver the support in person.</p>
-        <h3>my role</h3>
-        <p>Led all marketing and external relations: sponsorship outreach, media coordination, campaign messaging, and audience engagement before and during the concert.</p>
-        <h3>the result</h3>
-        <p>Raised <strong>50.000.000 VNĐ</strong> for patients at Hospital K — Tân Triều branch, delivered in person by our team. Proof that student-led projects can create real impact. 💛</p>
+        <span class="story-label">✦ my story</span>
+        <p>Combined my two specialties (in high school) together: <strong>eventing + community service</strong>. Celebrating our <em>Tết</em> (Lunar New Year) differently.</p>
+
+        <h3>what I did</h3>
+        <p>Held responsibility as Marketing lead for Vinschool Ocean Park's <strong>"Virtue's Spring"</strong> charity concert (2024–2025) — successfully raised a total of <strong>+350,000,000 VND</strong>.</p>
+        <p>Executed <strong>end-to-end promotional campaigns</strong> across pre-event, live, and post-event phases.</p>
+        <p>Partnered with sponsors, models, and studios to direct photoshoots and curate the event's digital visual identity.</p>
 
         <div class="project-socials">
           <span class="label">organized by student council →</span>
-          <a class="social-chip ig" href="https://www.instagram.com/vcc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vcc.ocp</a>
+          <a class="social-chip ig" href="https://www.instagram.com/vsc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vsc.ocp</a>
           <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
         </div>
       `
@@ -1559,32 +1775,30 @@
       coverEmoji: "✦",
       coverLabel: "project · 07",
       title: "VRUPC — Vinschool Really Useful People's Community",
-      position: "Founder & President / Advisor",
+      position: "Co-Founder / President",
       timeframe: "2022 — 2025",
-      tags: ["Charity", "Community", "Student Leadership", "Social Impact", "Fundraising"],
+      tags: ["Charity", "Community", "Leadership", "Fundraising"],
       media: [
-        { type: "image", src: "images/president.jpg", caption: "president era", pin: "red" },
-        { type: "video", src: "images/the-page-of-halcyon.mp4", caption: "The Page of Halcyon 2023 — The Trip!", pin: "yellow" },
-        { type: "image", src: "images/lullaby-notebooks-sale.jpg", caption: "LULLABY 2024 notebook sale", pin: "pink" }
+        { type: "image", src: "images/president.jpg", caption: "Second Generation 2023", pin: "red" },
+        { type: "video", src: "images/the-page-of-halcyon.mp4", caption: "The Page of Halcyon: The Trip to Hy Vọng Secondary School — May 2023", pin: "yellow" },
+        { type: "image", src: "images/club-of-the-year.jpg", caption: "Most Active Club of the year 2022–2023", pin: "blue" },
+        { type: "image", src: "images/dong-2022-hospital.jpg", caption: "The trip to National Hospital of Pediatrics 2022", pin: "green" },
+        { type: "image", src: "images/lullaby-2.jpg", caption: "Lullaby — Notebook sale booth", pin: "pink" },
+        { type: "image", src: "images/lullaby-3.jpg", caption: "Lullaby — Slime Workshop", pin: "purple" },
+        { type: "image", src: "images/lullaby-notebooks-sale.jpg", caption: "Lullaby — Notebooks for fundraising", pin: "red" },
+        { type: "image", src: "images/the-page-of-halcyon-donation.jpg", caption: "The Page of Halcyon — Book donation booth", pin: "yellow" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>Founded and led <strong>VRUPC</strong> (Vinschool Really Useful People's Community) — a student-run charity club built around the idea that "useful" is a life skill worth practicing, together.</p>
-        <p>From a small group at Vinschool Ocean Park, VRUPC grew into a <strong>cross-campus network of 80+ members</strong> spanning all four Vinschool campuses: <em>Ocean Park, TimeCity, SmartCity, and Harmony</em>.</p>
+        <span class="story-label">✦ my story</span>
+        <p>First time joining a club so of course first time being a president. Lowkey being one of the first clubs founded in <strong>Vinschool Ocean Park</strong>.</p>
+        <p>Since student-run clubs were still super new for our school, the Student Council ended up founding the <strong>Club Management Department</strong> to handle it — and of course, I stepped up as <strong>Vice President in charge</strong>.</p>
 
-        <h3>my role</h3>
-        <p>Served as <strong>Founder & President</strong> through school years — shaping the club's mission, building the team across campuses, designing programming, and transitioning into an <strong>Advisor</strong> role to support the next generation.</p>
-
-        <h3>recognition</h3>
-        <p>🏆 <strong>"Vinschool Ocean Park's club with excellent performance"</strong> — 2023</p>
-
-        <h3>campaigns & impact</h3>
-        <p>🕯️ <strong>ĐÔNG 2022</strong> — sold handmade scented candles, raised <strong>20,000,000 VND</strong> → funded 500 meals and event stage support for patients at <em>Hanoi National Hospital of Pediatrics</em>.</p>
-        <p>📖 <strong>The Page of Halcyon 2023</strong> — book drive + campus trip → donated <strong>500 books to Hy Vọng Secondary School for the Special</strong>.</p>
-        <p>📓 <strong>LULLABY 2024</strong> — exclusive member-designed notebooks + slime-making workshop, raised <strong>10,000,000 VND</strong> → all proceeds donated to <em>Hope Center Home for the Special</em> to fund new tables & facilities.</p>
-
-        <h3>the legacy</h3>
-        <p>Years of activities, friendships, and a community that keeps going long after I handed the torch. That's the part I'm proudest of. 💚</p>
+        <h3>what I did</h3>
+        <p>Grew VRUPC into a <strong>+80-member community</strong> spanning all four Vinschool campuses: <em>Ocean Park, TimeCity, SmartCity, Harmony</em>.</p>
+        <p>🕯️ <strong>ĐÔNG 2022</strong> — organized the sale of handmade scented candles, raised <strong>20,000,000 VND</strong> to provide <strong>500 meals</strong> and event stage support for patients at Hanoi National Hospital of Pediatrics.</p>
+        <p>📖 <strong>The Page of Halcyon 2023</strong> — book drive + campus trip, donated <strong>500 books to Hy Vọng Secondary School for the Special</strong>.</p>
+        <p>🏆 Awarded <strong>"Vinschool Ocean Park's club with excellent performance"</strong> — 2023.</p>
+        <p>📓 <strong>LULLABY 2024</strong> — generated a total of <strong>10,000,000 VND</strong> through the sale of exclusive member-designed notebooks + a slime-making workshop.</p>
 
         <div class="project-socials">
           <span class="label">follow →</span>
@@ -1602,49 +1816,80 @@
       coverLabel: "project · 08",
       title: "Class of 2025 Yearbook",
       position: "Director",
-      timeframe: "2024 — 2025",
-      tags: ["Editorial", "Creative Direction", "Publishing"],
+      timeframe: "Mar 2025 — May 2025",
+      tags: ["Editorial", "Creative Direction", "Photography", "Publishing"],
       media: [
-        { type: "placeholder", caption: "cover design", pin: "red", icon: "📔" },
-        { type: "placeholder", caption: "spread sample", pin: "yellow", icon: "📄" },
-        { type: "placeholder", caption: "team shoot", pin: "blue", icon: "📸" }
+        { type: "image", src: "images/mine.jpg", caption: "My turn", pin: "red" },
+        { type: "video", src: "images/yearbook-video.mp4", caption: "Promote a bit on Tiktok", pin: "yellow" },
+        { type: "image", src: "images/yearbook-bts.jpg", caption: "Product on hand", pin: "blue" },
+        { type: "image", src: "images/product.jpg", caption: "Writing some deep shit", pin: "green" }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>Directed the <strong>Class of 2025 Yearbook</strong> — the one physical thing our whole graduating class gets to keep forever.</p>
-        <h3>my role</h3>
-        <p>Led the creative vision: editorial voice, visual identity, page structure, photography direction, and the team that made it all happen. From blank pages to bound book.</p>
-        <h3>the result</h3>
-        <p>A yearbook that actually feels like <em>us</em> — not a template, but a memory.</p>
+        <span class="story-label">✦ my story</span>
+        <p>I create a way for high school people to not forget me by signing into everyone's yearbook as a director.</p>
+
+        <h3>what I did</h3>
+        <p>Planned and directed a <strong>comprehensive two-week photoshoot</strong> for over <strong>300 12th-grade students</strong>, managing logistics and coordinating directly with external studios and equipment providers.</p>
+        <p>Conducted strategic meetings with class representatives to brainstorm yearbook concepts, gather design elements, and drive sales initiatives.</p>
+        <p>Led the overall creative vision: from editorial voice and visual identity to page structure and photography direction. Managed the creative team to successfully take the yearbook from <strong>blank pages to a fully bound publication</strong>.</p>
+
+        <h3>credits</h3>
+        <p>Special thanks to <strong>Hien Vu</strong> — Head of Design, Student Council; and <strong>Vu Quang Anh</strong> — Vice Head of Media, Student Council. 💛</p>
+
+        <div class="project-socials">
+          <span class="label">organized by student council →</span>
+          <a class="social-chip ig" href="https://www.instagram.com/vsc.ocp" target="_blank" rel="noopener"><span class="ico">📷</span>@vsc.ocp</a>
+          <a class="social-chip fb" href="https://www.facebook.com/vscocp.sc" target="_blank" rel="noopener"><span class="ico">ⓕ</span>Facebook</a>
+        </div>
       `
     },
     {
       id: "freelance",
       category: "Other",
       color: "c1",
-      doodle: "🎨",
+      doodle: "💼",
       coverEmoji: "✦",
       coverLabel: "project · 09",
       title: "Freelance & Side Projects",
       position: "Independent",
-      timeframe: "ongoing",
-      tags: ["Freelance", "Side Projects", "Misc"],
-      media: [
-        { type: "placeholder", caption: "client work 1", pin: "yellow", icon: "💼" },
-        { type: "placeholder", caption: "personal project", pin: "pink", icon: "🌸" },
-        { type: "placeholder", caption: "experiment", pin: "green", icon: "🧪" }
+      timeframe: "Aug 2025 — Present",
+      tags: ["Freelance", "Mentoring", "Teaching", "UI/UX"],
+      subfolders: [
+        {
+          id: "fr-english-buddy",
+          title: "Kagoshima-Taiwan Study Abroad Center",
+          role: "English Buddy",
+          context: "Language exchange",
+          timeframe: "Nov 2025 — Apr 2026",
+          media: [
+            { type: "image", src: "images/ktrc.jpg", caption: "Guiding Japanese kids and speak English with them", pin: "blue" }
+          ]
+        },
+        {
+          id: "fr-mentor",
+          title: "Study Abroad & Scholarship Mentor",
+          role: "Freelance Mentor",
+          context: "Helping applicants",
+          timeframe: "Aug 2025 — Present",
+          comingSoon: true,
+          media: []
+        },
+        {
+          id: "fr-webui",
+          title: "Website / UI-UX Work",
+          role: "Freelance Designer & Developer",
+          context: "Client projects",
+          timeframe: "Nov 2025 — Present",
+          comingSoon: true,
+          media: []
+        }
       ],
       description: `
-        <span class="story-label">✦ the story</span>
-        <p>A home for all the <strong>freelance work, side projects, and random things</strong> that don't fit neatly into another folder — but still matter.</p>
-        <h3>what lives here</h3>
-        <p>Client commissions, personal explorations, late-night experiments, and the occasional "I made this because I felt like it."</p>
-        <h3>on the side</h3>
-        <p>This folder grows slowly and honestly. Not everything needs a category.</p>
+        <span class="story-label">✦ about this folder</span>
+        <p>A home for all the <strong>freelance work, side projects, and random things</strong> that don't fit neatly into another folder — but still matter. Each sub-folder below is its own little project.</p>
       `
     }
   ];
-
   // Build lookup map for fast access when opening a project
   const projectsById = Object.fromEntries(projects.map(p => [p.id, p]));
 
@@ -1762,6 +2007,45 @@
     `;
   }
 
+  function renderSubfolders(subfolders) {
+    if (!subfolders || !subfolders.length) return '';
+    const cards = subfolders.map((sub, i) => {
+      const mediaHTML = sub.media && sub.media.length
+        ? `<div class="sub-media">${sub.media.map(renderMediaItem).join('')}</div>`
+        : '';
+      const roleHTML = sub.role ? `<span class="sub-role">${sub.role}</span>` : '';
+      const contextHTML = sub.context ? `<span class="sub-context">${sub.context}</span>` : '';
+      const timeHTML = sub.timeframe ? `<span class="sub-time">⏱ ${sub.timeframe}</span>` : '';
+      const comingSoonHTML = sub.comingSoon ? `
+        <div class="sub-coming-soon">
+          <span class="cs-badge">🚧 under development</span>
+          <p class="cs-text">Still cooking this one — check back soon! The receipts are coming (projects are being polished, paperwork is being finalized, screenshots are being taken, you know how it goes). <em>In the meantime, feel free to reach out if you want to chat about it.</em> ♡</p>
+        </div>
+      ` : '';
+      return `
+        <details class="subfolder${sub.comingSoon ? ' coming-soon' : ''}" ${i === 0 ? 'open' : ''}>
+          <summary class="subfolder-head">
+            <span class="sub-index">folder ${String(i + 1).padStart(2, '0')}</span>
+            <span class="sub-title">${sub.title}</span>
+            ${sub.comingSoon ? '<span class="sub-tag-cs">coming soon</span>' : ''}
+            <span class="sub-caret">▼</span>
+          </summary>
+          <div class="subfolder-body">
+            <div class="sub-meta">
+              ${roleHTML}
+              ${roleHTML && contextHTML ? '<span class="sub-sep">·</span>' : ''}
+              ${contextHTML}
+              ${timeHTML ? '<br/>' + timeHTML : ''}
+            </div>
+            ${comingSoonHTML}
+            ${mediaHTML}
+          </div>
+        </details>
+      `;
+    }).join('');
+    return `<div class="subfolders-wrap">${cards}</div>`;
+  }
+
   function renderProject(p) {
     const hasMeta = p.position || p.timeframe;
     const metaHTML = hasMeta ? `
@@ -1784,6 +2068,8 @@
       mediaHTML = `<div class="cork-grid">${p.media.map(renderMediaItem).join('')}</div>`;
     }
 
+    const subfoldersHTML = renderSubfolders(p.subfolders);
+
     let storyHTML = '';
     if (p.description && p.description.trim()) {
       const tags = p.tags && p.tags.length
@@ -1792,12 +2078,17 @@
       storyHTML = `<div class="project-story">${tags}${p.description}</div>`;
     }
 
-    const empty = !p.media.length && !p.description
+    const hasContent = (p.media && p.media.length) || (p.subfolders && p.subfolders.length) || p.description;
+    const empty = !hasContent
       ? `<div style="text-align:center;padding:3rem 1rem;color:#fff;font-family:'Space Mono', monospace;font-size:1.15rem;position:relative;z-index:2;">
           ✏️ <em>coming soon</em> · fill in this project in <code style="background:rgba(255,255,255,0.9);color:#2a1f1a;padding:0.15em 0.4em;border-radius:4px;font-family:monospace;font-size:0.85rem;">works.html</code>
         </div>`
       : '';
 
+    // For subfolder-style projects: story first, then the sub-folders
+    if (p.subfolders && p.subfolders.length) {
+      return titleHTML + storyHTML + subfoldersHTML + empty;
+    }
     return titleHTML + mediaHTML + storyHTML + empty;
   }
 
