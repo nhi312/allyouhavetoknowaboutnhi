@@ -912,7 +912,7 @@
   .polaroid.p-pin-pink::before { background: radial-gradient(circle at 35% 35%, #ffb3d0 0%, var(--crayon-pink) 50%, #cc5a87 100%); }
   .polaroid.p-pin-purple::before { background: radial-gradient(circle at 35% 35%, #d9c2ff 0%, var(--crayon-purple) 50%, #7850bb 100%); }
 
-  /* photo container: auto by default (hugs content when empty) */
+  /* photo container: pure natural size, no forced ratio */
   .polaroid .photo {
     display: block;
     overflow: hidden;
@@ -922,9 +922,8 @@
     background: #f7ecd0;
     border: 1.5px solid rgba(42,31,26,0.08);
   }
-  /* placeholder (no image yet) gets a square fallback so it's not collapsed */
   .polaroid .photo.placeholder {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -941,32 +940,27 @@
     font-size: 0.78rem;
     text-align: center;
   }
-  /* real images: square crop (height = width) */
+  /* all real images: natural ratio, no cropping */
   .polaroid .photo img {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
     border: none;
     background: #fff;
-    object-fit: cover;
-    object-position: center center;
   }
-  /* force the container to be square when it has a real image */
-  .polaroid .photo:has(img) {
-    aspect-ratio: 1 / 1;
-  }
-  /* videos: same square crop */
+  /* all videos: natural ratio, no cropping */
   .polaroid .photo video {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
     border: none;
     background: #000;
-    object-fit: cover;
-    object-position: center center;
   }
-  .polaroid .photo:has(video) {
-    aspect-ratio: 1 / 1;
+  /* tall portrait polaroids (taller than wide): scale down to 75%
+     so they don't blow up the row height */
+  .polaroid.portrait {
+    width: 75%;
+    justify-self: center;
   }
   .polaroid .photo .big {
     font-size: 1.8rem;
@@ -1712,7 +1706,7 @@
       media: [
         { type: "image", src: "images/hanei-on-appstore.jpg", caption: "Launched!", pin: "red" },
         { type: "video", src: "images/hanei-ai-demo.mp4", caption: "Another path we took: From App to Web", pin: "yellow" },
-        { type: "image", src: "images/the-hanei-team.jpg", caption: "We spent the whole summer ngl", pin: "blue" }
+        { type: "image", src: "images/the-hanei-team.jpg", caption: "We spent the whole summer ngl", pin: "blue", portrait: true }
       ],
       description: `
         <span class="story-label">✦ my story</span>
@@ -1744,7 +1738,7 @@
       tags: ["Growth", "Community", "Outreach", "Content"],
       media: [
         { type: "image", src: "images/build-stuffs-with-us.jpg", caption: "Prepare a bit for my Youtuber era (will come soon)", pin: "blue" },
-        { type: "image", src: "images/junior-start-up-school.jpg", caption: "This is how I actually know UY", pin: "green" },
+        { type: "image", src: "images/junior-start-up-school.jpg", caption: "This is how I actually know UY", pin: "green", portrait: true },
         { type: "image", src: "images/uy-internship-sprint.jpg", caption: "Yapping about vibe code stuffs", pin: "yellow" }
       ],
       description: `
@@ -2146,9 +2140,10 @@
 
   function renderMediaItem(m, i) {
     const pin = m.pin || ["red","blue","green","yellow","pink","purple"][i % 6];
+    const portraitClass = m.portrait ? ' portrait' : '';
     if (m.type === "image") {
       return `
-        <div class="polaroid p-pin-${pin}">
+        <div class="polaroid p-pin-${pin}${portraitClass}">
           <div class="photo">
             <img src="${m.src}" alt="${m.caption || ''}" onerror="this.style.display='none';this.parentElement.classList.add('placeholder');this.parentElement.innerHTML='<span class=\\'big\\'>📷</span><span>image not found</span>';" />
           </div>
@@ -2158,7 +2153,7 @@
     }
     if (m.type === "video") {
       return `
-        <div class="polaroid p-pin-${pin}">
+        <div class="polaroid p-pin-${pin} portrait">
           <div class="photo">
             <video src="${m.src}" autoplay loop muted playsinline preload="metadata"></video>
           </div>
@@ -2166,7 +2161,7 @@
         </div>
       `;
     }
-    // placeholder (default when no src yet)
+    // placeholder
     return `
       <div class="polaroid p-pin-${pin}">
         <div class="photo placeholder"><span class="big">${m.icon || '📷'}</span><span>${m.label || 'add photo'}</span></div>
