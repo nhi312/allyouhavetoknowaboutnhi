@@ -850,30 +850,32 @@
   .cork-title-card .meta .time::before { content: "⏱ "; font-style: normal; }
 
   /* photo grid + description layout */
-  /* masonry-style layout — items pack tightly, no vertical gaps */
+  /* balanced 3-col grid — images are height-capped so columns stay even */
   .cork-grid {
     position: relative;
     z-index: 2;
-    column-count: 3;
-    column-gap: 1.2rem;
-    padding: 1rem 0.5rem 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem 1.4rem;
+    padding: 1.5rem 1.2rem 1rem;
     margin-bottom: 1.5rem;
+    align-items: start;
   }
   @media (max-width: 900px) {
-    .cork-grid { column-count: 2; }
+    .cork-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 520px) {
-    .cork-grid { column-count: 1; }
+    .cork-grid { grid-template-columns: 1fr; }
   }
 
-  /* polaroid hugs its own content — no fixed height, no stretch */
+  /* polaroid: flex column so caption always flows after the photo */
   .polaroid {
     background: #fff;
     padding: 10px 10px 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.12);
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-self: start;
   }
 
   .polaroid, .note, .project-desc, .project-section {
@@ -935,16 +937,27 @@
     padding: 0.5rem;
     line-height: 1.2;
   }
-  /* real image/video hugs its natural aspect ratio */
-  .polaroid .photo img,
+  /* real image/video hugs its natural aspect ratio — but capped so
+     tall portraits don't dominate the column layout */
+  .polaroid .photo img {
+    width: 100%;
+    max-height: 340px;
+    height: auto;
+    display: block;
+    border: none;
+    background: #fff;
+    object-fit: cover;
+    object-position: center top;
+  }
   .polaroid .photo video {
     width: 100%;
     height: auto;
     display: block;
     border: none;
-    background: #fff;
+    background: #000;
+    max-height: 340px;
+    object-fit: cover;
   }
-  .polaroid .photo video { background: #000; }
   .polaroid .photo .big {
     font-size: 1.8rem;
     opacity: 0.65;
@@ -1219,15 +1232,17 @@
     margin-top: 0.35rem;
   }
   .sub-media {
-    column-count: 3;
-    column-gap: 1.1rem;
-    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem 1rem;
+    align-items: start;
+    padding: 0.5rem 0;
   }
   @media (max-width: 900px) {
-    .sub-media { column-count: 2; }
+    .sub-media { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 520px) {
-    .sub-media { column-count: 1; }
+    .sub-media { grid-template-columns: 1fr; }
   }
 
   /* sub-folder description with bullets */
@@ -1273,14 +1288,14 @@
     align-items: center;
     gap: 0.9rem;
     margin: 0.4rem auto 0.4rem;
-    max-width: 720px;
+    max-width: 540px;   /* 75% of the ~720px modal content width */
+    width: 75%;
   }
   .sub-video-frame {
     position: relative;
     width: 100%;
-    max-width: 720px;
     background: #fff;
-    padding: 12px 12px 14px;
+    padding: 10px 10px 12px;
     box-shadow:
       0 6px 14px rgba(0,0,0,0.22),
       0 16px 30px rgba(0,0,0,0.14);
