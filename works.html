@@ -850,26 +850,26 @@
   .cork-title-card .meta .time::before { content: "⏱ "; font-style: normal; }
 
   /* photo grid + description layout */
-  /* 3-col grid — items centered in each cell, top-aligned, natural size */
+  /* 3-col grid — incomplete last rows centered on the board */
   .cork-grid {
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 280px));
     gap: 2rem 1.2rem;
     padding: 1.5rem 1.2rem 1rem;
     margin-bottom: 1.5rem;
     align-items: start;
-    justify-items: center;
+    justify-content: center;
   }
   @media (max-width: 900px) {
-    .cork-grid { grid-template-columns: repeat(2, 1fr); }
+    .cork-grid { grid-template-columns: repeat(2, minmax(0, 280px)); }
   }
   @media (max-width: 520px) {
-    .cork-grid { grid-template-columns: 1fr; }
+    .cork-grid { grid-template-columns: minmax(0, 280px); }
   }
 
-  /* polaroid: 65% of cell width — portrait height ≈ landscape width */
+  /* polaroid: full cell width, centered in grid cell */
   .polaroid {
     background: #fff;
     padding: 10px 10px 12px;
@@ -877,8 +877,7 @@
     display: flex;
     flex-direction: column;
     align-self: start;
-    justify-self: center;
-    width: 80%;
+    width: 100%;
   }
 
   .polaroid, .note, .project-desc, .project-section {
@@ -913,7 +912,7 @@
   .polaroid.p-pin-pink::before { background: radial-gradient(circle at 35% 35%, #ffb3d0 0%, var(--crayon-pink) 50%, #cc5a87 100%); }
   .polaroid.p-pin-purple::before { background: radial-gradient(circle at 35% 35%, #d9c2ff 0%, var(--crayon-purple) 50%, #7850bb 100%); }
 
-  /* photo container: natural aspect ratio — no forced crop, no fixed height */
+  /* photo container: auto by default (hugs content when empty) */
   .polaroid .photo {
     display: block;
     overflow: hidden;
@@ -923,8 +922,9 @@
     background: #f7ecd0;
     border: 1.5px solid rgba(42,31,26,0.08);
   }
+  /* placeholder (no image yet) gets a square fallback so it's not collapsed */
   .polaroid .photo.placeholder {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -941,21 +941,32 @@
     font-size: 0.78rem;
     text-align: center;
   }
-  /* images hug their true natural shape */
+  /* real images: square crop (height = width) */
   .polaroid .photo img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     border: none;
     background: #fff;
+    object-fit: cover;
+    object-position: center center;
   }
-  /* videos hug their true natural shape — no object-fit cropping */
+  /* force the container to be square when it has a real image */
+  .polaroid .photo:has(img) {
+    aspect-ratio: 1 / 1;
+  }
+  /* videos: same square crop */
   .polaroid .photo video {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     border: none;
     background: #000;
+    object-fit: cover;
+    object-position: center center;
+  }
+  .polaroid .photo:has(video) {
+    aspect-ratio: 1 / 1;
   }
   .polaroid .photo .big {
     font-size: 1.8rem;
@@ -1232,17 +1243,17 @@
   }
   .sub-media {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 260px));
     gap: 2rem 1rem;
     align-items: start;
-    justify-items: center;
+    justify-content: center;
     padding: 0.5rem 0;
   }
   @media (max-width: 900px) {
-    .sub-media { grid-template-columns: repeat(2, 1fr); }
+    .sub-media { grid-template-columns: repeat(2, minmax(0, 260px)); }
   }
   @media (max-width: 520px) {
-    .sub-media { grid-template-columns: 1fr; }
+    .sub-media { grid-template-columns: minmax(0, 260px); }
   }
 
   /* sub-folder description with bullets */
