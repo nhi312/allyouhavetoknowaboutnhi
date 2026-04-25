@@ -850,13 +850,13 @@
   .cork-title-card .meta .time::before { content: "⏱ "; font-style: normal; }
 
   /* photo grid + description layout */
-  /* balanced 3-col grid — images are height-capped so columns stay even */
+  /* 3-col grid — items centered in each cell, top-aligned, natural size */
   .cork-grid {
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.4rem 1.2rem;
+    gap: 2rem 1.2rem;
     padding: 1.5rem 1.2rem 1rem;
     margin-bottom: 1.5rem;
     align-items: start;
@@ -869,7 +869,7 @@
     .cork-grid { grid-template-columns: 1fr; }
   }
 
-  /* polaroid: fills its grid cell width, centers content */
+  /* polaroid: 65% of cell width — portrait height ≈ landscape width */
   .polaroid {
     background: #fff;
     padding: 10px 10px 12px;
@@ -877,7 +877,8 @@
     display: flex;
     flex-direction: column;
     align-self: start;
-    width: 100%;
+    justify-self: center;
+    width: 80%;
   }
 
   .polaroid, .note, .project-desc, .project-section {
@@ -912,20 +913,18 @@
   .polaroid.p-pin-pink::before { background: radial-gradient(circle at 35% 35%, #ffb3d0 0%, var(--crayon-pink) 50%, #cc5a87 100%); }
   .polaroid.p-pin-purple::before { background: radial-gradient(circle at 35% 35%, #d9c2ff 0%, var(--crayon-purple) 50%, #7850bb 100%); }
 
+  /* photo container: natural aspect ratio — no forced crop, no fixed height */
   .polaroid .photo {
     display: block;
     overflow: hidden;
     position: relative;
     line-height: 0;
-    /* fixed 4:3 — every photo same height, portraits cropped not stretched */
-    aspect-ratio: 4 / 3;
     width: 100%;
     background: #f7ecd0;
     border: 1.5px solid rgba(42,31,26,0.08);
   }
-  /* placeholder keeps 3:4 (taller) since it has text */
   .polaroid .photo.placeholder {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -942,29 +941,27 @@
     font-size: 0.78rem;
     text-align: center;
   }
-  /* all real images fill the fixed-ratio container */
+  /* images hug their true natural shape */
   .polaroid .photo img {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
     border: none;
     background: #fff;
-    object-fit: cover;
-    object-position: center center;
   }
+  /* videos hug their true natural shape — no object-fit cropping */
   .polaroid .photo video {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: block;
     border: none;
     background: #000;
-    object-fit: cover;
   }
   .polaroid .photo .big {
     font-size: 1.8rem;
     opacity: 0.65;
   }
-  /* caption now flows BELOW the media (no absolute positioning) */
+  /* caption flows below, centered */
   .polaroid .caption {
     text-align: center;
     font-family: 'Space Mono', 'JetBrains Mono', monospace;
@@ -1236,7 +1233,7 @@
   .sub-media {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.4rem 1rem;
+    gap: 2rem 1rem;
     align-items: start;
     justify-items: center;
     padding: 0.5rem 0;
