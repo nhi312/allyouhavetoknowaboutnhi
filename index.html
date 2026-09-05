@@ -345,8 +345,9 @@ body.mode-single #openbook.book-opening-back #flip-leaf{ transform-origin:right 
 .a-card{ position:relative; z-index:1; background:#fff; border-radius:2.2cqh;
   padding:calc(3.4cqh * var(--acs)) 3.4cqw calc(2.6cqh * var(--acs));
   box-shadow:0 2.4cqh 4cqh rgba(20,30,60,.13);
-  /* the polaroid overhangs the top-right corner, so the card keeps clear of it */
-  margin-right:16cqw; }
+  /* the polaroid overhangs the top-right corner and the toolkit runs down the
+     strip below it, so the card keeps clear of both */
+  margin-right:23cqw; }
 .ac-head{ position:relative; margin-bottom:calc(2.2cqh * var(--acs)); padding-top:calc(2.6cqh * var(--acs)); }
 /* the sticker sits ABOVE the first line of the title, never across it */
 .ac-stamp{ position:absolute; top:0; left:12.5cqw; font-family:var(--mono); font-size:1.8cqh;
@@ -359,8 +360,8 @@ body.mode-single #openbook.book-opening-back #flip-leaf{ transform-origin:right 
 
 /* the ruled rows */
 .ac-rows{ border-top:.22cqh solid #23232a; }
-.ac-row{ display:flex; align-items:baseline; gap:2.4cqw; border-bottom:.22cqh solid #23232a;
-  padding:calc(1.15cqh * var(--acs)) .4cqw; min-width:0; }
+.ac-row{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.2cqh 2.4cqw;
+  border-bottom:.22cqh solid #23232a; padding:calc(1.15cqh * var(--acs)) .4cqw; min-width:0; }
 .ac-cell{ display:flex; align-items:baseline; gap:.9cqw; min-width:0; flex:1 1 auto; }
 .ac-cell + .ac-cell{ flex:0 1 auto; }
 .ac-k{ font-family:Georgia,"Times New Roman",serif; font-size:calc(2.35cqh * var(--acs)); color:#23232a; flex:none; }
@@ -378,9 +379,47 @@ body.mode-single #openbook.book-opening-back #flip-leaf{ transform-origin:right 
 .a-polaroid .a-spark{ position:absolute; bottom:-2cqh; left:-1.6cqw; font-size:4.4cqh; color:#e0356b;
   transform:rotate(-8deg); filter:drop-shadow(0 .4cqh .8cqh rgba(0,0,0,.2)); }
 
+/* the toolkit: a rail of little sticker tiles down the right-hand strip the
+   card and the paragraph already leave clear, starting under the polaroid */
+.a-kit{ position:absolute; right:0; top:33%; bottom:0; width:22.5cqw; z-index:3;
+  display:grid; grid-template-columns:repeat(2, 1fr); align-content:center;
+  justify-items:center; gap:1.1cqh .8cqw; }
+.kit-head{ grid-column:1 / -1; }
+/* the odd one out sits under the middle of the pair above it */
+.kit:nth-child(8){ grid-column:1 / -1; }
+.kit-head{ font-family:var(--mono); font-size:calc(1.5cqh * var(--acs)); font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:#6a6a76; text-align:center;
+  margin-bottom:.3cqh; }
+.kit{ display:block; min-width:0; transform:rotate(var(--r,0deg));
+  transition:transform .2s cubic-bezier(.34,1.7,.5,1); }
+.kit:nth-child(odd){ --r:-1.8deg; }
+.kit:nth-child(even){ --r:1.8deg; }
+/* The float lives on the INNER wrapper. A running animation outranks a :hover
+   transform, so putting both on one element is what would kill the hover. */
+.kit-fly{ display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:.25cqh; animation:kitFly 3.4s ease-in-out infinite; animation-delay:var(--d,0s); }
+@keyframes kitFly{
+  0%   { transform:translate(0, 0)          rotate(0deg); }
+  30%  { transform:translate(.18cqw, -.75cqh) rotate(-3.2deg); }
+  62%  { transform:translate(-.16cqw, -.3cqh) rotate(2.6deg); }
+  100% { transform:translate(0, 0)          rotate(0deg); }
+}
+/* no card behind them any more, so the marks sit straight on the paper and
+   carry their own shadow to lift off it */
+.kit img{ width:min(9.4cqw, calc(9.2cqh * var(--acs))); height:auto; aspect-ratio:1;
+  object-fit:contain; display:block; border-radius:1.4cqh;
+  filter:drop-shadow(0 .55cqh 1cqh rgba(20,25,50,.3));
+  transition:filter .2s ease; }
+.kit-name{ font-family:var(--mono); font-size:calc(1.3cqh * var(--acs)); font-weight:700;
+  color:#44444e; text-align:center; line-height:1.1; overflow-wrap:anywhere; }
+@media (hover:hover){
+  .kit:hover{ transform:rotate(0deg) scale(1.14); }
+  .kit:hover img{ filter:drop-shadow(0 1cqh 1.8cqh rgba(20,25,50,.42)); }
+}
+
 /* the paragraph, in its own highlighted block */
 .about p.a-body{ position:relative; z-index:1; --afs:2.4cqh; font-family:var(--mono);
-  font-size:calc(var(--afs) * var(--acs)); line-height:1.7; color:#1f2a55; margin:0 16cqw 0 0;
+  font-size:calc(var(--afs) * var(--acs)); line-height:1.7; color:#1f2a55; margin:0 23cqw 0 0;
   background:color-mix(in srgb, var(--cr-blue) 38%, #fff);
   /* left-aligned, not justified: monospace justified on a narrow page opens
      rivers of white between the words, and the page has to read the same on a
@@ -507,7 +546,12 @@ body.mode-single .prj-story.xxlong .lead{ font-size:3.1cqh; margin-bottom:.3cqh;
 .d-body{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
 .prj-story{ flex:0 1 auto; min-height:0; }
 .d-body:not(:has(.d-scores)) .prj-story{ flex:1 1 auto; }   /* no slips → the writing takes the room */
-.prj-story p b{ color:#1c1c22; background:linear-gradient(transparent 58%, color-mix(in srgb, var(--bg) 42%, #fff) 58%); }
+.prj-story p b{ color:#1c1c22;
+  /* a marker pen lays colour over the WHOLE word - a gradient that starts
+     halfway down only ever reads as an underline */
+  background:color-mix(in srgb, var(--bg) 42%, #fff);
+  padding:.06em .22em; margin:0 -.14em; border-radius:.22em;
+  box-decoration-break:clone; -webkit-box-decoration-break:clone; }
 .prj-story p em{ font-style:italic; }
 
 /* ---- DIARY PAGES — both halves are text with photos under it ---- */
@@ -588,10 +632,12 @@ body.mode-single .d-logo{ height:1em; width:auto; }
 /* the demo line: keywords carry the weight, figures get a marker-pen swipe */
 .d-wins .win b{ font-weight:800; color:#1a1a22; }
 .d-wins .win .num{ color:#15151b; font-weight:800;
-  background:linear-gradient(180deg, transparent 52%, color-mix(in srgb, var(--bg) 46%, transparent) 52%);
-  /* the swipe has to overhang the figure without pushing the words apart -
-     pad it out, then pull the same amount back off the margin */
-  padding:0 .2em .08em; margin:0 -.2em; border-radius:.2em; }
+  /* the swipe covers the whole figure, and has to overhang it without pushing
+     the words apart - pad it out, then pull the same amount back off the
+     margin. box-decoration-break keeps it whole across a line break. */
+  background:color-mix(in srgb, var(--bg) 46%, transparent);
+  padding:.08em .22em; margin:0 -.16em; border-radius:.22em;
+  box-decoration-break:clone; -webkit-box-decoration-break:clone; }
 .d-wins .win::before{ content:"✦ "; color:var(--bg); font-weight:900; }
 
 /* ---- the prints ---- */
@@ -603,8 +649,9 @@ body.mode-single .d-logo{ height:1em; width:auto; }
 .d-did ul.cv li::before{ content:"▸"; position:absolute; left:0; top:0; color:var(--bg); font-weight:900; }
 .d-did ul.cv li b{ font-weight:800; color:#1a1a22; }
 .d-did .num{ color:#15151b; font-weight:800;
-  background:linear-gradient(180deg, transparent 52%, color-mix(in srgb, var(--bg) 46%, transparent) 52%);
-  padding:0 .2em .08em; margin:0 -.2em; border-radius:.2em; }
+  background:color-mix(in srgb, var(--bg) 46%, transparent);
+  padding:.08em .22em; margin:0 -.16em; border-radius:.22em;
+  box-decoration-break:clone; -webkit-box-decoration-break:clone; }
 /* "coming soon" rides beside the project it belongs to */
 .pill-soon{ display:inline-block; font-family:var(--mono); font-size:.72em; font-weight:700;
   letter-spacing:.09em; text-transform:uppercase; color:#15151b; background:#ffd93d;
@@ -1210,7 +1257,7 @@ body.opened .scrub{ opacity:1; transform:none; transition-delay:.5s; }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .float-item, .hint, .dots-layer, .fd-art{ animation:none !important; }
+  .float-item, .hint, .dots-layer, .fd-art, .kit-fly{ animation:none !important; }
   .lanyard{ animation:drop .01s both !important; }
   /* the book still shuts, it just doesn't take a second and a half about it */
   #openbook.book-closing, #openbook.book-closing #flip-leaf,
@@ -1419,12 +1466,23 @@ const ABOUT = {
   rows:[
     [['Name', 'Hoang Linh Nhi']],
     [['Goes by', 'Nessa · 鈴兒']],
-    [['From', 'Hanoi, Vietnam 🇻🇳'], ['Lives in', 'Taipei, Taiwan 🇹🇼']],
+    [['From', 'Hanoi, Vietnam&nbsp;🇻🇳'], ['Lives in', 'Taipei, Taiwan&nbsp;🇹🇼']],
     [['Studying', 'B.A. Global Studies, NCCU']],
     [['Right now', 'APIE &amp; UpYouth']],
     [['Known for', 'proms, campaigns, clubs that outlive me']]
   ],
   body:`Currently a <b>Sophomore</b> from the International College of Innovation at <b>National Chengchi University</b>. Born and raised in Hanoi&nbsp;- Vietnam 🇻🇳; currently grow &amp; throw in Taipei, Taiwan 🇹🇼.`,
+  /* The toolkit rail. Each logo self-removes if its file isn't there yet, so
+     the rail reads as names until the artwork lands and then fills in. */
+  tools:[
+    ['Claude',     'images/tool-claude.png'],
+    ['CapCut',     'images/tool-capcut.png'],
+    ['Canva',      'images/tool-canva.png'],
+    ['Figma',      'images/tool-figma.png'],
+    ['Palmier.io', 'images/tool-palmier.png'],
+    ['obello',     'images/tool-obello.png'],
+    ['Lovable',    'images/tool-lovable.png']
+  ],
   note:'oh! hi there ✦',
   foot:'nessa · nhi · 鈴兒', footRight:'still showing up'
 };
@@ -1483,7 +1541,7 @@ const ENTRIES = [
     short:"Internal tools built with Claude, a 4-channel content operation, and the user research behind +140% growth.",
     story:"APIE Teacher Tool is an EdTech startup. I manage content across 4 social channels - growing TikTok (@apieforteacher) from 0 to 3,424 followers / 79.9K likes, and Instagram (@apie.teacher.vn) from 0 to 600+ followers / 60K monthly views through organic content and platform-specific campaigns. I coordinate a 4-person content team plus freelancers across UGC creation, seeding, production, and distribution. Through social campaigns, user research, and growth initiatives, I helped drive user growth from 5K+ to 12K+ (+140%). I also develop AI-assisted creative workflows and social operations to streamline content production.",
     wins:["<b>TikTok</b>: 3,424 followers / 79.9K likes", "<b>Instagram</b>: 0 → +600 followers / +89K monthly views", "<b>User growth</b>: 5K+ → 12K+ (+140%)", "<b>Community</b>: 100+ teacher users", "Internal tools built with <b>Claude</b>"],
-    media:[{"src": "images/tiktok-social.jpg", "cap": "3,427 followers", "kind": "photo", "ar": 1.515}, {"src": "images/ig-social.jpg", "cap": "@apie.teacher.vn", "kind": "photo", "ar": 1.451}, {"src": "images/linkedin-post.jpg", "cap": "the power-users post", "kind": "photo", "ar": 0.729}],
+    media:[{"src": "images/tiktok-social.jpg", "cap": "3,427 followers", "kind": "photo", "ar": 1.515}, {"src": "images/ig-social.jpg", "cap": "@apie.teacher.vn", "kind": "photo", "ar": 1.689}, {"src": "images/linkedin-post.jpg", "cap": "the power-users post", "kind": "photo", "ar": 0.729}],
     links:[["teacher.apie.vn", "https://teacher.apie.vn"]] },
   { id:"hanei", cat:"Personal Projects", title:"HaneiAI", role:"Co-Founder / CMO", when:"Jun 2025 - Dec 2025", emoji:"💻",
     tags:["Startup", "AI", "Marketing", "Co-founder"],
@@ -1645,6 +1703,14 @@ function aboutPage(){
         <span class="a-note">${ABOUT.note}</span>
       </figure>
       <p class="a-body">${ABOUT.body}</p>
+      <div class="a-kit">
+        <span class="kit-head">my toolkit</span>
+        ${ABOUT.tools.map(([name, logo], i) => `<span class="kit" title="${name}" style="--d:${(i * 0.42).toFixed(2)}s">
+          <span class="kit-fly">
+            <img src="${logo}" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <span class="kit-name">${name}</span>
+          </span></span>`).join('')}
+      </div>
     </div>
     <div class="a-foot"><span>${ABOUT.foot}</span><span>${ABOUT.footRight}</span></div>
   </div></div>`);
@@ -1692,7 +1758,7 @@ const FD_POCKET_D = "M5,10 H28 c7,0 8,6 17,6 c9,0 10,-6 17,-6 H95 q4,0 4,4 V50 q
 
   const peeks = (o.peek || []).map((m, k) =>
     `<span class="pk" style="--ar:${m.ar || 1.3}; --r:${FD_ROT[k % FD_ROT.length]}deg; --k:${k}">
-       <img src="${m.src}" alt="" loading="lazy" draggable="false"></span>`).join('');
+       <img src="${m.src}" alt="" loading="lazy" decoding="async" draggable="false"></span>`).join('');
   return `<a class="fd" href="#" role="button" tabindex="0" data-step="${o.step}"
      aria-label="Open ${o.name}" style="--cc:${o.color}; --d:${(o.i % 4) * 0.5}s">
     <span class="fd-art">
@@ -1715,7 +1781,7 @@ function divLeft(ci){
     <div class="pos">
       <span class="pos-top">${c.top}</span>
       <span class="pos-shout">${c.shout}</span>
-      ${shot ? `<span class="pos-shot" style="--ar:${shot.ar || 1}"><img src="${shot.src}" alt="" draggable="false" loading="lazy"></span>` : ''}
+      ${shot ? `<span class="pos-shot" style="--ar:${shot.ar || 1}"><img src="${shot.src}" alt="" draggable="false" loading="lazy" decoding="async"></span>` : ''}
       <span class="pos-bottom">${c.bottom}</span>
     </div>
     <div class="div-foot"><span class="div-name">${c.blurb || c.name}</span></div>
@@ -1829,7 +1895,7 @@ function shotHTML(m, i){
          <svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>
          <svg class="i-on"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
        </button>`}`
-    : `<img src="${m.src}" alt="${m.cap||''}" draggable="false" loading="lazy">`;
+    : `<img src="${m.src}" alt="${m.cap||''}" draggable="false" loading="lazy" decoding="async">`;
   return `<figure class="dshot${m.kind==='video'?' is-video':''}" style="${st}"
       data-full="${m.src}" data-kind="${m.kind || 'photo'}" data-cap="${(m.cap||'').replace(/"/g,'&quot;')}">
     <span class="tape"></span>${tag}<div class="fr">${inner}
@@ -2248,6 +2314,32 @@ function mountSpread(s){
   }
 }
 
+/* Decoding a photograph is the one job on a page turn that can stall the
+   frame, so the pages either side of this one are fetched and decoded while
+   the reader is still reading - by the time the leaf turns, they are ready. */
+const warmed = new Set();
+function warmNeighbours(s){
+  const idle = window.requestIdleCallback || (fn => setTimeout(fn, 200));
+  idle(() => {
+    const pages = single ? [s-1, s+1, s+2] : [2*s-2, 2*s-1, 2*s+2, 2*s+3, 2*s+4, 2*s+5];
+    pages.forEach(i => {
+      const pg = PAGES[i]; if(!pg || !pg.p) return;
+      const e = pg.p.e || pg.p;
+      const srcs = [];
+      (e.media || []).forEach(m => { if(m.kind !== 'video') srcs.push(m.src); else if(m.poster) srcs.push(m.poster); });
+      if(e.cover) srcs.push(e.cover);
+      srcs.forEach(src => {
+        if(!src || warmed.has(src)) return;
+        warmed.add(src);
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
+        if(img.decode) img.decode().catch(()=>{});
+      });
+    });
+  }, { timeout: 1200 });
+}
+
 /* ═══════════ SCROLL → FLIP ═══════════ */
 const MIN_T = -0.6;
 let target = 0, pos = 0;
@@ -2261,7 +2353,7 @@ function render(){
   const dp = Math.max(0, Math.min(MAX, pos));
   const s = Math.min(MAX, Math.floor(dp + 1e-6));
   const frac = Math.min(1, Math.max(0, dp - s));
-  if (s !== mountedS){ mountSpread(s); requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); playVisible(); }); }
+  if (s !== mountedS){ mountSpread(s); requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); playVisible(); warmNeighbours(s); }); }
   if(!leafSealed())
     flipLeaf.style.transform = `rotateY(${(-180*frac).toFixed(2)}deg)`;
   openbook.classList.toggle('flipping', frac > 0.02 && frac < 0.98);
@@ -2783,7 +2875,7 @@ function openShot(fig){
     lbMedia.appendChild(v);
   } else {
     const img = document.createElement('img');
-    img.src = src; img.alt = cap;
+    img.src = src; img.alt = cap; img.decoding = 'async';
     lbMedia.appendChild(img);
   }
   lbCap.textContent = cap;
