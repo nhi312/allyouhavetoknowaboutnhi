@@ -698,10 +698,19 @@ body.mode-single .d-logo{ height:1em; width:auto; }
    forces the overflow, which is what makes the list give way instead. */
 .prj-r .dshots{ flex:1 1 0; min-height:0; }
 .drow{ display:flex; align-items:flex-start; justify-content:center; gap:0; max-width:100%; }
+/* Two wide prints stacked with a tall one alongside: the pair share the band's
+   height between them while the tall one takes all of it, which uses the width
+   a single row of three would leave empty. */
+.dshots.pairup{ flex-direction:row; align-items:center; justify-content:center;
+  gap:0 1.4cqw; padding:2.4cqh 2.8cqw 1.2cqh; }
+.dshots.pairup .dcol{ display:flex; flex-direction:column; align-items:center; gap:1cqh 0; }
+.dshots.pairup .dside{ display:flex; align-items:center; }
+.dshots.pairup .dcol .dshot + .dshot{ margin-left:0; }
+
 /* Prints lie ON each other rather than beside each other: each one tucks under
    its neighbour's edge, which buys back the gaps and a slice of every frame,
    so the same band holds noticeably bigger pictures. */
-.drow .dshot + .dshot{ margin-left:calc(-1 * var(--lap, 4.6cqw)); }
+.drow .dshot + .dshot{ margin-left:calc(-1 * var(--lap, 1.9cqw)); }
 .drow .dshot:nth-child(1){ z-index:3; }
 .drow .dshot:nth-child(2){ z-index:2; margin-top:1.6cqh; }
 .drow .dshot:nth-child(3){ z-index:1; margin-top:-.6cqh; }
@@ -1535,13 +1544,13 @@ const ENTRIES = [
     links:[["@vsc.ocp", "https://www.instagram.com/vsc.ocp"], ["Facebook", "https://www.facebook.com/vscocp.sc"]] },
   { id:"apie", cat:"Personal Projects", title:"APIE Teacher Tool", role:"Growth & Marketing Intern", when:"May 2026 - Present", emoji:"📱",
     tags:["EdTech", "Social Media", "Growth", "AI Workflow", "Team Coordination"],
-    mediaSplit:1,
+    mediaSplit:3, pairLeft:true,
     bullets:["Built internal tools with <b>Claude</b> for content planning and production across 4 social channels.", "Run TikTok (<a href=\"https://www.tiktok.com/@apieforteacher\" target=\"_blank\" rel=\"noopener\">@apieforteacher</a>) at 3,424 followers / 79.9K likes, and grew Instagram (<a href=\"https://www.instagram.com/apie.teacher.vn/\" target=\"_blank\" rel=\"noopener\">@apie.teacher.vn</a>) from 0 to +600 followers / +89K monthly views.", "1:1 user research turned into product and UI recommendations - user growth 5K+ → 12K+ (+140%).", "Look after a community of 100+ teacher users."],
     titleUrl:"https://teacher.apie.vn",
     short:"Internal tools built with Claude, a 4-channel content operation, and the user research behind +140% growth.",
     story:"APIE Teacher Tool is an EdTech startup. I manage content across 4 social channels - growing TikTok (@apieforteacher) from 0 to 3,424 followers / 79.9K likes, and Instagram (@apie.teacher.vn) from 0 to 600+ followers / 60K monthly views through organic content and platform-specific campaigns. I coordinate a 4-person content team plus freelancers across UGC creation, seeding, production, and distribution. Through social campaigns, user research, and growth initiatives, I helped drive user growth from 5K+ to 12K+ (+140%). I also develop AI-assisted creative workflows and social operations to streamline content production.",
     wins:["<b>TikTok</b>: 3,424 followers / 79.9K likes", "<b>Instagram</b>: 0 → +600 followers / +89K monthly views", "<b>User growth</b>: 5K+ → 12K+ (+140%)", "<b>Community</b>: 100+ teacher users", "Internal tools built with <b>Claude</b>"],
-    media:[{"src": "images/tiktok-social.jpg", "cap": "3,427 followers", "kind": "photo", "ar": 1.515}, {"src": "images/ig-social.jpg", "cap": "@apie.teacher.vn", "kind": "photo", "ar": 1.689}, {"src": "images/linkedin-post.jpg", "cap": "the power-users post", "kind": "photo", "ar": 0.729}],
+    media:[{"src": "images/tiktok-social.jpg", "cap": "3,427 followers", "kind": "photo", "ar": 1.515}, {"src": "images/ig-social.jpg", "cap": "@apie.teacher.vn", "kind": "photo", "ar": 1.58}, {"src": "images/linkedin-post.jpg", "cap": "the power-users post", "kind": "photo", "ar": 0.729}, {"src": "images/apie-des-1.jpg", "cap": "prompt in 30 secs", "kind": "photo", "ar": 0.8}, {"src": "images/apie-des-2.jpg", "cap": "teachers' thoughts", "kind": "photo", "ar": 0.8}, {"src": "images/apie-des-3.jpg", "cap": "5 prompts, carousel", "kind": "photo", "ar": 0.8}],
     links:[["teacher.apie.vn", "https://teacher.apie.vn"]] },
   { id:"hanei", cat:"Personal Projects", title:"HaneiAI", role:"Co-Founder / CMO", when:"Jun 2025 - Dec 2025", emoji:"💻",
     tags:["Startup", "AI", "Marketing", "Co-founder"],
@@ -1923,8 +1932,15 @@ function rowsOf(items, stack, tight){
   plan.forEach(c => { rows.push(items.slice(k, k+c)); k += c; });
   return rows;
 }
-function shotsHTML(items, startIdx, stack, shotMax, tight){
+function shotsHTML(items, startIdx, stack, shotMax, tight, pair){
   if(!items.length) return '';
+  /* `pair` stacks the first two and stands the rest alongside them */
+  if(pair && items.length === 3){
+    return `<div class="dshots pairup"${shotMax ? ` style="--shotmax:${shotMax}"` : ''}>`
+      + `<span class="dcol">${shotHTML(items[0], startIdx)}${shotHTML(items[1], startIdx+1)}</span>`
+      + `<span class="dside">${shotHTML(items[2], startIdx+2)}</span>`
+      + `</div>`;
+  }
   /* shotMax is a share of the page height: a single wide screenshot will
      otherwise fill a page that has almost no copy on it */
   return `<div class="dshots${stack?' stacked':''}"${shotMax ? ` style="--shotmax:${shotMax}"` : ''}>`
@@ -1982,7 +1998,7 @@ function prjLeft(ei){
       </div>
       ${scoresHTML(splitWins(e).scores)}
     </div>
-    ${shotsHTML(sp.left, 0, e.stack, e.shotMax)}
+    ${shotsHTML(sp.left, 0, e.stack, e.shotMax, false, e.pairLeft)}
     <div class="d-pageno">${(ENTRY_PAGE[ei]||0) + 1}</div>
   </div></div>`);
 }
@@ -2150,12 +2166,42 @@ function fitDid(){
     }
   });
 }
+/* The paired band is not a stack of rows, so it gets its own sizing: the two
+   in the column split the height, the one alongside takes all of it, and if
+   that overruns the band's width everything comes down by the same factor. */
+function fitPair(){
+  document.querySelectorAll('#openbook .dshots.pairup').forEach(box => {
+    const col = box.querySelector('.dcol'), side = box.querySelector('.dside');
+    if(!col || !side) return;
+    const cShots = [...col.querySelectorAll('.dshot')];
+    const sShots = [...side.querySelectorAll('.dshot')];
+    if(!cShots.length || !sShots.length) return;
+    const cs   = getComputedStyle(box);
+    const H    = box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const W    = box.clientWidth  - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const gapC = parseFloat(getComputedStyle(col).rowGap) || 0;
+    const gapB = parseFloat(cs.columnGap) || 0;
+    const capH = el => { const c = el.querySelector('.cap'); return c ? c.offsetHeight : 0; };
+    const arOf = el => parseFloat(getComputedStyle(el).getPropertyValue('--ar')) || 1.4;
+    const tilt = el => Math.abs(parseFloat(getComputedStyle(el).getPropertyValue('--rot')) || 0) * 2.2 + 4;
+    const capC = cShots.reduce((t, el) => t + capH(el) + tilt(el), 0);
+    let hc = Math.max(16, (H - gapC * (cShots.length - 1) - capC) / cShots.length);
+    let hs = Math.max(16, H - capH(sShots[0]) - tilt(sShots[0]));
+    const colW  = Math.max(...cShots.map(el => hc * arOf(el)));
+    const sideW = hs * arOf(sShots[0]);
+    const over  = (colW + sideW + gapB + 6) / W;
+    if(over > 1){ hc /= over; hs /= over; }
+    cShots.forEach(el => el.style.setProperty('--fh', hc.toFixed(1) + 'px'));
+    sShots.forEach(el => el.style.setProperty('--fh', hs.toFixed(1) + 'px'));
+  });
+}
 function fitShots(){
   /* Twice over: a left-page band sizes itself from its content, so the first
      pass measures a box that is about to change. The second pass sees the
      band where it actually settled. */
   for(let sweep = 0; sweep < 2; sweep++)
   document.querySelectorAll('#openbook .dshots').forEach(box => {
+    if(box.classList.contains('pairup')) return;      /* fitPair owns that one */
     const rows = [...box.querySelectorAll('.drow')];
     if(!rows.length) return;
     const cs      = getComputedStyle(box);
@@ -2353,7 +2399,7 @@ function render(){
   const dp = Math.max(0, Math.min(MAX, pos));
   const s = Math.min(MAX, Math.floor(dp + 1e-6));
   const frac = Math.min(1, Math.max(0, dp - s));
-  if (s !== mountedS){ mountSpread(s); requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); playVisible(); warmNeighbours(s); }); }
+  if (s !== mountedS){ mountSpread(s); requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); fitPair(); playVisible(); warmNeighbours(s); }); }
   if(!leafSealed())
     flipLeaf.style.transform = `rotateY(${(-180*frac).toFixed(2)}deg)`;
   openbook.classList.toggle('flipping', frac > 0.02 && frac < 0.98);
@@ -2483,7 +2529,7 @@ function mountShut(){
   }
   openbook.style.transform = '';
   openbook.classList.add('book-closing');
-  fitStories(); fitDid(); fitAbout(); fitShots();
+  fitStories(); fitDid(); fitAbout(); fitShots(); fitPair();
 }
 function applyMode(next){
   if(next === single) return;
@@ -2510,7 +2556,7 @@ addEventListener('resize', ()=>{ clearTimeout(resizeTimer); resizeTimer = setTim
   applyMode(wantsSingle());
   /* photo rows and body copy are fitted to the page, so a resize has to refit
      them even when the layout mode itself didn't change */
-  requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); });
+  requestAnimationFrame(()=>{ fitStories(); fitDid(); fitAbout(); fitShots(); fitPair(); });
 }, 140); });
 addEventListener('orientationchange', ()=>setTimeout(()=>applyMode(wantsSingle()), 300));
 
@@ -2729,7 +2775,7 @@ function reachEnd(){
      measured them yet: their prints would sit at the stylesheet's default
      height and visibly shrink the moment the book started to shut. Fit them
      before the animation begins. */
-  fitStories(); fitDid(); fitAbout(); fitShots();
+  fitStories(); fitDid(); fitAbout(); fitShots(); fitPair();
   openbook.classList.add('book-closing');
   /* the render loop isn't running during the keyframe close — swap face
      visibility manually as the leaf passes 90° so the back cover appears */
@@ -2770,7 +2816,7 @@ function reopenFromEnd(){                          // scroll back / dismiss card
     state='open';
     endAccum=backAccum=0;
     render();                                      // re-assert leaf/book transforms
-    fitStories(); fitDid(); fitAbout(); fitShots();
+    fitStories(); fitDid(); fitAbout(); fitShots(); fitPair();
   };
   after(reduceMotion?20:620, done);
 }
