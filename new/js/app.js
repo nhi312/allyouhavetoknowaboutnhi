@@ -49,7 +49,6 @@
   });
   const hello = $('#hello');
   const beads = $('#beads');
-  const string = $('#greetString');
   const greet = $('#greet');
   const corners = [$('#cornerL'), $('#cornerR')];
   const hint = $('#scrollHint');
@@ -162,15 +161,6 @@
       el.style.zIndex = p.z;
     });
 
-    string.setAttribute('width', W);
-    string.setAttribute('height', M ? 140 : H);
-    string.setAttribute('viewBox', `0 0 ${W} ${M ? 140 : H}`);
-    string.innerHTML = M
-      ? `<path d="M 70 -6 C 100 50, 160 40, 210 70 C 250 92, 300 50, 400 66" fill="none" stroke="#D9503F" stroke-width="2.5" stroke-linecap="round"/>
-         <g fill="none" stroke="#D9503F" stroke-width="2.5" stroke-linecap="round"><ellipse cx="198" cy="60" rx="12" ry="6" transform="rotate(-25 198 60)"/><ellipse cx="222" cy="62" rx="12" ry="6" transform="rotate(25 222 62)"/><path d="M 210 70 C 206 82, 202 90, 194 98"/></g>`
-      : `<path d="M 380 -10 C 430 70, 520 60, 600 92 C 690 128, 760 40, 850 74 C 930 104, 990 30, 1090 56" fill="none" stroke="#D9503F" stroke-width="3" stroke-linecap="round"/>
-         <g fill="none" stroke="#D9503F" stroke-width="3" stroke-linecap="round"><ellipse cx="584" cy="78" rx="18" ry="9" transform="rotate(-25 584 78)"/><ellipse cx="618" cy="80" rx="18" ry="9" transform="rotate(25 618 80)"/><path d="M 600 92 C 594 110, 588 122, 578 134"/><path d="M 602 92 C 612 112, 620 120, 632 128"/><ellipse cx="1074" cy="44" rx="16" ry="8" transform="rotate(-20 1074 44)"/><ellipse cx="1104" cy="46" rx="16" ry="8" transform="rotate(20 1104 46)"/><path d="M 1090 56 C 1086 74, 1080 84, 1070 94"/></g>`;
-
     canister.src = M ? 'assets/film/canister-upright.png' : 'assets/film/canister.png';
     LI = (M ? 4.6 : 5.5) * VH;
     LF = (ENTRIES.length - 1) * (M ? 0.45 : 0.5) * VH;
@@ -179,7 +169,7 @@
     $('#stackHint').textContent = finePointer.matches ? 'Hover a folder to peek · click to open' : 'Tap a folder to peek · tap again to open';
     measureObjects();
     // forget cached styles: the mode may have changed what every value means
-    [...objEls, ...frameEls, ...lis, hello, beads, string, greet, film, canister, aboutStage, intro, folders, ...stackChrome, ...corners, hint, counterFill].forEach((el) => { el._s = null; });
+    [...objEls, ...frameEls, ...lis, hello, beads, greet, film, canister, aboutStage, intro, folders, ...stackChrome, ...corners, hint, counterFill].forEach((el) => { el._s = null; });
     lastP = -1;
     lastQ = -1;
     curStage = -2;
@@ -271,7 +261,6 @@
     });
     set(hello, 'transform', `translate3d(${px(-far * 0.55 * e)}px, ${px(-far * 0.45 * e)}px, 0) ` + (M ? 'rotate(6deg) scale(.654)' : 'rotate(-6deg)'));
     set(beads, 'transform', `translate3d(${px(-far * 0.8 * e)}px, ${px(-far * 0.2 * e)}px, 0) ` + (M ? 'scale(.667) rotate(-7deg)' : 'rotate(-7deg)'));
-    set(string, 'transform', `translate3d(0, ${px(-far * 0.35 * e)}px, 0)`);
     const fade = 1 - seg(p, 0, 0.06);
     set(greet, 'opacity', String(fade));
     set(greet, 'transform', `translate3d(0, ${px(-60 * e)}px, 0)`);
