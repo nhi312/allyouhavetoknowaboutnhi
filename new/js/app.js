@@ -15,6 +15,18 @@
   const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
   const seg = (p, a, b) => clamp((p - a) / (b - a));
 
+  /* write a style only when it changes: the scroll loop touches ~40 elements a
+     frame and most of them are standing still                               */
+  const set = (el, prop, v) => {
+    const c = el._s || (el._s = {});
+    if (c[prop] !== v) { c[prop] = v; el.style[prop] = v; }
+  };
+  const flag = (el, name, on) => {
+    const c = el._f || (el._f = {});
+    if (c[name] !== on) { c[name] = on; el.classList.toggle(name, on); }
+  };
+
+  const scenes = $('#scenes');
   const intro = $('#top');
   const folders = $('#experience');
   const header = $('#siteHeader');
@@ -25,6 +37,10 @@
     const el = document.createElement('div');
     el.className = 'obj';
     el.innerHTML = `<img src="${o.src}" alt="${o.alt}" draggable="false" decoding="async"><span class="grain" aria-hidden="true"></span>`;
+    const img = el.querySelector('img');
+    const ready = () => el.classList.add('is-ready'); // grain waits for its image, or it shows as a grey box
+    if (img.complete && img.naturalWidth) ready();
+    img.addEventListener('load', () => { ready(); measureObjects(); dirty(); });
     const g = el.querySelector('.grain');
     g.style.webkitMaskImage = `url("${o.src}")`;
     g.style.maskImage = `url("${o.src}")`;
@@ -40,6 +56,7 @@
 
   /* ───────── film roll ───────── */
   const film = $('#film');
+  const aboutStage = $('#about-stage');
   const canister = $('#canister');
   const aboutTitle = $('#aboutTitle');
   const bracket = $('#bracket');
@@ -98,14 +115,39 @@
   const counterNo = $('#counterNo');
   const counterFill = $('#counterFill');
   const mCounter = $('#mCounter');
+  const stackChrome = [$('.rail'), $('.counter'), $('.m-top'), $('#stackHint')];
   const navLinks = { about: $('.nav [data-go="about"]'), experience: $('.nav [data-go="experience"]') };
+
+  /* each object flies out along the line from the board centre; measured once, not per frame */
+  const objDir = [];
+  function measureObjects() {
+    const W = M ? 390 : 1440;
+    const H = M ? 844 : 900;
+    OBJECTS.forEach((o, i) => {
+      const q = M ? o.m : o.d;
+      const el = objEls[i];
+      const w = q.w;
+      const h = q.h || el.offsetHeight || w;
+      let dx = q.x + w / 2 - W / 2;
+      let dy = q.y + h / 2 - H / 2;
+      const len = Math.hypot(dx, dy) || 1;
+      objDir[i] = [dx / len, dy / len];
+    });
+  }
+
+  /* scroll lengths in px, cached so the frame loop never reads layout */
+  let VH = innerHeight;
+  let S0 = 0; // where the scenes start
+  let LI = 1; // intro timeline length
+  let LF = 1; // folder timeline length
 
   /* ───────── layout per mode ───────── */
   function layout() {
     M = mq.matches;
+    VH = innerHeight;
     const W = M ? 390 : 1440;
     const H = M ? 844 : 900;
-    const s = Math.min(innerWidth / W, innerHeight / H);
+    const s = Math.min(innerWidth / W, VH / H);
     root.style.setProperty('--W', W + 'px');
     root.style.setProperty('--H', H + 'px');
     root.style.setProperty('--s', s.toFixed(4));
@@ -130,9 +172,16 @@
          <g fill="none" stroke="#D9503F" stroke-width="3" stroke-linecap="round"><ellipse cx="584" cy="78" rx="18" ry="9" transform="rotate(-25 584 78)"/><ellipse cx="618" cy="80" rx="18" ry="9" transform="rotate(25 618 80)"/><path d="M 600 92 C 594 110, 588 122, 578 134"/><path d="M 602 92 C 612 112, 620 120, 632 128"/><ellipse cx="1074" cy="44" rx="16" ry="8" transform="rotate(-20 1074 44)"/><ellipse cx="1104" cy="46" rx="16" ry="8" transform="rotate(20 1104 46)"/><path d="M 1090 56 C 1086 74, 1080 84, 1070 94"/></g>`;
 
     canister.src = M ? 'assets/film/canister-upright.png' : 'assets/film/canister.png';
-    intro.style.height = (M ? 560 : 650) + 'vh';
-    folders.style.height = `calc(100vh + ${(ENTRIES.length - 1) * (M ? 45 : 50)}vh)`;
+    LI = (M ? 4.6 : 5.5) * VH;
+    LF = (ENTRIES.length - 1) * (M ? 0.45 : 0.5) * VH;
+    scenes.style.height = Math.round(LI + LF + VH) + 'px';
+    S0 = scenes.offsetTop;
     $('#stackHint').textContent = finePointer.matches ? 'Hover a folder to peek · click to open' : 'Tap a folder to peek · tap again to open';
+    measureObjects();
+    // forget cached styles: the mode may have changed what every value means
+    [...objEls, ...frameEls, ...lis, hello, beads, string, greet, film, canister, aboutStage, intro, folders, ...stackChrome, ...corners, hint, counterFill].forEach((el) => { el._s = null; });
+    lastP = -1;
+    lastQ = -1;
     curStage = -2;
     curBracket = -2;
     update();
@@ -140,7 +189,7 @@
 
   /* ───────── intro timeline ───────── */
   // [progress, frames out of the canister]
-  const OUT_KEYS = [[0.18, 0], [0.27, 3], [0.36, 3], [0.46, 6], [0.55, 6], [0.63, 8], [0.74, 8], [0.84, 0]];
+  const OUT_KEYS = [[0.18, 0], [0.27, 3], [0.36, 3], [0.46, 6], [0.55, 6], [0.63, 8], [0.74, 8]]; // stays fully pulled out: it leaves the screen with the canister
   function outAt(p) {
     if (p <= OUT_KEYS[0][0]) return 0;
     for (let i = 1; i < OUT_KEYS.length; i++) {
@@ -148,7 +197,7 @@
       const [p0, o0] = OUT_KEYS[i - 1];
       if (p <= p1) return lerp(o0, o1, ease((p - p0) / (p1 - p0)));
     }
-    return 0;
+    return OUT_KEYS[OUT_KEYS.length - 1][1];
   }
   const frameX = (j, out) => 1169 - 199 * (out - j); // desktop: newest frame sits next to the canister
   const frameY = (j, out) => 225 + 161 * (out - j); // mobile: newest frame hangs right under it
@@ -202,9 +251,12 @@
     requestAnimationFrame(() => bracket.classList.add('is-on'));
   }
 
+  const px = (v) => Math.round(v * 10) / 10;
   function renderIntro(p) {
-    const W = M ? 390 : 1440;
-    const H = M ? 844 : 900;
+    /* the greeting's paper grain only runs while the greeting is at rest */
+    flag(intro, 'grain-on', p < 0.002 && !reduce.matches);
+    set(intro, 'visibility', p >= 1 ? 'hidden' : 'visible');
+    // no early return at p = 1: pieces with their own visibility must be hidden too (it only runs when p changes)
 
     /* 1 · every object leaves the screen */
     const e = ease(seg(p, 0, 0.11));
@@ -212,56 +264,53 @@
     OBJECTS.forEach((o, i) => {
       const q = M ? o.m : o.d;
       const el = objEls[i];
-      const w = el.offsetWidth;
-      const h = el.offsetHeight;
-      let dx = q.x + w / 2 - W / 2;
-      let dy = q.y + h / 2 - H / 2;
-      const len = Math.hypot(dx, dy) || 1;
-      dx /= len; dy /= len;
+      const [dx, dy] = objDir[i];
       const spin = (dx >= 0 ? 1 : -1) * 35 * e;
-      el.style.transform = `translate(${dx * far * e}px, ${dy * far * e}px) rotate(${q.r + spin}deg)`;
-      el.style.visibility = e >= 1 ? 'hidden' : 'visible';
+      set(el, 'transform', `translate3d(${px(dx * far * e)}px, ${px(dy * far * e)}px, 0) rotate(${px(q.r + spin)}deg)`);
+      set(el, 'visibility', e >= 1 ? 'hidden' : 'visible');
     });
-    hello.style.transform = `translate(${-far * 0.55 * e}px, ${-far * 0.45 * e}px) ` + (M ? 'rotate(6deg) scale(.654)' : 'rotate(-6deg)');
-    beads.style.transform = `translate(${-far * 0.8 * e}px, ${-far * 0.2 * e}px) ` + (M ? 'scale(.667) rotate(-7deg)' : 'rotate(-7deg)');
-    string.style.transform = `translateY(${-far * 0.35 * e}px)`;
+    set(hello, 'transform', `translate3d(${px(-far * 0.55 * e)}px, ${px(-far * 0.45 * e)}px, 0) ` + (M ? 'rotate(6deg) scale(.654)' : 'rotate(-6deg)'));
+    set(beads, 'transform', `translate3d(${px(-far * 0.8 * e)}px, ${px(-far * 0.2 * e)}px, 0) ` + (M ? 'scale(.667) rotate(-7deg)' : 'rotate(-7deg)'));
+    set(string, 'transform', `translate3d(0, ${px(-far * 0.35 * e)}px, 0)`);
     const fade = 1 - seg(p, 0, 0.06);
-    greet.style.opacity = fade;
-    greet.style.transform = `translateY(${-60 * e}px)`;
-    corners.forEach((c) => (c.style.opacity = fade));
-    hint.style.opacity = 1 - seg(p, 0, 0.025);
-    hint.style.pointerEvents = p > 0.02 ? 'none' : '';
+    set(greet, 'opacity', String(fade));
+    set(greet, 'transform', `translate3d(0, ${px(-60 * e)}px, 0)`);
+    set(greet, 'visibility', fade <= 0 ? 'hidden' : 'visible');
+    corners.forEach((c) => set(c, 'opacity', String(fade)));
+    set(hint, 'opacity', String(1 - seg(p, 0, 0.025)));
+    set(hint, 'pointerEvents', p > 0.02 ? 'none' : '');
 
     /* 2 · the film roll: closed, then three stages, then it rewinds */
     const appear = seg(p, 0.07, 0.13);
     const out = outAt(p);
-    const roll = ease(seg(p, 0.85, 0.95));
-    canister.style.opacity = appear;
-    canister.style.transform = M
-      ? `translate(${roll * 420}px, ${appear < 1 ? (1 - appear) * 40 : 0}px) rotate(${roll * 360}deg)`
-      : `translate(${roll * 520}px, ${appear < 1 ? (1 - appear) * 40 : 0}px) rotate(${roll * 540}deg)`;
-    film.style.opacity = Math.min(appear, 1 - clamp(roll * 5));
+    /* the canister and its film are one piece: they slide off to the right together, then the folders come in */
+    const a0 = seg(p, 0.78, 0.88);
+    const roll = a0 * a0 * a0; // gentle start, then away
+    set(aboutStage, 'transform', `translate3d(${px(roll * (M ? 440 : 2020))}px, 0, 0)`);
+    set(aboutStage, 'visibility', roll >= 1 ? 'hidden' : 'visible');
+    set(canister, 'opacity', String(appear));
+    set(canister, 'visibility', appear <= 0 ? 'hidden' : 'visible');
+    set(canister, 'transform', `translate3d(0, ${px(appear < 1 ? (1 - appear) * 40 : 0)}px, 0)`);
+    const filmOp = appear;
+    set(film, 'opacity', String(filmOp));
+    set(film, 'visibility', filmOp <= 0 ? 'hidden' : 'visible');
+    /* the strip has a fixed size; clip-path reveals how much has been pulled out (paint only, no layout) */
     if (!M) {
-      const left = out < 1 ? 1110 - 250 * out : 1059 - 199 * out;
-      film.style.left = left + 'px';
-      film.style.width = 1200 - left + 'px';
-      film.style.top = '';
-      film.style.height = '';
+      const L = px((out < 1 ? 1110 - 250 * out : 1059 - 199 * out) + 560); // film box starts at -560
+      set(film, 'clipPath', `polygon(${L}px 0, 100% 0, 100% 100%, ${L + 64}px 100%, ${L + 40}px 50%, ${L}px 50%)`);
     } else {
-      film.style.left = '';
-      film.style.width = '';
-      film.style.height = (out < 1 ? 96 + 97 * out : 193 + 161 * (out - 1)) + 'px';
+      const h = px(out < 1 ? 96 + 97 * out : 193 + 161 * (out - 1));
+      set(film, 'clipPath', `polygon(0 0, 100% 0, 100% ${h - 46}px, 50% ${h - 24}px, 50% ${h}px, 0 ${h}px)`);
     }
     frameEls.forEach((img, j) => {
       const shown = out - j;
-      if (shown <= 0.01) { img.style.opacity = 0; return; }
-      img.style.opacity = 1;
-      if (!M) { img.style.left = frameX(j, out) + 'px'; img.style.top = ''; }
-      else { img.style.left = ''; img.style.top = frameY(j, out) + 'px'; }
+      if (shown <= 0.01 || filmOp <= 0) { set(img, 'visibility', 'hidden'); return; }
+      set(img, 'visibility', 'visible');
+      set(img, 'transform', M ? `translate3d(0, ${px(frameY(j, out))}px, 0)` : `translate3d(${px(frameX(j, out))}px, 0, 0)`);
     });
 
     let k;
-    if (p < 0.115 || p > 0.86) k = -1;
+    if (p < 0.115 || p > 0.8) k = -1;
     else if (p > 0.74) k = 3;
     else k = out < 1.5 ? 0 : out < 4.5 ? 1 : out < 7 ? 2 : 3;
     setStage(k);
@@ -271,35 +320,80 @@
   }
 
   /* ───────── folder stack ───────── */
+  /* Carousel stack, like flicking through cards in Wallet. Folders wait in a
+     fan above the front one, in order; the rest sit behind the fan as a thin
+     deck. Scrolling down, the front folder drops past the bottom edge, slides
+     up BEHIND everything and lands at the very back of the deck, behind the
+     last folder, while the next one comes down into the front. The order is
+     a loop, so after folder 13 the first folders are waiting again.
+     h = folder height, front = its top, step = gap between fanned folders,
+     ds = shrink per fanned folder, max = folders fanned out, fall = how far
+     the front folder drops, edge = gap between folders in the deck.       */
+  const GEO = {
+    d: { h: 500, front: 642, step: 76, ds: 0.043, max: 7, fall: 930, edge: 2.5 },
+    m: { h: 500, front: 316, step: 58, ds: 0.045, max: 3, fall: 880, edge: 2 }
+  };
   let peek = -1;
   let front = 0;
   let cNow = 0;
-  function renderStack(q) {
+  const order = []; // each folder's place in the loop: 0 = front, 1 = next …
+  function slot(g, r) {
+    // r ≥ 0, place in the loop → [top, scale]
+    if (r <= g.max) return [g.front - g.step * r, 1 - g.ds * r];
+    const sc = 1 - g.ds * (g.max + 1);
+    const top = g.front - g.step * g.max;
+    if (r <= g.max + 1) return [top - (r - g.max) * g.step * 0.5, lerp(1 - g.ds * g.max, sc, r - g.max)];
+    return [top - g.step * 0.5 - (r - g.max - 1) * g.edge, sc];
+  }
+  function renderStack(q, deal) {
     const n = ENTRIES.length;
     const raw = q * (n - 1);
     const i = Math.floor(raw);
     const f = raw - i;
     const c = Math.min(n - 1, i + ease(clamp((f - 0.15) / 0.7))); // linger on each folder a little
     cNow = c;
-    const g = M ? { front: 532, step: 62, ds: 0.033, max: 6 } : { front: 642, step: 76, ds: 0.043, max: 7 };
+    const g = M ? GEO.m : GEO.d;
     lis.forEach((li, k) => {
-      const r = k - c;
-      let top, sc, op = 1;
-      if (r >= 0) {
-        top = g.front - g.step * r;
-        sc = 1 - g.ds * r;
-        if (r > g.max) op = clamp(1 - (r - g.max));
+      const d = k - c;
+      let y, sc, z, r;
+      const op = 1;
+      if (d < 0 && d > -1) {
+        /* the folder leaving the front */
+        const t = -d;
+        r = n - t;
+        if (t <= 0.5) {
+          /* still in front: it drops down past the bottom edge */
+          const a = t / 0.5;
+          y = lerp(g.front, g.fall, a * a);
+          sc = 1;
+          z = 1100;
+        } else {
+          /* now behind everything: it slides up and lands at the back of the deck */
+          const [by, bs] = slot(g, n - 1);
+          const a = (t - 0.5) / 0.5;
+          y = lerp(g.fall, by, ease(a));
+          sc = lerp(1, bs, Math.sqrt(a)); // shrink early so it stays hidden behind the fan
+          z = 1000 - Math.round(n * 10);
+        }
       } else {
-        top = g.front - r * -440;
-        sc = 1;
-        op = clamp(1 + r * 0.9);
+        r = d < 0 ? d + n : d; // loop: folders already seen wait at the back
+        [y, sc] = slot(g, r);
+        z = 1000 - Math.round(r * 10);
+        if (deal < 1) {
+          /* first arrival, once the film has left: folders drop in from the top, front one first, settling softly */
+          const a = clamp((deal - (Math.min(r, g.max + 1) / (g.max + 1)) * 0.35) / 0.6);
+          const t = 1 - Math.pow(1 - a, 3);
+          y -= (1 - t) * (g.fall * 0.85 + Math.min(r, g.max + 1) * 50);
+          if (t <= 0) { set(li, 'visibility', 'hidden'); order[k] = r; return; }
+        }
       }
-      li.style.top = top + 'px';
-      li.style.transform = `scale(${sc})`;
-      li.style.opacity = op;
-      li.style.zIndex = String(500 - Math.round(r * 10));
-      li.style.visibility = op <= 0.01 ? 'hidden' : 'visible';
-      li.classList.toggle('is-front', Math.abs(r) < 0.5);
+      order[k] = r;
+      set(li, 'transform', `translate3d(0, ${px(y)}px, 0) scale(${sc.toFixed(4)})`);
+      set(li, 'opacity', String(px(op)));
+      set(li, 'zIndex', String(z));
+      set(li, 'visibility', op <= 0.01 ? 'hidden' : 'visible');
+      flag(li, 'is-front', r < 0.5 || r > n - 0.5);
+      flag(li, 'is-deep', r > g.max + 0.5 && r <= n - 0.5);
     });
     const nf = Math.round(c);
     if (nf !== front || !counterNo.textContent) {
@@ -310,14 +404,18 @@
       railNow.innerHTML = e.cat;
       railLinks.forEach((a) => a.classList.toggle('is-on', a.textContent.replace(/[\d–]/g, '').trim() === railNow.textContent));
     }
-    counterFill.style.top = (c / (n - 1)) * 124 + 'px';
+    set(counterFill, 'transform', `translate3d(0, ${px((c / (n - 1)) * 124)}px, 0)`);
+    const chrome = seg(deal, 0.35, 1);
+    stackChrome.forEach((el) => set(el, 'opacity', String(px(chrome))));
+    set(folders, 'visibility', deal <= 0 ? 'hidden' : 'visible');
+    set(folders, 'pointerEvents', deal < 0.9 ? 'none' : '');
     applyPeek();
   }
   function applyPeek() {
-    const pr = peek >= 0 ? peek - cNow : null;
+    const pr = peek >= 0 ? order[peek] : null;
     lis.forEach((li, k) => {
-      li.classList.toggle('is-peek', k === peek);
-      li.classList.toggle('is-dim', pr !== null && k - cNow > pr + 0.01);
+      flag(li, 'is-peek', k === peek);
+      flag(li, 'is-dim', pr !== null && order[k] > pr + 0.01);
     });
   }
   function setPeek(k) {
@@ -330,58 +428,101 @@
 
   /* ───────── frame loop ───────── */
   let ticking = false;
+  let lastP = -1;
+  let lastQ = -1;
+  let lastDeal = -1;
   function update() {
     ticking = false;
-    const vh = innerHeight;
-    const iTop = intro.offsetTop;
-    const iSpan = intro.offsetHeight - vh;
-    const p = clamp((scrollY - iTop) / iSpan);
-    renderIntro(p);
-    const fTop = folders.offsetTop;
-    const fSpan = folders.offsetHeight - vh;
-    renderStack(clamp((scrollY - fTop) / fSpan));
-    header.classList.toggle('is-compact', p > 0.86);
-    const inAbout = p > 0.1 && p < 0.97;
-    const inExp = scrollY >= fTop - vh * 0.3;
-    setCurrent(navLinks.about, inAbout && !inExp);
+    const y = scrollY - S0;
+    const p = clamp(y / LI);
+    const q = clamp((y - LI) / LF);
+    const deal = seg(p, 0.88, 1);
+    /* skip whichever scene is not on screen and has not moved */
+    if (p !== lastP) { renderIntro(p); lastP = p; }
+    if (q !== lastQ || deal !== lastDeal) { renderStack(q, deal); lastQ = q; lastDeal = deal; }
+    flag(header, 'is-compact', p > 0.9);
+    const inExp = p > 0.93;
+    setCurrent(navLinks.about, p > 0.1 && !inExp);
     setCurrent(navLinks.experience, inExp);
   }
-  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  function dirty() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  const onScroll = dirty;
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { layout(); if (!contactLayer.hidden) placeContact(); });
+  /* phones fire resize whenever the URL bar slides in or out; rescaling the
+     whole board then is what made scrolling stutter, so ignore height-only
+     wobbles on touch screens                                              */
+  let sizeW = innerWidth;
+  let sizeH = innerHeight;
+  addEventListener('resize', () => {
+    const w = innerWidth;
+    const h = innerHeight;
+    if (!finePointer.matches && w === sizeW && Math.abs(h - sizeH) < 160) return;
+    sizeW = w; sizeH = h;
+    layout();
+    if (!contactLayer.hidden) placeContact();
+  });
   mq.addEventListener('change', layout);
 
   /* ───────── navigation ───────── */
   const behavior = () => (reduce.matches ? 'auto' : 'smooth');
   function go(where) {
-    const vh = innerHeight;
     let top = 0;
-    if (where === 'about') top = intro.offsetTop + 0.165 * (intro.offsetHeight - vh);
-    else if (where === 'experience') top = folders.offsetTop + 2;
+    if (where === 'about') top = S0 + 0.165 * LI;
+    else if (where === 'experience') top = S0 + LI + 2;
     scrollTo({ top, behavior: behavior() });
   }
   function goFolder(k, instant) {
-    const vh = innerHeight;
     const n = ENTRIES.length;
-    const top = folders.offsetTop + (k / (n - 1)) * (folders.offsetHeight - vh) + 2;
+    const top = S0 + LI + (k / (n - 1)) * LF + 2;
     scrollTo({ top, behavior: instant ? 'auto' : behavior() });
   }
-  document.querySelectorAll('[data-go]').forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); go(a.dataset.go); }));
+  document.querySelectorAll('[data-go]').forEach((a) => a.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    go(a.dataset.go);
+    if (a.classList.contains('skip')) lis[0].querySelector('.folder').focus({ preventScroll: true });
+  }));
   railLinks.forEach((a) => a.addEventListener('click', (ev) => { ev.preventDefault(); goFolder(+a.dataset.jump); }));
 
   /* folders: hover to peek (mouse), tap to peek then tap to open (touch) */
   lis.forEach((li, k) => {
     const a = li.querySelector('.folder');
-    li.addEventListener('pointerenter', (ev) => { if (ev.pointerType === 'mouse') setPeek(k); });
-    a.addEventListener('focus', () => setPeek(k));
+    li.addEventListener('pointerenter', (ev) => { if (ev.pointerType === 'mouse' && !scrolling) setPeek(k); });
+    a.addEventListener('focus', () => {
+      if (order[k] > (M ? GEO.m : GEO.d).max + 0.5) goFolder(k); // back in the deck: bring it round to the front
+      else setPeek(k);
+    });
     a.addEventListener('click', (ev) => {
       ev.preventDefault();
+      if (order[k] > (M ? GEO.m : GEO.d).max + 0.5) { setPeek(-1); goFolder(k); return; } // a folder in the deck comes round to the front
       const touchy = !finePointer.matches;
-      if (touchy && peek !== k && Math.abs(k - cNow) > 0.5) { setPeek(k); return; }
+      if (touchy && peek !== k && order[k] > 0.5) { setPeek(k); return; }
       openCard(k);
     });
   });
   stack.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'mouse') setPeek(-1); });
+
+  /* no hover peeking while the page scrolls: folders would jump up under a
+     resting mouse. Once scrolling settles, peek whatever is under the pointer */
+  let scrolling = false;
+  let scrollIdle = 0;
+  let mouse = null;
+  addEventListener('pointermove', (ev) => { if (ev.pointerType === 'mouse') mouse = [ev.clientX, ev.clientY]; }, { passive: true });
+  addEventListener('scroll', () => {
+    if (!scrolling) {
+      scrolling = true;
+      stack.classList.add('is-scrolling');
+      if (finePointer.matches) setPeek(-1);
+    }
+    clearTimeout(scrollIdle);
+    scrollIdle = setTimeout(() => {
+      scrolling = false;
+      stack.classList.remove('is-scrolling');
+      if (!mouse || !finePointer.matches || !modal.hidden) return;
+      const hit = document.elementFromPoint(mouse[0], mouse[1]);
+      const li = hit && hit.closest('.folder-li');
+      if (li) setPeek(lis.indexOf(li));
+    }, 180);
+  }, { passive: true });
   $('#folderStage').addEventListener('click', (ev) => { if (!ev.target.closest('.folder')) setPeek(-1); });
 
   /* ───────── the opened folder ───────── */
@@ -510,6 +651,49 @@
     if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
     else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
   });
+
+  /* ───────── footer: the name bounces like an old DVD logo ─────────
+     Runs only while the footer is on screen; it changes colour on every
+     wall it hits. Reduced motion: it simply sits in the middle.          */
+  const foot = $('#siteFooter');
+  const dvd = $('#dvd');
+  const DVD_COLORS = ['#EE8DB5', '#9CC3E6', '#E8CD62', '#D9503F', '#B9A6F0', '#8FD19E', '#F2ECE2'];
+  const D = { W: 0, H: 0, w: 0, h: 0, x: 0, y: 0, vx: 1, vy: 1, c: 0, raf: 0, last: 0, placed: false };
+  function dvdMeasure() {
+    D.W = foot.clientWidth; D.H = foot.clientHeight;
+    D.w = dvd.offsetWidth; D.h = dvd.offsetHeight;
+    if (!D.placed) { D.x = (D.W - D.w) * 0.3; D.y = (D.H - D.h) * 0.25; D.placed = true; }
+    if (reduce.matches) { D.x = (D.W - D.w) / 2; D.y = (D.H - D.h) / 2; }
+    D.x = clamp(D.x, 0, Math.max(0, D.W - D.w));
+    D.y = clamp(D.y, 0, Math.max(0, D.H - D.h));
+    dvd.style.transform = `translate3d(${D.x.toFixed(1)}px, ${D.y.toFixed(1)}px, 0)`;
+  }
+  function dvdTick(t) {
+    const dt = D.last ? Math.min(0.05, (t - D.last) / 1000) : 0;
+    D.last = t;
+    const sp = M ? 72 : 120; // px per second
+    D.x += D.vx * sp * dt;
+    D.y += D.vy * sp * dt;
+    let hit = false;
+    const mx = D.W - D.w;
+    const my = D.H - D.h;
+    if (D.x <= 0) { D.x = 0; D.vx = 1; hit = true; } else if (D.x >= mx) { D.x = mx; D.vx = -1; hit = true; }
+    if (D.y <= 0) { D.y = 0; D.vy = 1; hit = true; } else if (D.y >= my) { D.y = my; D.vy = -1; hit = true; }
+    if (hit) { D.c = (D.c + 1) % DVD_COLORS.length; dvd.style.color = DVD_COLORS[D.c]; }
+    dvd.style.transform = `translate3d(${D.x.toFixed(1)}px, ${D.y.toFixed(1)}px, 0)`;
+    D.raf = requestAnimationFrame(dvdTick);
+  }
+  function dvdRun(on) {
+    cancelAnimationFrame(D.raf);
+    D.raf = 0;
+    D.last = 0;
+    if (on && !reduce.matches) D.raf = requestAnimationFrame(dvdTick);
+  }
+  dvdMeasure();
+  if (document.fonts) document.fonts.ready.then(dvdMeasure); // the pixel font changes the name's width
+  if ('ResizeObserver' in window) new ResizeObserver(dvdMeasure).observe(foot);
+  if ('IntersectionObserver' in window) new IntersectionObserver((es) => dvdRun(es[0].isIntersecting)).observe(foot);
+  else dvdRun(true);
 
   /* ───────── start ───────── */
   function fromHash() {

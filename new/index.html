@@ -8,11 +8,11 @@
 <meta name="theme-color" content="#121212">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=LXGW+WenKai+TC&family=Lexend:wght@400;500;600&family=Noto+Serif+TC:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=LXGW+WenKai+TC&family=Lexend:wght@400;500;600&family=Noto+Serif+TC:wght@300;400&family=VT323&display=swap">
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<a class="skip" href="#experience">Skip to the folders</a>
+<a class="skip" href="#experience" data-go="experience">Skip to the folders</a>
 
 <header class="site-header" id="siteHeader">
   <a class="logo" href="#top" data-go="top">Nessa Hoang</a>
@@ -24,9 +24,11 @@
 </header>
 
 <main>
+  <!-- one pinned screen for every scene, so the film roll hands straight over to the folders -->
+  <div class="scenes" id="scenes">
+  <div class="sticky">
   <!-- 01 greeting → 01b about me film roll → 02 roll closes -->
   <section class="intro" id="top" aria-labelledby="greetTitle">
-    <div class="sticky">
       <div class="stage" id="introStage">
         <svg class="string" id="greetString" aria-hidden="true"></svg>
 
@@ -64,13 +66,11 @@
         <div class="corner corner--r" id="cornerR">13 folders inside</div>
       </div>
       <a class="scroll-hint" id="scrollHint" href="#about" data-go="about"><span>Scroll to open the archive</span><svg aria-hidden="true" width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 1v19M1 14l6 6 6-6"/></svg></a>
-    </div>
   </section>
 
   <!-- 03 folder stack -->
   <section class="folders" id="experience" aria-labelledby="foldersTitle">
     <h2 class="visually-hidden" id="foldersTitle">Experience</h2>
-    <div class="sticky">
       <div class="stage" id="folderStage">
         <aside class="rail" aria-label="Categories">
           <span class="rail-kicker">Now browsing</span>
@@ -90,13 +90,18 @@
         <ol class="stack" id="stack" aria-label="Folders, one per experience"></ol>
       </div>
       <p class="stack-hint" id="stackHint">Hover a folder to peek · click to open</p>
-    </div>
   </section>
+  </div>
+  </div>
 </main>
 
-<footer class="site-footer">
-  <span>Nessa Hoang · Vol. 01 · 2026</span>
-  <a href="../">The old archive</a>
+<footer class="site-footer" id="siteFooter">
+  <span class="dvd" id="dvd" aria-hidden="true">Nessa</span>
+  <span class="foot-meta">Nessa Hoang · Vol. 01 · 2026</span>
+  <a class="to-top" href="#top" data-go="top">
+    <span class="to-top-ring"><svg aria-hidden="true" width="16" height="22" viewBox="0 0 16 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V2M1.5 8.5 8 2l6.5 6.5"/></svg></span>
+    <span>Back to hello</span>
+  </a>
 </footer>
 
 <!-- contact: business card on a red string -->
