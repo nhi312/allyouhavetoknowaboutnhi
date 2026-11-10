@@ -37,18 +37,20 @@
     { src: A('film/club-of-the-year.jpg'), alt: 'Vinschool Ocean Park end-of-year ceremony' },
     { src: A('film/grad-pic-2.jpg'), alt: 'Graduation day, class of 2025', pos: '40% 30%' },
     { src: A('film/25event-recap3.jpg'), alt: 'The crowd at Luminara, my last prom' },
-    { src: A('film/the-hanei-team.jpg'), alt: 'Polaroid of the Hanei founding team', pos: '50% 45%' },
     { src: A('film/taiwan-moe-scholarship.jpg'), alt: 'Taiwan Scholarship award certificate', pos: '50% 15%' },
     { src: I('logo-nccu.png'), alt: 'National Chengchi University', logo: true },
-    { src: A('film/fukuoka-ici-team.jpg'), alt: 'Team ICI in Fukuoka' },
-    { src: A('film/parks-idealens-team.jpg'), alt: 'The IdeaLens team' }
+    { src: A('film/the-hanei-team.jpg'), alt: 'Polaroid of the Hanei founding team', pos: '50% 45%' },
+    { src: A('film/parks-idealens-team.jpg'), alt: 'The IdeaLens team' },
+    { src: A('film/fukuoka-ici-team.jpg'), alt: 'Team ICI in Fukuoka' }
   ];
 
+  /* the film roll's storyline: each line pulls frames from..to out of the canister */
   const STAGES = [
-    { title: 'Hi, I’m Nessa: Hoang Linh Nhi, <span lang="zh-Hant" class="zh">鈴兒</span>.', out: 0 },
-    { title: 'Born &amp; raised in Hanoi, Vietnam.', out: 3, from: 0, to: 2, label: '2022–25' },
-    { title: 'Summer 2025: co-founded Hanei, then moved to Taipei on a Taiwan Scholarship.', out: 6, from: 3, to: 5, label: '2025' },
-    { title: 'Now: a sophomore at NCCU and a research assistant at NSTC.', out: 8, from: 6, to: 7, label: '2026 · now' }
+    { title: 'Hi there, I’m Nessa / Nhi / <span lang="zh-Hant" class="zh">鈴兒</span>', out: 0 },
+    { title: 'Born and raised in Hanoi, Vietnam', out: 3, from: 0, to: 2, label: 'Hanoi' },
+    { title: '…But now I’m based in Taipei, Taiwan as a full-time Bachelor student', out: 5, from: 3, to: 4, label: 'Taipei' },
+    { title: 'I build web and applications to solve tiny problems of mine', out: 6, from: 5, to: 5, label: 'for me' },
+    { title: '…But I believe it might solve someone else’s pain too', out: 8, from: 6, to: 7, label: 'for you too' }
   ];
 
   /* ───────── the folders (03 - 13) ───────── */

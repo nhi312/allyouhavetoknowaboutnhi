@@ -189,7 +189,7 @@
 
   /* ───────── intro timeline ───────── */
   // [progress, frames out of the canister]
-  const OUT_KEYS = [[0.18, 0], [0.27, 3], [0.36, 3], [0.46, 6], [0.55, 6], [0.63, 8], [0.74, 8]]; // stays fully pulled out: it leaves the screen with the canister
+  const OUT_KEYS = [[0.16, 0], [0.23, 3], [0.31, 3], [0.37, 5], [0.45, 5], [0.5, 6], [0.58, 6], [0.65, 8], [0.76, 8]]; // stays fully pulled out: it leaves the screen with the canister
   function outAt(p) {
     if (p <= OUT_KEYS[0][0]) return 0;
     for (let i = 1; i < OUT_KEYS.length; i++) {
@@ -311,11 +311,10 @@
 
     let k;
     if (p < 0.115 || p > 0.8) k = -1;
-    else if (p > 0.74) k = 3;
-    else k = out < 1.5 ? 0 : out < 4.5 ? 1 : out < 7 ? 2 : 3;
+    else { k = 0; for (let s = 1; s < STAGES.length; s++) if (out >= (STAGES[s - 1].out + STAGES[s].out) / 2) k = s; }
     setStage(k);
     let b = -1;
-    if (p < 0.745) for (let s = 1; s < STAGES.length; s++) if (Math.abs(out - STAGES[s].out) < 0.04) b = s;
+    if (p < 0.77) for (let s = 1; s < STAGES.length; s++) if (Math.abs(out - STAGES[s].out) < 0.04) b = s;
     setBracket(b);
   }
 
