@@ -1,7 +1,7 @@
-/* Content for the archive. Media paths are relative to new/index.html.
-   ../images/ is the shared folder the old site already uses.            */
+/* Content for the archive. Media paths are relative to index.html.
+   images/ is the shared photo folder.                                   */
 (function () {
-  const I = (f) => '../images/' + f;
+  const I = (f) => 'images/' + f;
   const A = (f) => 'assets/' + f;
 
   /* ───────── greeting objects ─────────
