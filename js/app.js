@@ -161,7 +161,7 @@
       el.style.zIndex = p.z;
     });
 
-    canister.src = M ? 'assets/film/canister-upright.png' : 'assets/film/canister.png';
+    canister.src = M ? 'assets/film/canister-upright.webp' : 'assets/film/canister.webp';
     LI = (M ? 4.6 : 5.5) * VH;
     LF = (ENTRIES.length - 1) * (M ? 0.45 : 0.5) * VH;
     scenes.style.height = Math.round(LI + LF + VH) + 'px';
@@ -283,13 +283,14 @@
     const filmOp = appear;
     set(film, 'opacity', String(filmOp));
     set(film, 'visibility', filmOp <= 0 ? 'hidden' : 'visible');
-    /* the strip has a fixed size; clip-path reveals how much has been pulled out (paint only, no layout) */
+    /* the strip slides out of its fixed window (.film-clip): transform only, so
+       the compositor moves it without repainting (clip-path repainted every frame) */
     if (!M) {
-      const L = px((out < 1 ? 1110 - 250 * out : 1059 - 199 * out) + 560); // film box starts at -560
-      set(film, 'clipPath', `polygon(${L}px 0, 100% 0, 100% 100%, ${L + 64}px 100%, ${L + 40}px 50%, ${L}px 50%)`);
+      const L = px((out < 1 ? 1110 - 250 * out : 1059 - 199 * out) + 560); // window starts at -560
+      set(film, 'transform', `translate3d(${L}px, 0, 0)`);
     } else {
       const h = px(out < 1 ? 96 + 97 * out : 193 + 161 * (out - 1));
-      set(film, 'clipPath', `polygon(0 0, 100% 0, 100% ${h - 46}px, 50% ${h - 24}px, 50% ${h}px, 0 ${h}px)`);
+      set(film, 'transform', `translate3d(0, ${px(h - 1400)}px, 0)`); // strip is 1400px tall, notch at its bottom
     }
     frameEls.forEach((img, j) => {
       const shown = out - j;

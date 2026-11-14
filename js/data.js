@@ -8,27 +8,27 @@
      d = desktop artboard (1440 × 900), m = mobile artboard (390 × 844)
      x, y, w, (h), r = rotation, z = stacking                              */
   const OBJECTS = [
-    { id: 'notebook', src: A('objects/notebook.png'), alt: 'Navy croc-leather notebook with leopard stars and studs',
+    { id: 'notebook', src: A('objects/notebook.webp'), alt: 'Navy croc-leather notebook with leopard stars and studs',
       d: { x: 953, y: 72, w: 233, h: 341, r: -157, z: 3 }, m: { x: 298, y: 236, w: 112, r: 132, z: 3 } },
-    { id: 'instax', src: A('objects/instax.png'), alt: 'Pink Instax Mini 9 with stickers',
+    { id: 'instax', src: A('objects/instax.webp'), alt: 'Pink Instax Mini 9 with stickers',
       d: { x: 130, y: 318, w: 280, r: -16, z: 6 }, m: { x: -34, y: 214, w: 160, r: -16, z: 6 } },
-    { id: 'kyocera', src: A('objects/kyocera.png'), alt: 'Silver Kyocera film camera with stickers',
+    { id: 'kyocera', src: A('objects/kyocera.webp'), alt: 'Silver Kyocera film camera with stickers',
       d: { x: 1190, y: 336, w: 220, r: -11, z: 3 }, m: { x: 247, y: 583, w: 150, r: -11, z: 3 } },
-    { id: 'plate', src: A('objects/plate.png'), alt: 'Handmade ceramic plate with a red lobster and blue stripes',
+    { id: 'plate', src: A('objects/plate.webp'), alt: 'Handmade ceramic plate with a red lobster and blue stripes',
       d: { x: -46, y: 596, w: 340, r: -8, z: 3 }, m: { x: -62, y: 588, w: 212, r: -8, z: 3 } },
-    { id: 'ixus', src: A('objects/ixus.png'), alt: 'Black Canon IXUS with a beaded charm strap',
+    { id: 'ixus', src: A('objects/ixus.webp'), alt: 'Black Canon IXUS with a beaded charm strap',
       d: { x: 296, y: 615, w: 250, r: 18, z: 7 }, m: { x: 90, y: 604, w: 152, r: 18, z: 7 } },
-    { id: 'purse', src: A('objects/purse.png'), alt: 'Embroidered Little My coin purse',
+    { id: 'purse', src: A('objects/purse.webp'), alt: 'Embroidered Little My coin purse',
       d: { x: 1139, y: 505, w: 300, r: 6, z: 5 }, m: { x: 272, y: 652, w: 170, r: 6, z: 5 } },
-    { id: 'pass', src: A('objects/pass.png'), alt: 'Hanoi to Taipei boarding pass',
+    { id: 'pass', src: A('objects/pass.webp'), alt: 'Hanoi to Taipei boarding pass',
       d: { x: 885, y: 642, w: 274, h: 373, r: -4, z: 6 }, m: { x: 168, y: 672, w: 104, r: -4, z: 6 } },
-    { id: 'avatar', src: A('objects/avatar.png'), alt: "Nhi's Roblox avatar profile card",
+    { id: 'avatar', src: A('objects/avatar.webp'), alt: "Nhi's Roblox avatar profile card",
       d: { x: 1309, y: 83, w: 128, r: 9, z: 4 }, m: { x: 146, y: 226, w: 82, r: 9, z: 4 } },
-    { id: 'matcha', src: A('objects/matcha.png'), alt: 'Iced matcha with a brûlée top',
+    { id: 'matcha', src: A('objects/matcha.webp'), alt: 'Iced matcha with a brûlée top',
       d: { x: 902, y: 336, w: 122, r: 8, z: 6 }, m: { x: 332, y: 438, w: 74, r: 8, z: 6 } },
-    { id: 'giftcard', src: A('objects/giftcard.png'), alt: 'Roblox gift card',
+    { id: 'giftcard', src: A('objects/giftcard.webp'), alt: 'Roblox gift card',
       d: { x: -36, y: 286, w: 170, r: -18, z: 2 }, m: { x: -46, y: 478, w: 104, r: -18, z: 2 } },
-    { id: 'udon', src: A('objects/udon.png'), alt: 'Udon with egg yolks, bacon and chopsticks',
+    { id: 'udon', src: A('objects/udon.webp'), alt: 'Udon with egg yolks, bacon and chopsticks',
       d: { x: 1000, y: 449, w: 290, r: -5, z: 6 }, m: { x: 14, y: 744, w: 172, r: -5, z: 6 } }
   ];
 
