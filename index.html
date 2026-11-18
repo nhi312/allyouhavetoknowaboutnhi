@@ -8,7 +8,10 @@
 <meta name="theme-color" content="#121212">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=LXGW+WenKai+TC&family=Lexend:wght@400;500;600&family=Noto+Serif+TC:wght@300;400&family=Pixelify+Sans:wght@400;700&family=Poppins:wght@400;500;600;800&family=Geist+Mono:wght@500&family=VT323&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<!-- Chinese fonts: only the handful of characters the site uses, instead of the whole font's character list -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Noto+Serif+TC:wght@300;400&display=swap&text=%E5%85%92%E5%A4%A7%E5%A5%BD%E5%AE%B6%E9%88%B4">
+<!-- the card fonts (each folder's design system) load after the greeting has settled: see loadLater() in app.js -->
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
@@ -106,7 +109,7 @@
     <span class="clip" aria-hidden="true"></span>
     <figure class="polaroid">
       <span class="tape" aria-hidden="true"></span>
-      <img src="assets/baby.jpg" alt="Nhi as a toddler in a white fur jacket and a tiara">
+      <img src="assets/baby.jpg" alt="Nhi as a toddler in a white fur jacket and a tiara" loading="lazy" decoding="async">
       <figcaption>Connect with Nhi</figcaption>
     </figure>
     <div class="contact-info">

@@ -31,6 +31,8 @@
   const folders = $('#experience');
   const header = $('#siteHeader');
 
+  let grainReady = false; // the paper grain waits until the collage has settled
+
   /* ───────── greeting: build the objects ───────── */
   const objWrap = $('#objects');
   const objEls = OBJECTS.map((o) => {
@@ -38,9 +40,7 @@
     el.className = 'obj';
     el.innerHTML = `<img src="${o.src}" alt="${o.alt}" draggable="false" decoding="async"><span class="grain" aria-hidden="true"></span>`;
     const img = el.querySelector('img');
-    const ready = () => el.classList.add('is-ready'); // grain waits for its image, or it shows as a grey box
-    if (img.complete && img.naturalWidth) ready();
-    img.addEventListener('load', () => { ready(); measureObjects(); dirty(); });
+    img.fetchPriority = 'high';
     const g = el.querySelector('.grain');
     g.style.webkitMaskImage = `url("${o.src}")`;
     g.style.maskImage = `url("${o.src}")`;
@@ -65,7 +65,7 @@
   const frameEls = FRAMES.map((f) => {
     const img = document.createElement('img');
     img.className = 'frame' + (f.logo ? ' is-logo' : '');
-    img.src = f.src;
+    img.dataset.src = f.src; // filled in by loadLater(), so the film roll doesn't compete with the greeting
     img.alt = f.alt;
     img.decoding = 'async';
     if (f.pos) img.style.objectPosition = f.pos;
@@ -101,7 +101,7 @@
                   <span class="fp-tags">${e.tags.map((t) => `<span>${t}</span>`).join('')}</span>
                   <span class="fp-open">Open folder <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10 L10 2 M4 2 H10 V8"/></svg></span>
                 </span>
-                ${e.thumb || (e.media && e.media[0]) ? `<img class="fp-thumb" src="${thumbSrc(e.thumb || e.media.find((m) => m.kind !== 'video').src)}" alt="" loading="lazy" decoding="async">` : ''}
+                ${e.thumb || (e.media && e.media[0]) ? `<img class="fp-thumb" data-src="${thumbSrc(e.thumb || e.media.find((m) => m.kind !== 'video').src)}" alt="" loading="lazy" decoding="async">` : ''}
               </span>
             </span>
           </span>
@@ -245,7 +245,7 @@
   const px = (v) => Math.round(v * 10) / 10;
   function renderIntro(p) {
     /* the greeting's paper grain only runs while the greeting is at rest */
-    flag(intro, 'grain-on', p < 0.002 && !reduce.matches);
+    flag(intro, 'grain-on', grainReady && p < 0.002 && !reduce.matches);
     set(intro, 'visibility', p >= 1 ? 'hidden' : 'visible');
     // no early return at p = 1: pieces with their own visibility must be hidden too (it only runs when p changes)
 
@@ -536,6 +536,7 @@
   function openCard(k) {
     const e = ENTRIES[k];
     if (!e) return;
+    loadLater();
     clearTimeout(closeTimer);
     openIdx = k;
     sheet.style.setProperty('--c', e.cardColor || e.color);
@@ -684,6 +685,42 @@
     }
   }
   layout();
+  /* ───────── first paint: wait for the whole collage, then show it at once ─────────
+     Objects used to appear one by one, each forcing a re-measure and a repaint of the
+     masked grain layers. Now they decode off-screen, the group fades in once, and the
+     grain, the film roll photos and the card fonts only start after that.             */
+  const CARD_FONTS = 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Lexend:wght@400;500;600&family=Pixelify+Sans:wght@400;700&family=Poppins:wght@400;500;600;800&family=Geist+Mono:wght@500&family=VT323&display=swap';
+  let later = false;
+  function loadLater() {
+    if (later) return;
+    later = true;
+    // film roll photos + folder previews: both live further down the same pinned screen
+    [...frameEls, ...document.querySelectorAll('.fp-thumb[data-src]')].forEach((img) => { if (img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; } });
+    const l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = CARD_FONTS;
+    document.head.appendChild(l);
+  }
+  const decoded = Promise.all(objEls.map((el) => {
+    const img = el.querySelector('img');
+    const done = img.decode ? img.decode() : new Promise((r) => { img.onload = r; img.onerror = r; });
+    return done.catch(() => {}).then(() => el.classList.add('is-ready'));
+  }));
+  Promise.race([decoded, new Promise((r) => setTimeout(r, 2500))]).then(() => {
+    measureObjects();
+    requestAnimationFrame(() => {
+      intro.classList.add('objs-ready');
+      dirty();
+      setTimeout(() => { intro.classList.add('grain-ok'); }, 500);
+      setTimeout(() => { grainReady = true; dirty(); }, 900);
+      (window.requestIdleCallback || ((f) => setTimeout(f, 300)))(loadLater, { timeout: 1500 });
+    });
+  });
+  // someone scrolling or opening a card before the greeting settled still gets everything
+  addEventListener('scroll', loadLater, { once: true, passive: true });
+  addEventListener('hashchange', loadLater, { once: true });
+  if (location.hash.length > 1) loadLater();
+
   requestAnimationFrame(fromHash);
   addEventListener('hashchange', fromHash);
 })();
