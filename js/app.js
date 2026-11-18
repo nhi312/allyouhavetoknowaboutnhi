@@ -48,7 +48,6 @@
     return el;
   });
   const hello = $('#hello');
-  const beads = $('#beads');
   const greet = $('#greet');
   const corners = [$('#cornerL'), $('#cornerR')];
   const hint = $('#scrollHint');
@@ -75,7 +74,9 @@
   });
 
   /* ───────── folders ───────── */
-  const NICK = { nstc: 'NSTC', apie: 'APIE', hanei: 'HaneiAI', upyouth: 'UpYouth', luminara: 'Luminara', epiphany: 'Epiphany', virtue: 'Virtue’s Spring', vrupc: 'VRUPC', yearbook: 'Yearbook', freelance: 'Freelance', framing: 'Framing' };
+  /* folder previews are small: use the 800px copy from images/sm/ */
+  const thumbSrc = (src) => (/^images\/.+\.(jpe?g|png)$/i.test(src) ? src.replace(/^images\//, 'images/sm/') : src);
+  const NICK = { nstc: 'NSTC', apie: 'APIE', hanei: 'HaneiAI', buildtolaunch: 'buildtolaunch', luminara: 'Luminara', epiphany: 'Epiphany', virtue: 'Virtue’s Spring', vrupc: 'VRUPC', yearbook: 'Yearbook', freelance: 'Freelance', framing: 'Framing' };
   const stack = $('#stack');
   const lis = ENTRIES.map((e, k) => {
     const li = document.createElement('li');
@@ -100,7 +101,7 @@
                   <span class="fp-tags">${e.tags.map((t) => `<span>${t}</span>`).join('')}</span>
                   <span class="fp-open">Open folder <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10 L10 2 M4 2 H10 V8"/></svg></span>
                 </span>
-                ${e.thumb || (e.media && e.media[0]) ? `<img class="fp-thumb" src="${e.thumb || e.media.find((m) => m.kind !== 'video').src}" alt="" loading="lazy">` : ''}
+                ${e.thumb || (e.media && e.media[0]) ? `<img class="fp-thumb" src="${thumbSrc(e.thumb || e.media.find((m) => m.kind !== 'video').src)}" alt="" loading="lazy" decoding="async">` : ''}
               </span>
             </span>
           </span>
@@ -169,7 +170,7 @@
     $('#stackHint').textContent = finePointer.matches ? 'Hover a folder to peek · click to open' : 'Tap a folder to peek · tap again to open';
     measureObjects();
     // forget cached styles: the mode may have changed what every value means
-    [...objEls, ...frameEls, ...lis, hello, beads, greet, film, canister, aboutStage, intro, folders, ...stackChrome, ...corners, hint, counterFill].forEach((el) => { el._s = null; });
+    [...objEls, ...frameEls, ...lis, hello, greet, film, canister, aboutStage, intro, folders, ...stackChrome, ...corners, hint, counterFill].forEach((el) => { el._s = null; });
     lastP = -1;
     lastQ = -1;
     curStage = -2;
@@ -260,7 +261,6 @@
       set(el, 'visibility', e >= 1 ? 'hidden' : 'visible');
     });
     set(hello, 'transform', `translate3d(${px(-far * 0.55 * e)}px, ${px(-far * 0.45 * e)}px, 0) ` + (M ? 'rotate(6deg) scale(.654)' : 'rotate(-6deg)'));
-    set(beads, 'transform', `translate3d(${px(-far * 0.8 * e)}px, ${px(-far * 0.2 * e)}px, 0) ` + (M ? 'scale(.667) rotate(-7deg)' : 'rotate(-7deg)'));
     const fade = 1 - seg(p, 0, 0.06);
     set(greet, 'opacity', String(fade));
     set(greet, 'transform', `translate3d(0, ${px(-60 * e)}px, 0)`);
@@ -580,28 +580,16 @@
   const contactBtn = $('#contactBtn');
   const contactLayer = $('#contactLayer');
   const contactCard = $('#contactCard');
-  const cString = $('#contactString');
   let contactTimer = 0;
   function placeContact() {
     const b = contactBtn.getBoundingClientRect();
     const cx = b.left + b.width / 2;
-    let clipX;
     if (!M) {
       const left = clamp(cx - 343, 16, innerWidth - 576);
       contactCard.style.left = left + 'px';
-      clipX = left + 343;
     } else {
       contactCard.style.left = '';
-      clipX = innerWidth - 12 - 57;
     }
-    const top = M ? 70 : 112;
-    const y0 = b.bottom - 4;
-    const y1 = top - 8;
-    cString.setAttribute('viewBox', `0 0 ${innerWidth} ${innerHeight}`);
-    const [path, e1, e2] = cString.children;
-    path.setAttribute('d', `M ${cx} ${y0} C ${cx - 4} ${y0 + (y1 - y0) * 0.5}, ${clipX + 6} ${y1 - (y1 - y0) * 0.4}, ${clipX} ${y1}`);
-    e1.setAttribute('cx', cx - 12); e1.setAttribute('cy', y0 + 6); e1.setAttribute('rx', 13); e1.setAttribute('ry', 6.5); e1.setAttribute('transform', `rotate(-30 ${cx - 12} ${y0 + 6})`);
-    e2.setAttribute('cx', cx + 12); e2.setAttribute('cy', y0 + 6); e2.setAttribute('rx', 13); e2.setAttribute('ry', 6.5); e2.setAttribute('transform', `rotate(30 ${cx + 12} ${y0 + 6})`);
   }
   function openContact() {
     clearTimeout(contactTimer);

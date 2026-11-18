@@ -29,7 +29,9 @@
     { id: 'giftcard', src: A('objects/giftcard.webp'), alt: 'Roblox gift card',
       d: { x: -36, y: 286, w: 170, r: -18, z: 2 }, m: { x: -46, y: 478, w: 104, r: -18, z: 2 } },
     { id: 'udon', src: A('objects/udon.webp'), alt: 'Udon with egg yolks, bacon and chopsticks',
-      d: { x: 1000, y: 449, w: 290, r: -5, z: 6 }, m: { x: 14, y: 744, w: 172, r: -5, z: 6 } }
+      d: { x: 1000, y: 449, w: 290, r: -5, z: 6 }, m: { x: 14, y: 744, w: 172, r: -5, z: 6 } },
+    { id: 'pin', src: A('objects/pin.webp'), alt: 'Silver safety pin shaped into the name Nessa',
+      d: { x: -15, y: 183, w: 340, r: 32, z: 5 }, m: { x: 6, y: 152, w: 190, r: -10, z: 7 } }
   ];
 
   /* ───────── about me film roll ───────── */
@@ -80,19 +82,12 @@
       thumb: I('haneiroom-hero.jpg')
     },
     {
-      id: 'upyouth', cat: 'Personal Projects', color: '#E7C54B', ink: '#1D1806',
-      title: 'UpYouth', stackTitle: 'UpYouth', stackMeta: 'Growth · Nov 2025 – Present',
-      role: 'Growth', when: 'Nov 2025 – Present',
-      tags: ['Growth', 'Youth Org', 'Community Building'],
-      short: 'A 10K+ follower page, community work for Build to Launch, and an internal planning tool I built.',
-      story: 'I joined their Junior StartUp School program over the summer - and went from being one of their builders to being the one who goes out and finds them. Suddenly building in tech doesn’t sound that bad. Or at least that’s what I thought? lol.',
-      wins: ['10K+ <b>followers</b> on the page I manage', '<b>Build Stuff With Us</b>: 10K+ YouTube views', 'Built an internal <b>planning + tracking tool</b>', '<b>User outreach</b> across US + Vietnam', '<b>Junior StartUp School</b>, summer program'],
-      media: [
-        { src: I('build-stuffs-with-us.jpg'), cap: 'Build Stuff With Us', ar: 1.414 },
-        { src: I('uy-internship-sprint.jpg'), cap: 'the sprint', ar: 1.83 },
-        { src: I('junior-start-up-school.jpg'), cap: 'Start-up School', ar: 0.61 }
-      ],
-      links: [['upyouth.org', 'https://upyouth.org'], ['buildtolaunch.org', 'https://buildtolaunch.org/'], ['@_upyouth', 'https://www.instagram.com/_upyouth']]
+      id: 'buildtolaunch', theme: 'b2l', cat: 'Personal Projects', color: '#E6EE6E', ink: '#1F2410',
+      stackTitle: 'buildtolaunch', stackMeta: 'Community Manager · Nov 2025 – Present',
+      when: 'Nov 2025 – Present', role: 'Community Manager',
+      short: 'Community, content and social media for a builder community, mostly in service of partnerships.',
+      tags: ['Community', 'Social Media', 'Content', 'Partnerships', 'Events'],
+      thumb: I('b2l-shebuilds-recap.jpg')
     },
     {
       id: 'luminara', cat: 'Marketing &amp; Events', color: '#5B3360', ink: '#F4E9F3',
@@ -189,15 +184,23 @@
       title: 'Freelance', stackTitle: 'Freelance', stackMeta: 'Web &amp; UI-UX Designer · Nov 2025 – Present',
       role: 'Web &amp; UI-UX Designer · Builder', when: 'Nov 2025 – Present',
       tags: ['Web Design', 'UI-UX', 'Front-end', 'Prototyping'],
-      short: 'Client web design, plus things I build for fun with Claude.',
+      short: 'Client web design, plus learning tools I build for fun with Claude.',
       story: 'People helped me with my applications, now it’s my turn. Client web and UI-UX projects, plus small tools I build for fun. Case studies coming soon.',
       winsLabel: 'What I make',
-      wins: ['Client <b>web design and UI-UX</b> projects', '<b>Mandarin stroke order</b> - a tool for practising character strokes', '<b>TheseStreets</b> - a landing page', '<b>Folks</b> - your guide to studying abroad in Taiwan (coming soon)'],
+      wins: ['Client <b>web design and UI-UX</b> projects', '<b>Mandarin stroke order</b> - a tool for practising character strokes', '<b>Radical Box</b> - the 214 Kangxi radicals with games and stroke practice', '<b>K-means Quest</b> - a six-step practice site for learning K-means', '<b>Folks</b> - your guide to studying abroad in Taiwan (coming soon)'],
+      cover: [I('kmeans-hand.jpg'), I('stroke-practice.jpg'), I('radical-cards.jpg'), I('radical-grid.jpg')],
+      coverCap: 'Fig. 01 · K-means Quest, Mandarin stroke order, Radical Box',
       media: [
-        { src: I('thesestreets-landing.jpg'), cap: 'TheseStreets, landing page', ar: 1.5, url: 'https://nhi312.github.io/TheseStreets/index.html' },
-        { src: I('mandarin-stroke-order.jpg'), cap: 'Mandarin stroke order', ar: 1.5, url: 'https://nhi312.github.io/mandarinstrokeorder/' }
+        { src: I('kmeans-hand.jpg'), cap: 'K-means Quest, step 2', ar: 1.6, url: 'https://nhi312.github.io/kmeans-quest/' },
+        { src: I('kmeans-3d.jpg'), cap: 'K-means Quest, the 3D lab', ar: 1.6, url: 'https://nhi312.github.io/kmeans-quest/' },
+        { src: I('stroke-pick.jpg'), cap: 'Stroke order, pick your textbook', ar: 1.6, url: 'https://nhi312.github.io/mandarinstrokeorder/' },
+        { src: I('stroke-lesson.jpg'), cap: 'Stroke order, lesson vocabulary', ar: 1.6, url: 'https://nhi312.github.io/mandarinstrokeorder/' },
+        { src: I('stroke-practice.jpg'), cap: 'Stroke order, practice', ar: 1.6, url: 'https://nhi312.github.io/mandarinstrokeorder/' },
+        { src: I('radical-home.jpg'), cap: 'Radical Box, home', ar: 1.6, url: 'https://nhi312.github.io/radical-box/' },
+        { src: I('radical-cards.jpg'), cap: 'Radical Box, flashcards', ar: 1.6, url: 'https://nhi312.github.io/radical-box/' },
+        { src: I('radical-grid.jpg'), cap: 'Radical Box, all 214 radicals', ar: 1.6, url: 'https://nhi312.github.io/radical-box/' }
       ],
-      links: [['TheseStreets', 'https://nhi312.github.io/TheseStreets/index.html'], ['Mandarin stroke order', 'https://nhi312.github.io/mandarinstrokeorder/']]
+      links: [['K-means Quest', 'https://nhi312.github.io/kmeans-quest/'], ['Mandarin stroke order', 'https://nhi312.github.io/mandarinstrokeorder/'], ['Radical Box', 'https://nhi312.github.io/radical-box/']]
     },
     {
       id: 'framing', cat: 'Other', color: '#8C8C3E', ink: '#1D1D0C',
