@@ -533,9 +533,10 @@
     if (!e) return '';
     return dir < 0 ? `← <span class="long">${e.no} ${NICK[e.id]}</span>` : `<span class="long">${e.no} ${NICK[e.id]} </span>→`;
   }
-  function openCard(k) {
+  function openCard(k, via) {
     const e = ENTRIES[k];
     if (!e) return;
+    dispatchEvent(new CustomEvent('archive:card', { detail: { open: true, id: e.id, no: e.no, cat: e.cat.replace('&amp;', '&'), via: via || 'click' } }));
     loadLater();
     clearTimeout(closeTimer);
     openIdx = k;
@@ -563,8 +564,9 @@
     history.replaceState(null, '', '#' + e.id);
     closeBtn.focus({ preventScroll: true });
   }
-  function closeCard() {
+  function closeCard(via) {
     if (modal.hidden) return;
+    dispatchEvent(new CustomEvent('archive:card', { detail: { open: false, via: typeof via === 'string' ? via : 'closed' } }));
     modal.classList.remove('is-open');
     sheetBody.querySelectorAll('video').forEach((v) => v.pause());
     root.style.overflow = '';
@@ -573,8 +575,8 @@
     openIdx = -1;
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
-  prevBtn.addEventListener('click', () => openCard(openIdx - 1));
-  nextBtn.addEventListener('click', () => openCard(openIdx + 1));
+  prevBtn.addEventListener('click', () => openCard(openIdx - 1, 'prev'));
+  nextBtn.addEventListener('click', () => openCard(openIdx + 1, 'next'));
   modal.querySelectorAll('[data-close-modal]').forEach((b) => b.addEventListener('click', closeCard));
 
   /* ───────── contact card ───────── */
@@ -616,7 +618,7 @@
   addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
       if (!contactLayer.hidden) closeContact();
-      else if (!modal.hidden) closeCard();
+      else if (!modal.hidden) closeCard('esc');
       return;
     }
     if (ev.key !== 'Tab') return;
@@ -679,7 +681,7 @@
     const linked = ENTRIES.findIndex((e) => e.id === hash);
     if (linked >= 0) {
       if (modal.hidden) goFolder(linked, true);
-      if (linked !== openIdx) openCard(linked);
+      if (linked !== openIdx) openCard(linked, 'link');
     } else if (hash === 'about' || hash === 'experience') {
       go(hash);
     }
